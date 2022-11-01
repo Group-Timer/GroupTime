@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.grouptimer">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +15,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroupTimer"
         tools:targetApi="31">
+        <activity
+            android:name=".MakeGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GroupToDoListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GroupTimeTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PersonalTimeTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChangeNameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChangePWActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchIDActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
