@@ -24,8 +24,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // [END declare_auth]
 
     Button loginBtn;
-    EditText idEditText = (EditText)findViewById(R.id.idEditText);
-    EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
+    EditText idEditText;
+    EditText passwordEditText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
