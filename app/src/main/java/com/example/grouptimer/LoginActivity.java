@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth mAuth;
     // [END declare_auth]
 
-    Button loginBtn;
+    Button loginButton;
     EditText idEditText;
     EditText passwordEditText;
 
@@ -36,13 +36,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // [END initialize_auth]
         //createAccount("rrrr@naver.com","abcdef");
         setContentView(R.layout.activity_login);
-        loginBtn = (Button)findViewById(R.id.loginBtn);
-        loginBtn.setOnClickListener(this);
+        loginButton = (Button)findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view){
-        if(view == loginBtn){
+        if(view == loginButton){
 
             String id = idEditText.getText().toString();
             String password = passwordEditText.getText().toString();
