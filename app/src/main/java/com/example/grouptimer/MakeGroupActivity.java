@@ -7,6 +7,7 @@ package com.example.grouptimer;
         import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
+        import android.widget.EditText;
         import android.widget.ListView;
         import android.widget.TextView;
 
@@ -20,6 +21,8 @@ public class MakeGroupActivity extends AppCompatActivity{
     private Button selectButton;
     private List<String> purposeList; //selectListView 에 들어갈 값을 넣어두는 List
     private Button makeGroupButton;
+    private EditText groupNameEditText;
+    private EditText howManyEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +63,17 @@ public class MakeGroupActivity extends AppCompatActivity{
                 }
             }
         });
-
-        makeGroupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
+//
+//        makeGroupButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                String groupName = groupNameEditText.getText().toString();
+//                int groupNum = Integer.parseInt(howManyEditText.getText().toString());
+//
+//            }
+//        });
+//
     }
 
 }
