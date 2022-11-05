@@ -54,26 +54,29 @@ public class MakeGroupActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 if(view == selectButton) {
+
                     if(selectListView.getVisibility() == View.VISIBLE){
                         System.out.println(selectListView.getVisibility());
                         selectListView.setVisibility(View.INVISIBLE);
                         System.out.println(selectListView.getVisibility());
                     }
+
                     selectListView.setVisibility(View.VISIBLE);
                 }
             }
         });
-//
-//        makeGroupButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                String groupName = groupNameEditText.getText().toString();
-//                int groupNum = Integer.parseInt(howManyEditText.getText().toString());
-//
-//            }
-//        });
-//
+
+        makeGroupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String groupName = groupNameEditText.getText().toString();
+                int groupNum = Integer.parseInt(howManyEditText.getText().toString());
+                String groupPurpose = selectTextView.getText().toString();
+
+            }
+        });
+
     }
 
 }
