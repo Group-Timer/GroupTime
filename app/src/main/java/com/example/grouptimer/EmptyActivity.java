@@ -26,6 +26,10 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
 
         makeGroup.setOnClickListener(this);
         personal.setOnClickListener(this);
+
+
+
+
     }
 
 
