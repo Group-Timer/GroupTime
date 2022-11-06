@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(view == TempButton)
         {
-            ;
+            String temp = "";
         }
     }
 }
