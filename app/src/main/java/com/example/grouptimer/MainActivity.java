@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button register;
     private Button login;
 
+    private int hyunwoo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
