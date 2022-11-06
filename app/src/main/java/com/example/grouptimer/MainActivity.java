@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button login;
 
 
+    private Button TempButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(view == login)
         {
             startActivity(new Intent(this, LoginActivity.class));
+        }
+        else if(view == TempButton)
+        {
+            ;
         }
     }
 }
