@@ -35,11 +35,7 @@
         android:hint="PASSWORD"/>
 
     <Button
-<<<<<<< HEAD
         android:id="@+id/loginButton"
-=======
-        android:id="@+id/loginBtn"
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Log in"/>

@@ -1,12 +1,8 @@
 package com.example.grouptimer;
 
-<<<<<<< HEAD
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-
-public class PersonalTimeTableActivity extends AppCompatActivity {
-=======
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ContentFrameLayout;
@@ -55,14 +51,11 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     private final int           EditButtonID            = 1;
     private final int           SaveButtonID            = 2;
 
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
         setContentView(R.layout.activity_personal_time_table);
-=======
 
 
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
@@ -366,6 +359,5 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
             Save_Firebase(timeTable);
         }
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
     }
 }

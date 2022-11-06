@@ -25,12 +25,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         register = (Button) findViewById(R.id.register);
         login = (Button) findViewById(R.id.login);
-        makeGroup = (Button) findViewById(R.id.makeGroup);
 
 
         register.setOnClickListener(this);
         login.setOnClickListener(this);
-        makeGroup.setOnClickListener(this);
     }
 
 
@@ -44,10 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(view == login)
         {
             startActivity(new Intent(this, LoginActivity.class));
-        }
-        else if(view == makeGroup)
-        {
-            startActivity(new Intent(this, MakeGroupActivity.class));
         }
     }
 }

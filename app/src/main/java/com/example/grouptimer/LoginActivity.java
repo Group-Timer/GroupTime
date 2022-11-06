@@ -2,11 +2,7 @@ package com.example.grouptimer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-<<<<<<< HEAD
-=======
 import android.content.Intent;
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,59 +23,43 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth mAuth;
     // [END declare_auth]
 
-<<<<<<< HEAD
     Button loginButton;
-=======
     Button loginBtn;
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
     EditText idEditText;
     EditText passwordEditText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
-=======
 
         setContentView(R.layout.activity_login);
 
-
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
         //createAccount("rrrr@naver.com","abcdef");
-<<<<<<< HEAD
         setContentView(R.layout.activity_login);
         loginButton = (Button)findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
-=======
 
 
         idEditText = (EditText)findViewById(R.id.idEditText);
         passwordEditText = (EditText)findViewById(R.id.passwordEditText);
 
 
-        loginBtn = (Button)findViewById(R.id.loginBtn);
+        loginBtn = (Button)findViewById(R.id.loginButton);
         loginBtn.setOnClickListener(this);
 
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
     }
 
     @Override
     public void onClick(View view){
-<<<<<<< HEAD
         if(view == loginButton){
-=======
-        if(view == loginBtn){
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
-
             String id = idEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
             signIn(id,password);
-
         }
     }
 
@@ -92,10 +72,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(currentUser != null){
             reload();
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
     }
     // [END on_start_check_user]
 
@@ -161,13 +137,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void reload() { }
 
-<<<<<<< HEAD
-    private void updateUI(FirebaseUser user) {
-
-=======
     private void updateUI(FirebaseUser user)
     {
         startActivity(new Intent(this, EmptyActivity.class));
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
     }
 }

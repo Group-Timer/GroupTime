@@ -137,7 +137,7 @@ public class MakeGroupActivity extends AppCompatActivity{
                                         .getReference().child("Groups").push().setValue(group);
 
 
-                                startActivity(new Intent(MakeGroupActivity.this, MainActivity.class));
+                                startActivity(new Intent(MakeGroupActivity.this, EmptyActivity.class));
 
 
                             }
