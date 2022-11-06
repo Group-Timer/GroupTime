@@ -1,6 +1,6 @@
 package com.example.grouptimer;
 
-        import androidx.annotation.NonNull;
+    import androidx.annotation.NonNull;
         import androidx.appcompat.app.AppCompatActivity;
 
         import android.content.Intent;
@@ -40,6 +40,9 @@ public class MakeGroupActivity extends AppCompatActivity{
 //    private int checkGroupId; // group 확인용 groupId
 //    private int randomNumber; // random number
 
+
+    private boolean ClickChecker = false; // selectButton 누를때 selectListView visibility 확인하는 변수
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,13 +77,17 @@ public class MakeGroupActivity extends AppCompatActivity{
             public void onClick(View view) {
                 if(view == selectButton) {
 
-                    if(selectListView.getVisibility() == View.VISIBLE){
-
+                    if(ClickChecker == true){
                         selectListView.setVisibility(View.INVISIBLE);
 
+                        ClickChecker = false;
                     }
+                    else
+                    {
+                        selectListView.setVisibility(View.VISIBLE);
 
-                    selectListView.setVisibility(View.VISIBLE);
+                        ClickChecker = true;
+                    }
                 }
             }
         });
@@ -120,14 +127,15 @@ public class MakeGroupActivity extends AppCompatActivity{
                                 Group group = new Group();
                                 group.groupName = groupNameEditText.getText().toString();
                                 group.groupNumber = Integer.parseInt(howManyEditText.getText().toString());
-                                group.groupMakerUid = task.getResult().getUser().getUid();
+                                group.groupMakerUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                group.groupPurpose = selectTextView.getText().toString();
 
 
                                 FirebaseDatabase.getInstance()
                                         .getReference().child("Groups").push().setValue(group);
 
 
-                                //startActivity(new Intent(MakeGroupActivity.this, MainActivity.class));
+                                startActivity(new Intent(MakeGroupActivity.this, MainActivity.class));
 
 
                             }
