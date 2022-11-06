@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-=======
-<!--
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-<<<<<<< HEAD
-    tools:context=".PersonalTimeTableActivity">
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-=======
-    tools:context=".PersonalTimeTableActivity"
-    android:orientation="vertical" >
--->
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -104,4 +86,3 @@
 -->
 
 </LinearLayout>
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21

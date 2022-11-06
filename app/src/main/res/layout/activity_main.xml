@@ -4,14 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
+
     android:orientation="vertical"
     tools:context=".MainActivity">
-=======
-    tools:context=".MainActivity"
-    android:orientation="vertical">
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
-
 
     <Button
         android:id="@+id/register"
@@ -25,15 +20,11 @@
         android:layout_height="wrap_content"
         android:text="Login Activity" />
 
-<<<<<<< HEAD
     <Button
         android:id="@+id/makeGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="MakeGroup Activity" />
-=======
-
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
 
 
 </LinearLayout>
