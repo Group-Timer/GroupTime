@@ -16,6 +16,16 @@
         android:theme="@style/Theme.GroupTimer"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
+=======
+            android:name=".EmptyActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+>>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
             android:name=".MakeGroupActivity"
             android:exported="false" />
         <activity

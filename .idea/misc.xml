@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.11930091185410334" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
@@ -11,6 +12,9 @@
         <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.2453125" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.2453125" />
         <entry key="app/src/main/res/menu/make_group_menu.xml" value="0.19166666666666668" />
+=======
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
+>>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
       </map>
     </option>
   </component>

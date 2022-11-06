@@ -1,6 +1,8 @@
 package com.example.grouptimer;
 
-    import androidx.annotation.NonNull;
+
+        import androidx.annotation.NonNull;
+        import androidx.annotation.NonNull;
         import androidx.appcompat.app.AppCompatActivity;
 
         import android.content.Intent;
@@ -39,7 +41,6 @@ public class MakeGroupActivity extends AppCompatActivity{
 
 //    private int checkGroupId; // group 확인용 groupId
 //    private int randomNumber; // random number
-
 
     private boolean ClickChecker = false; // selectButton 누를때 selectListView visibility 확인하는 변수
 
@@ -129,6 +130,7 @@ public class MakeGroupActivity extends AppCompatActivity{
                                 group.groupNumber = Integer.parseInt(howManyEditText.getText().toString());
                                 group.groupMakerUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 group.groupPurpose = selectTextView.getText().toString();
+                                group.groupMakerUid = task.getResult().getUser().getUid();
 
 
                                 FirebaseDatabase.getInstance()
