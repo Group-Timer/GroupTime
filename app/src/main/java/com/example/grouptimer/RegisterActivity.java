@@ -108,6 +108,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 String uid = task.getResult().getUser().getUid();
                                 FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
 
+                                String groupID = "-NG93VCgOSyTQPn1zTKK";
+                                FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(groupID);
 
                                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
 

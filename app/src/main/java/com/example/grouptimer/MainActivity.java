@@ -13,8 +13,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button register;
     private Button login;
-    private Button makeGroup;
-    private Button personal;
 
 
     @Override
