@@ -20,14 +20,35 @@ public class ToDoListItem {
         toDoList = toDoListEditText.getText().toString();
     }
 
+    public void setToDoListCheckBox(CheckBox toDoListCheckBox){
+        check = toDoListCheckBox.isChecked();
+    }
+
+    public void setToDoListString(String toDoListString){
+        this.toDoList =toDoListString;
+    }
+
+    public void setToDoListEditText(Boolean toDoListCheckBoxBoolean){
+        this.check =toDoListCheckBoxBoolean;
+    }
+
+    public EditText GetToDoList(){
+        return this.toDoListEditText;
+    }
+
+    public CheckBox GetToDoCheckBox(){
+        return  this.toDoListCheckBox;
+
+    }
+
     public String GetToDoListString(){
         setToDoList(RecyclerAdapter.ViewHolder.toDoListEditText);
         return this.toDoList;
     }
 
-    public boolean GetToDoCheckBox(CheckBox toDoListCheckBox){
-        check= toDoListCheckBox.isChecked();
-        return check;
+    public boolean GetToDoListCheckBoxBoolean(){
+        setToDoListCheckBox(RecyclerAdapter.ViewHolder.toDoListCheckBox);
+        return this.check;
     }
 
 }
