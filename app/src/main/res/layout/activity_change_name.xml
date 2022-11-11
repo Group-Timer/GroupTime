@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="6dp"
             android:text="닉네임"
             android:textSize="18dp"></TextView>
 
@@ -28,9 +28,9 @@
             android:id="@+id/nameEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/EmailText"
+            android:layout_alignBaseline="@id/nameText"
             android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/EmailText"
+            android:layout_toRightOf="@id/nameText"
             android:hint="변경할 닉네임"
             android:textAlignment="center"
             android:textSize="25dp"></EditText>
