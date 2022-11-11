@@ -21,17 +21,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
-            android:text="E=Mail"
+            android:text="Phone"
             android:textSize="18dp"></TextView>
 
         <EditText
-            android:id="@+id/EmailEditdit"
+            android:id="@+id/phoneEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/EmailText"
             android:layout_alignBaseline="@id/EmailText"
-            android:hint="example@damin.com"
+            android:hint="010-xxxx-xxxx"
+            android:textAlignment="center"
+            android:inputType="phone"
             android:textSize="25dp"></EditText>
     </RelativeLayout>
 
