@@ -13,9 +13,12 @@ public class ToDoListItem {
     private EditText toDoListEditText;
     private CheckBox toDoListCheckBox;
 
-    ToDoListItem(Context context){
+    ToDoListItem(Context context, String text , Boolean check){
         this.toDoListEditText = new EditText(context);
         this.toDoListCheckBox = new CheckBox(context);
+
+        this.toDoList = text;
+        this.check = check;
     }
 
 

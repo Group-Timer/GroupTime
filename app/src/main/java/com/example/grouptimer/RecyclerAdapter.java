@@ -53,7 +53,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         void onBind(ToDoListItem item){
 
             toDoListEditText.setText(item.toDoList);
-            toDoListCheckBox.isChecked();
+            //toDoListCheckBox.isChecked();
+
+            toDoListCheckBox.setChecked(item.check);
 
         }
 
