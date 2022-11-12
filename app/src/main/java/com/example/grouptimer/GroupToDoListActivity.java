@@ -71,7 +71,98 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
                         if(dataSnapshot.getValue(Integer.class) != null){
                             toDoListCnt = dataSnapshot.getValue(Integer.class);
+
+                            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                            System.out.println(toDoListCnt);
+
+                            toDoListPlusButtonBefore = toDoListCnt;
+
+
+                            //firebase 에서 ToDoList 에 있는 값을 가져와서 toDoListArrayList 에 저장
+                            for( int i = 0 ; i < toDoListCnt ; i++){
+
+                                int index = i ;
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("ToDoList").child(String.valueOf(i))
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                String toDoList = dataSnapshot.getValue(String.class);
+
+                                                System.out.println("#########################");
+                                                System.out.println(toDoList);
+
+                                                toDoListRecycleView.setLayoutManager(new LinearLayoutManager(GroupToDoListActivity.this));
+
+                                                toDoListItemArrayList.add(new ToDoListItem(GroupToDoListActivity.this));
+
+
+                                                toDoListArrayList.add(toDoList);
+                                                toDoListItemArrayList.get(index).GetToDoList().setText(toDoList);
+
+                                                RecyclerAdapter.setToDoListItemArrayList(toDoListItemArrayList);
+
+                                                toDoListRecycleView.setAdapter(RecyclerAdapter);
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+
+                            }
+
+
+
+
+                            //firebase 에서 CheckBox 에 있는 값을 가져와서 toDoListCheckBoxArrayList 에 저장
+                            for( int i = 0 ; i < toDoListCnt ; i++){
+
+                                int index = i;
+
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("CheckBox").child(String.valueOf(i))
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                // Get Post object and use the values to update the UI
+                                                Boolean checkbox = dataSnapshot.getValue(Boolean.class);
+                                                toDoListCheckBoxArrayList.add(checkbox);
+                                                toDoListItemArrayList.get(index).GetToDoCheckBox().setChecked(checkbox);
+
+                                                RecyclerAdapter.setToDoListItemArrayList(toDoListItemArrayList);
+
+                                                toDoListRecycleView.setAdapter(RecyclerAdapter);
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+
+                            }
+
+//                            for(int i = 0 ; i < toDoListCnt ; i++ ){
+//
+//                                toDoListRecycleView.setLayoutManager(new LinearLayoutManager(GroupToDoListActivity.this));
+//
+//                                toDoListItemArrayList.add(new ToDoListItem(GroupToDoListActivity.this));
+//
+//                                RecyclerAdapter.setToDoListItemArrayList(toDoListItemArrayList);
+//
+//                                toDoListRecycleView.setAdapter(RecyclerAdapter);
+//
+//                            }
+
+
                         }
+
+
 
                     }
 
@@ -82,52 +173,9 @@ public class GroupToDoListActivity extends AppCompatActivity {
                 });
 
 
-        //firebase 에서 ToDoList 에 있는 값을 가져와서 toDoListArrayList 에 저장
-        for( int i = 0 ; i < toDoListCnt ; i++){
-
-            FirebaseDatabase.getInstance().getReference()
-                    .child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("ToDoList").child(String.valueOf(i))
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            // Get Post object and use the values to update the UI
-//                            ArrayList toDoList = (ArrayList) dataSnapshot.getValue();
-//                            toDoListArrayList.add((String) toDoList.get(i));
-                            String toDoList = dataSnapshot.getValue(String.class);
-                            toDoListArrayList.add(toDoList);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-        }
 
 
 
-
-        //firebase 에서 CheckBox 에 있는 값을 가져와서 toDoListCheckBoxArrayList 에 저장
-        for( int i = 0 ; i < toDoListCnt ; i++){
-
-            FirebaseDatabase.getInstance().getReference()
-                    .child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("CheckBox").child(String.valueOf(i))
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            // Get Post object and use the values to update the UI
-                            Boolean checkbox = dataSnapshot.getValue(Boolean.class);
-                            toDoListCheckBoxArrayList.add(checkbox);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-        }
 //        FirebaseDatabase.getInstance().getReference()
 //                .child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("CheckBox").endAt(null)
 //                        .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -149,25 +197,6 @@ public class GroupToDoListActivity extends AppCompatActivity {
 //                });
 
 
-        for(int i = 0 ; i < toDoListArrayList.size() ; i++ ){
-
-            toDoListRecycleView.setLayoutManager(new LinearLayoutManager(GroupToDoListActivity.this));
-
-            toDoListItemArrayList.add(new ToDoListItem());
-
-            toDoListItemArrayList.get(i).GetToDoList().setText(toDoListArrayList.get(i));
-
-            toDoListItemArrayList.get(i).GetToDoCheckBox().setChecked(toDoListCheckBoxArrayList.get(i));
-
-            RecyclerAdapter.setToDoListItemArrayList(toDoListItemArrayList);
-
-            toDoListRecycleView.setAdapter(RecyclerAdapter);
-
-
-        }
-
-        System.out.println("//////////////////////////////////////");
-        System.out.println(toDoListArrayList.size());
 
 
 
@@ -177,15 +206,17 @@ public class GroupToDoListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                toDoListPlusButtonBefore = toDoListItemArrayList.size();
-
                 toDoListRecycleView.setLayoutManager(new LinearLayoutManager(GroupToDoListActivity.this));
 
-                toDoListItemArrayList.add(new ToDoListItem());
+                toDoListItemArrayList.add(new ToDoListItem(GroupToDoListActivity.this));
 
                 RecyclerAdapter.setToDoListItemArrayList(toDoListItemArrayList);
 
                 toDoListRecycleView.setAdapter(RecyclerAdapter);
+
+                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                System.out.println(toDoListItemArrayList.size());
+                System.out.println(toDoListItemArrayList.get(0).GetToDoList().getText().toString());
 
             }
         });
@@ -200,24 +231,28 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
                     String toDoList = toDoListItemArrayList.get(i).GetToDoListString();
 
+                    System.out.println("********************************");
+                    System.out.println(toDoListPlusButtonBefore);
+                    System.out.println(toDoList);
+
                     boolean checkbox = toDoListItemArrayList.get(i).GetToDoListCheckBoxBoolean();
 
                     toDoListArrayList.add(toDoList);
 
                     toDoListCheckBoxArrayList.add(checkbox);
 
-                    FirebaseDatabase.getInstance()
-                            .getReference().child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("ToDoList").setValue(toDoListArrayList);
-
-                    FirebaseDatabase.getInstance()
-                            .getReference().child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("CheckBox").setValue(toDoListCheckBoxArrayList);
-
-                    FirebaseDatabase.getInstance()
-                            .getReference().child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("ToDoListCnt").setValue(toDoListItemArrayList.size());
-
-
-
                 }
+
+                FirebaseDatabase.getInstance()
+                        .getReference().child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("ToDoList").setValue(toDoListArrayList);
+
+                FirebaseDatabase.getInstance()
+                        .getReference().child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("CheckBox").setValue(toDoListCheckBoxArrayList);
+
+                FirebaseDatabase.getInstance()
+                        .getReference().child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("ToDoListCnt").setValue(toDoListItemArrayList.size());
+
+
 
 
 

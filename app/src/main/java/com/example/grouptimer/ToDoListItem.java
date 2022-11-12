@@ -1,5 +1,6 @@
 package com.example.grouptimer;
 
+import android.content.Context;
 import android.text.Editable;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -11,6 +12,13 @@ public class ToDoListItem {
 
     private EditText toDoListEditText;
     private CheckBox toDoListCheckBox;
+
+    ToDoListItem(Context context){
+        this.toDoListEditText = new EditText(context);
+        this.toDoListCheckBox = new CheckBox(context);
+    }
+
+
 
     public EditText GetToDoListEditText(){
         return toDoListEditText;
