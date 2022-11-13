@@ -12,6 +12,8 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
 
     Button makeGroup;
     Button personal;
+    Button mypage;
+    Button changepw;
 
 
     @Override
@@ -22,14 +24,15 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
 
         makeGroup = (Button) findViewById(R.id.makeGroup);
         personal = (Button) findViewById(R.id.personal);
+        mypage = findViewById(R.id.mypage);
+        changepw = findViewById(R.id.changePassword);
 
 
         makeGroup.setOnClickListener(this);
         personal.setOnClickListener(this);
 
-
-
-
+        mypage.setOnClickListener(this);
+        changepw.setOnClickListener(this);
     }
 
 
@@ -43,6 +46,12 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
         else if(view == personal)
         {
             startActivity(new Intent(this, PersonalTimeTableActivity.class));
+        }
+        else if(view == mypage){
+            startActivity(new Intent(this, MyPageActivity.class));
+        }
+        else if(view == changepw){
+            startActivity(new Intent(this, ChangePWActivity.class));
         }
     }
 }

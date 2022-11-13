@@ -48,25 +48,28 @@ public class ChangeNameActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         accept = false;
 
-        name = input.getText().toString();
-
         String uid = user.getUid();
         root = FirebaseDatabase.getInstance().getReference("Users");
-
 
         check.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                root.child("Users").child(name)
+                name = input.getText().toString();
+                Log.d("name2", name);
+                FirebaseDatabase.getInstance().getReference("Users").orderByChild("userName").equalTo(name)
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String value = snapshot.getValue(String.class);
-
-                        if(value!=null){
-                            Toast.makeText(getApplicationContext(),"이미 존재하는 그룹명입니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
+                        String value="";
+                        User user = snapshot.getValue(User.class);
+                        Log.d("user", "user: "+ user);
+                        Log.d("Uid","user"+uid);
+                        if(snapshot.exists()){
+                            Toast.makeText(getApplicationContext(),"이미 존재하는 닉네임입니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
+                            accept = false;
                         }
                         else{
+                            Toast.makeText(getApplicationContext(),"사용가능한 닉네임입니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
                             accept = true;
                         }
                     }
@@ -83,13 +86,31 @@ public class ChangeNameActivity extends AppCompatActivity {
         change.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if(accept){
-                    root.child("User").child(uid).child("username").setValue(name);
-                    Toast.makeText(getApplicationContext(),"변경되었습니다.",Toast.LENGTH_SHORT);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"중복확인이 필요합니다.",Toast.LENGTH_SHORT);
-                }
+                name = input.getText().toString();
+                FirebaseDatabase.getInstance().getReference("Users").orderByChild("userName").equalTo(name)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String value="";
+                                User user = snapshot.getValue(User.class);
+                                Log.d("user", "user: "+ user);
+                                if(snapshot.exists()){
+                                    Toast.makeText(getApplicationContext(),"이미 존재하는 닉네임입니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
+                                    accept = false;
+                                }
+                                else{
+                                    FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("userName").setValue(name);
+                                    Toast.makeText(getApplicationContext(),"변경이 완료되었습니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
+                                    accept = true;
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // 디비를 가져오던중 에러 발생 시
+                                //Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
+                            }
+                        });
             }
         });
 

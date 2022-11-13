@@ -1,3 +1,5 @@
+
+
 package com.example.grouptimer;
 
 import static java.lang.Thread.sleep;
@@ -50,22 +52,22 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 FirebaseAuth.getInstance()
                         .createUserWithEmailAndPassword(emailEditText.getText().toString(),passwordEditText.getText().toString())
                         .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                User user = new User();
-                                user.userName = nameEditText.getText().toString();
-                                user.phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
-                                user.eMail = emailEditText.getText().toString();
+
+                                String userName = nameEditText.getText().toString();
+                                int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
+                                String eMail = emailEditText.getText().toString();
+                                int groupNum = 0;
+
+                                User user = new User(eMail, groupNum, phoneNumber,userName);
 
                                 String uid = task.getResult().getUser().getUid();
-                                user.uid = uid;
                                 FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
-
-                                String groupID = "-NG93VCgOSyTQPn1zTKK";
-                                FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(groupID);
 
                                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             }

@@ -105,7 +105,7 @@
             android:layout_below="@+id/checkPw"
             android:layout_alignRight="@+id/checkPw"
             android:layout_marginTop="10dp"
-            android:text="pw찾기"></Button>
+            android:text="pw변경"></Button>
     </RelativeLayout>
 
 </LinearLayout>

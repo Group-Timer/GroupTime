@@ -9,15 +9,23 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.grouptimer.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -45,8 +53,6 @@ public class MyPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        uid = user.getUid();
         storage = FirebaseStorage.getInstance();
         userEmail = findViewById(R.id.UserID);
         nickName = findViewById(R.id.nickname);
@@ -57,11 +63,37 @@ public class MyPageActivity extends AppCompatActivity {
         changeProfile = findViewById(R.id.changeProfile);
         changePW = findViewById(R.id.changePW);
 
+        mAuth = FirebaseAuth.getInstance();
         FirebaseUser userInfo = FirebaseAuth.getInstance().getCurrentUser();
-
+        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Users");
+        uid = user.getUid();
         userEmail.setText(userInfo.getEmail());
-        nickName.setText(userInfo.getDisplayName());
-        phoneNumber.setText(userInfo.getPhoneNumber());
+
+        Query query =
+                FirebaseDatabase.getInstance().getReference("Users");
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot data : snapshot.getChildren()){
+                    User user = data.getValue(User.class);
+                    int num = user.getPhoneNumber();
+                    if(!(user.geteMail()==null)) {
+                        if (user.geteMail().equals(userInfo.getEmail())) {
+                            nickName.setText(user.getUserName());
+                            phoneNumber.setText(Integer.toString(num));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         changeProfile.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -75,6 +107,7 @@ public class MyPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(MyPageActivity.this, ChangePWActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -1,8 +1,10 @@
 package com.example.grouptimer;
 
+import static android.os.Build.USER;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -13,16 +15,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.grouptimer.model.User;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class SearchIDActivity extends AppCompatActivity {
@@ -33,6 +31,8 @@ public class SearchIDActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private User user;
+    private AlertDialog.Builder dialog;
+    private int checkNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,8 @@ public class SearchIDActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_id);
         String id;
         String Email;
-        int checkNumber = Integer.parseInt(editNumber.getText().toString());
 
+        dialog = new AlertDialog.Builder(this);
         searchButton = (Button) findViewById(R.id.search_button);
         editNumber = (EditText) findViewById(R.id.phoneEdit);
         rootRef = FirebaseDatabase.getInstance().getReference("Users");
@@ -50,9 +50,10 @@ public class SearchIDActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                checkNumber = Integer.parseInt(editNumber.getText().toString());
                 Query query =
-                FirebaseDatabase.getInstance().getReference("Users")
-                        .orderByChild("phoneNumber").equalTo(checkNumber);
+                FirebaseDatabase.getInstance().getReference("Users");
+                 //       .orderByChild("phoneNumber").equalTo(checkNumber);
                 query.addListenerForSingleValueEvent(valueEventListener);
             }
         });
@@ -62,10 +63,21 @@ public class SearchIDActivity extends AppCompatActivity {
     ValueEventListener valueEventListener = new ValueEventListener(){
         @Override
         public void onDataChange(DataSnapshot dataSnapshot){
+            String UserEmail = "";
             if(dataSnapshot.exists()){
-                User user = dataSnapshot.getValue(User.class);
-                String eMail = user.eMail;
-                Toast.makeText(SearchIDActivity.this, eMail, Toast.LENGTH_SHORT).show();
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+                    Log.d("result", "User name: " + user.getUserName() + ", phonenum " + user.getPhoneNumber());
+                    if (user.getPhoneNumber() == checkNumber){
+                        UserEmail = user.geteMail();
+                        break;
+                    }
+                }
+//                User user = dataSnapshot.getValue(User.class);
+//                Log.d("user", "user: "+ user);
+//                int pnum = user.phoneNumber;
+//                Log.d("eMail", "pnum: "+pnum);
+                dialog.setTitle("Email").setMessage(UserEmail).create().show();
             }
             else{
                 Toast.makeText(SearchIDActivity.this, "해당하는 이메일을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();

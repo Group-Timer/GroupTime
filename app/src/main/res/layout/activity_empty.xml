@@ -21,6 +21,16 @@
         android:layout_height="wrap_content"
         android:text="Personal TimeTable Activity" />
 
+    <Button
+        android:id="@+id/mypage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "myPage"/>
 
+    <Button
+        android:id="@+id/changePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "change Password"/>
 
 </LinearLayout>
