@@ -1,84 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.grouptimer">
+xmlns:tools="http://schemas.android.com/tools"
+package="com.example.grouptimer">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.GroupTimer"
-        tools:targetApi="31">
-        <activity
+<application
+    android:allowBackup="true"
+    android:dataExtractionRules="@xml/data_extraction_rules"
+    android:fullBackupContent="@xml/backup_rules"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/Theme.GroupTimer"
+    tools:targetApi="31"
+    android:windowSoftInputMode ="adjustNothing">
+    <activity
 
-            android:name=".EmptyActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".MakeGroupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".GroupToDoListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".GroupTimeTableActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PersonalTimeTableActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MyPageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChangeNameActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        android:name=".EmptyActivity"
+        android:exported="false">
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
+    </activity>
+    <activity
+        android:name=".MakeGroupActivity"
+        android:exported="false" />
+    <activity
+        android:name=".GroupToDoListActivity"
+        android:windowSoftInputMode="adjustResize|adjustPan"
+        android:exported="false" />
+    <activity
+        android:name=".GroupTimeTableActivity"
+        android:exported="false" />
+    <activity
+        android:name=".PersonalTimeTableActivity"
+        android:exported="false" />
+    <activity
+        android:name=".HomeActivity"
+        android:exported="false" />
+    <activity
+        android:name=".MyPageActivity"
+        android:exported="false" />
+    <activity
+        android:name=".RegisterActivity"
+        android:exported="false" />
+    <activity
+        android:name=".ChangeNameActivity"
+        android:exported="false" />
+    <activity
+        android:name=".ChangePWActivity"
+        android:exported="false" />
+    <activity
+        android:name=".SearchIDActivity"
+        android:exported="false" />
+    <activity
+        android:name=".LoginActivity"
+        android:exported="false" />
+    <activity
+        android:name=".MainActivity"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ChangePWActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SearchIDActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+</application>
 
 </manifest>

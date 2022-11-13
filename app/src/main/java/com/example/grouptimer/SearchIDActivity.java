@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.grouptimer.model.User;
 import com.google.firebase.database.ChildEventListener;
@@ -62,7 +63,12 @@ public class SearchIDActivity extends AppCompatActivity {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot){
             if(dataSnapshot.exists()){
-
+                User user = dataSnapshot.getValue(User.class);
+                String eMail = user.eMail;
+                Toast.makeText(SearchIDActivity.this, eMail, Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(SearchIDActivity.this, "해당하는 이메일을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
         }
 
