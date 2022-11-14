@@ -135,8 +135,7 @@ public class MakeGroupActivity extends AppCompatActivity{
                                 group.groupMakerUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 group.groupPurpose = selectTextView.getText().toString();
 
-                                FirebaseDatabase.getInstance()
-                                        .getReference().child("Groups").push().setValue(group);
+
                                 //group.groupMakerUid = task.getResult().getUser().getUid();
 
 
