@@ -66,7 +66,7 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
 
         FirebaseDatabase.getInstance().getReference()
-                .child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("ToDoListCnt")
+                .child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,7 +82,7 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
                                 int outerIndex = i ;
                                 FirebaseDatabase.getInstance().getReference()
-                                        .child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("ToDoList").child(String.valueOf(i))
+                                        .child("Groups").child(DefineValue.Group_ID).child("ToDoList").child(String.valueOf(i))
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -94,7 +94,7 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
                                                 //firebase 에서 CheckBox 에 있는 값을 가져와서 toDoListCheckBoxArrayList 에 저장
                                                 FirebaseDatabase.getInstance().getReference()
-                                                        .child("Groups").child("-NG93VCgOSyTQPn1zTKK").child("CheckBox").child(String.valueOf(outerIndex))
+                                                        .child("Groups").child(DefineValue.Group_ID).child("CheckBox").child(String.valueOf(outerIndex))
                                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                                             @Override
                                                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -166,9 +166,6 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
                 toDoListRecycleView.setAdapter(RecyclerAdapter);
 
-                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                System.out.println(toDoListItemArrayList.size());
-                System.out.println(toDoListItemArrayList.get(toDoListItemArrayList.size() - 1 ).GetToDoListString());
 
             }
         });
