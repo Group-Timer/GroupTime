@@ -167,7 +167,7 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
                 System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
                 System.out.println(toDoListItemArrayList.size());
-                System.out.println(toDoListItemArrayList.get(0).GetToDoList().getText().toString());
+                System.out.println(toDoListItemArrayList.get(toDoListItemArrayList.size() - 1 ).GetToDoListString());
 
             }
         });
@@ -180,7 +180,7 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
                 for(int i = toDoListPlusButtonBefore ; i < toDoListItemArrayList.size() ; i++){
 
-                    String toDoList = toDoListItemArrayList.get(i).GetToDoList().getText().toString();
+                    String toDoList = toDoListItemArrayList.get(i).GetToDoListString();
 
                     System.out.println("********************************");
                     System.out.println(i);

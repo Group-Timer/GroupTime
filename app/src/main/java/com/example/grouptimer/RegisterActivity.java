@@ -32,6 +32,9 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView wrongPasswordTextView;
     private Button registerButton;
 
+    private String password;
+    private String confirmPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,23 +54,25 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                if (emailEditText.getText().toString() == null || nameEditText.getText().toString() == null ||
-//                        passwordEditText.getText().toString() == null){
-//                    return;
-//                }
+                password = passwordEditText.getText().toString();
+                confirmPassword = confirmPasswordEditText.getText().toString();
 
-/*
->>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
-                if(passwordEditText.getText().toString() != confirmPasswordEditText.getText().toString()){
+                if (emailEditText.getText().toString() == null || nameEditText.getText().toString() == null ||
+                        passwordEditText.getText().toString() == null){
+                    return;
+                }
+
+                if( password != confirmPassword ){
 
                     wrongPasswordTextView.setVisibility(View.VISIBLE);
                     passwordEditText.setText(null);
                     confirmPasswordEditText.setText(null);
+                    confirmPassword = null;
                     return;
                 }
 
 
-               else if(passwordEditText.getText().toString() == confirmPasswordEditText.getText().toString()){
+               else if( password == confirmPassword || wrongPasswordTextView.getVisibility() == View.VISIBLE){
 
                     wrongPasswordTextView.setVisibility(View.INVISIBLE);
 
@@ -76,13 +81,15 @@ public class RegisterActivity extends AppCompatActivity {
                             .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    User user = new User();
-                                    user.userName = nameEditText.getText().toString();
-                                    user.phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
+
+                                    String userName = nameEditText.getText().toString();
+                                    int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
+
+                                    User user = new User(userName, phoneNumber);
+
 
                                     String uid = task.getResult().getUser().getUid();
                                     FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
-
 
                                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
 
@@ -90,35 +97,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             });
 
-               }
-<<<<<<< HEAD
-=======
-*/
 
-
-                FirebaseAuth.getInstance()
-                        .createUserWithEmailAndPassword(emailEditText.getText().toString(),passwordEditText.getText().toString())
-                        .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                String userName = nameEditText.getText().toString();
-                                int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
-
-                                User user = new User(userName, phoneNumber);
-
-
-                                //user.GroupList.add("qaz");
-                                //user.GroupList.add("wsx");
-
-                                String uid = task.getResult().getUser().getUid();
-                                FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
-
-                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-
-
-                            }
-                        });
+                }
 
             }
         });
