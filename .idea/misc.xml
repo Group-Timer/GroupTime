@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.171" />
         <entry key="app/src/main/res/drawable/custom_button.xml" value="0.171" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.171" />
@@ -19,6 +20,8 @@
         <entry key="app/src/main/res/layout/activity_search_id.xml" value="0.1" />
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> bc26e6f63f82145056f2b89b3bdc6d9c183558e2
         <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.11930091185410334" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
@@ -30,7 +33,10 @@
 =======
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
 >>>>>>> a5808a1c168c817965c869f85e971afae6e72c21
+<<<<<<< HEAD
 >>>>>>> Hyunwoo
+=======
+>>>>>>> bc26e6f63f82145056f2b89b3bdc6d9c183558e2
       </map>
     </option>
   </component>

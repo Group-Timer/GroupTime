@@ -20,6 +20,12 @@ public class TimeTableOnClickListener implements View.OnClickListener
         int times;
 
 
+        if(PersonalTimeTableActivity.TimeTableEditable == false)
+        {
+            return;
+        }
+
+
         buttonPosition  = 0;
         viewID          = DefineValue.INVALID_VALUE;
         while(true)
@@ -63,49 +69,49 @@ public class TimeTableOnClickListener implements View.OnClickListener
             {
                 case DefineValue.Mon:
                 {
-                    view.setBackgroundColor(Color.RED);
+                    view.setBackgroundColor(Color.parseColor("#9b5de5"));
 
                     break;
                 }
 
                 case DefineValue.Tue:
                 {
-                    view.setBackgroundColor(Color.MAGENTA);
+                    view.setBackgroundColor(Color.parseColor("#f15bb5"));
 
                     break;
                 }
 
                 case DefineValue.Wed:
                 {
-                    view.setBackgroundColor(Color.YELLOW);
+                    view.setBackgroundColor(Color.parseColor("#f95738"));
 
                     break;
                 }
 
                 case DefineValue.Thu:
                 {
-                    view.setBackgroundColor(Color.GREEN);
+                    view.setBackgroundColor(Color.parseColor("#fee440"));
 
                     break;
                 }
 
                 case DefineValue.Fri:
                 {
-                    view.setBackgroundColor(Color.BLUE);
+                    view.setBackgroundColor(Color.parseColor("#00bbf9"));
 
                     break;
                 }
 
                 case DefineValue.Sat:
                 {
-                    view.setBackgroundColor(Color.CYAN);
+                    view.setBackgroundColor(Color.parseColor("#90e0ef"));
 
                     break;
                 }
 
                 case DefineValue.Sun:
                 {
-                    view.setBackgroundColor(Color.LTGRAY);
+                    view.setBackgroundColor(Color.parseColor("#00f5d4"));
 
                     break;
                 }

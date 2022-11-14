@@ -1,7 +1,6 @@
 package com.example.grouptimer;
 
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -215,5 +214,4 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
 
     }
-
 }

@@ -1,9 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".HomeActivity"
+    android:orientation="vertical"
+    android:weightSum="3" >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp" >
+
+
+        <EditText
+            android:id="@+id/insertCodeEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:hint="Group Insert Code"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="5" />
+
+        <Button
+            android:id="@+id/insertCodeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="25dp"
+            android:text="Enter Group"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"/>
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="- Your group list is empty -"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="50dp" />
+
+
+    <Button
+        android:id="@+id/makeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Make Group Activity" />
+
+
+    <Button
+        android:id="@+id/personal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Personal TimeTable Activity" />
+
+
+    <Button
+        android:id="@+id/groupTimeTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Group Time Table" />
+
+
+</LinearLayout>

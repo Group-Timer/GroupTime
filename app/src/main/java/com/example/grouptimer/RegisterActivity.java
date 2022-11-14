@@ -51,6 +51,39 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if(passwordEditText.getText().toString() != confirmPasswordEditText.getText().toString()){
+
+                    wrongPasswordTextView.setVisibility(View.VISIBLE);
+                    passwordEditText.setText(null);
+                    confirmPasswordEditText.setText(null);
+                    return;
+                }
+
+
+               else if(passwordEditText.getText().toString() == confirmPasswordEditText.getText().toString()){
+
+                    wrongPasswordTextView.setVisibility(View.INVISIBLE);
+
+                    FirebaseAuth.getInstance()
+                            .createUserWithEmailAndPassword(emailEditText.getText().toString(),passwordEditText.getText().toString())
+                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    User user = new User();
+                                    user.userName = nameEditText.getText().toString();
+                                    user.phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
+
+                                    String uid = task.getResult().getUser().getUid();
+                                    FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
+
+
+                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+
+
+                                }
+                            });
+
+               }
                 FirebaseAuth.getInstance()
                         .createUserWithEmailAndPassword(emailEditText.getText().toString(),passwordEditText.getText().toString())
                         .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {

@@ -1,5 +1,6 @@
 package com.example.grouptimer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -21,9 +22,19 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PersonalTimeTableActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,15 +58,23 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
     public static Drawable      CustomButtonDrawable;
 
+    public static boolean       TimeTableEditable;
+
 
     private final int           EditButtonID            = 1;
     private final int           SaveButtonID            = 2;
 
 
+    int DayOfWeek;
+    int LoadCnt;
+
+    int[][] TimeTableBit;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_time_table);
+        //setContentView(R.layout.activity_personal_time_table);
 
 
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
@@ -64,6 +83,55 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         Show_Screen();
 
         Init_Button_Checker();
+
+
+        TimeTableEditable = false;
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        ArrayList<Integer> timeTable = new ArrayList<Integer>();
+
+
+        LoadCnt = 0;
+        for(DayOfWeek = 0; DayOfWeek < DefineValue.Day_Cnt; DayOfWeek++)
+        {
+            String listID = Integer.toString(DayOfWeek);
+
+
+            mDatabase.child("PersonalTimeTable").child(user.getUid()).child("TimeTable").child(listID).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if(dataSnapshot.getValue() == null)
+                    {
+                        Log.d("GT", "is null");
+
+                        return;
+                    }
+
+                    int value = dataSnapshot.getValue(Integer.class);
+
+
+                    Log.d("GT", "dataSnapshot : " + value);
+
+
+                    timeTable.add(value);
+
+
+                    if(timeTable.size() == DefineValue.Day_Cnt)
+                    {
+                        Show_TimeTable(timeTable);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        }
     }
 
 
@@ -256,7 +324,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     }
 
 
-    private int Convert_Time(int day)
+    private int Convert_Time_BitToInteger(int day)
     {
         int     time            = 0;
         int     shiftPosition   = DefineValue.Max_Bit_Size - 1;
@@ -280,35 +348,38 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     }
 
 
-    private void Save_Firebase(int[] timeTable)
+    private void Convert_Time_IntegerToBit(int[] timeTable)
     {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // User is signed in
-            Log.d("GT", user.getUid());
-        } else {
-            // No user is signed in
-            Log.d("GT", "Non");
-        }
+        //     TimeTable을 int형에서 bit 단위로 변환하는 과정
 
-
-
-
-
-
-
-
-
-        int[][] getTimeTable = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
+        TimeTableBit = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
         for(int day = 0; day < DefineValue.Day_Cnt; day++)
         {
             int loadTime = timeTable[day];
 
             Log.d("GT", "Time : " + loadTime);
 
-            for( int i = DefineValue.Max_Bit_Size - 1; i >= 0; i-- )
+            for( int times = DefineValue.Max_Bit_Size - 1; times >= 0; times-- )
             {
-                getTimeTable[ day ][ i ] = loadTime & DefineValue.Time_Convert_Key;
+                int value;
+                int buttonID;
+
+
+                value = loadTime & DefineValue.Time_Convert_Key;
+
+                TimeTableBit[ day ][ times ]    = value;
+                UserTimeTable[day][times]       = value;
+
+                buttonID                        = (DefineValue.Times_Of_Day * day) + times;
+                if(value == 1)
+                {
+                    ButtonClickChecker[buttonID]    = true;
+                }
+                else
+                {
+                    ButtonClickChecker[buttonID]    = false;
+                }
+
 
                 loadTime >>= 1;
             }
@@ -317,7 +388,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
             String message = "";
             for( int k = 0; k < DefineValue.Max_Bit_Size; k++ )
             {
-                message += getTimeTable[day][k];
+                message += TimeTableBit[day][k];
 
                 if(k == 3)
                 {
@@ -334,6 +405,121 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     }
 
 
+    private void Save_Firebase(int[] timeTable)
+    {
+        ArrayList<Integer> timeTableList = new ArrayList<Integer>();
+
+        Map<String, Object> taskMap = new HashMap<String, Object>();
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+        if (user != null) {
+            // User is signed in
+            Log.d("GT", user.getUid());
+        } else {
+            // No user is signed in
+            Log.d("GT", "Non user");
+        }
+
+
+        for(int i = 0; i < DefineValue.Day_Cnt; i++)
+        {
+            timeTableList.add(timeTable[i]);
+        }
+
+
+        taskMap.put("TimeTable", timeTableList);
+
+        mDatabase.child("PersonalTimeTable").child(user.getUid()).updateChildren(taskMap);
+
+
+        //Convert_Time_IntegerToBit(timeTable);
+    }
+
+
+    private void Show_TimeTable(ArrayList<Integer> timeTable)
+    {
+        int[] personalTime;
+
+
+        personalTime = new int[DefineValue.Day_Cnt];
+
+        for(int i = 0; i < timeTable.size(); i++)
+        {
+            personalTime[i] = timeTable.get(i);
+        }
+
+
+        Convert_Time_IntegerToBit(personalTime);
+
+
+        for(int day = 0; day < DefineValue.Day_Cnt; day++)
+        {
+            for(int times = 0; times < DefineValue.Times_Of_Day; times++)
+            {
+                if(TimeTableBit[day][times] == 1)
+                {
+                    switch(day)
+                    {
+                        case DefineValue.Mon:
+                        {
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#9b5de5"));
+
+                            break;
+                        }
+
+                        case DefineValue.Tue:
+                        {
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#f15bb5"));
+
+                            break;
+                        }
+
+                        case DefineValue.Wed:
+                        {
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#f95738"));
+
+                            break;
+                        }
+
+                        case DefineValue.Thu:
+                        {
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#fee440"));
+
+                            break;
+                        }
+
+                        case DefineValue.Fri:
+                        {
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#00bbf9"));
+
+                            break;
+                        }
+
+                        case DefineValue.Sat:
+                        {
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#90e0ef"));
+
+                            break;
+                        }
+
+                        case DefineValue.Sun:
+                        {
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#00f5d4"));
+
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     @Override
     public void onClick(View view)
     {
@@ -342,7 +528,18 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
         if(view.getId() == EditButtonID)
         {
+            if(TimeTableEditable == true)
+            {
+                TimeTableEditable = false;
 
+                Toast.makeText(this, "Diseditable", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                TimeTableEditable = true;
+
+                Toast.makeText(this, "Editable", Toast.LENGTH_SHORT).show();
+            }
         }
         else if(view.getId() == SaveButtonID)
         {
@@ -351,7 +548,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
             for(int day = 0; day < DefineValue.Day_Cnt; day++)
             {
-                time = Convert_Time(day);
+                time = Convert_Time_BitToInteger(day);
 
                 timeTable[day] = time;
             }
