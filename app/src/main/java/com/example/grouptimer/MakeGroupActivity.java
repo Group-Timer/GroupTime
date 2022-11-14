@@ -7,6 +7,7 @@ package com.example.grouptimer;
 
         import android.content.Intent;
         import android.os.Bundle;
+        import android.util.Log;
         import android.view.View;
         import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
@@ -23,11 +24,14 @@ package com.example.grouptimer;
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.database.DataSnapshot;
         import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
         import com.google.firebase.database.FirebaseDatabase;
         import com.google.firebase.database.ValueEventListener;
 
         import java.util.ArrayList;
+        import java.util.HashMap;
         import java.util.List;
+        import java.util.Map;
 
 public class MakeGroupActivity extends AppCompatActivity{
 
@@ -130,11 +134,104 @@ public class MakeGroupActivity extends AppCompatActivity{
                                 group.groupNumber = Integer.parseInt(howManyEditText.getText().toString());
                                 group.groupMakerUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 group.groupPurpose = selectTextView.getText().toString();
-                                group.groupMakerUid = task.getResult().getUser().getUid();
+                                //group.groupMakerUid = task.getResult().getUser().getUid();
 
 
-                                FirebaseDatabase.getInstance()
-                                        .getReference().child("Groups").push().setValue(group);
+                                DatabaseReference  reference = FirebaseDatabase.getInstance().getReference().child("Groups").push();
+
+
+                                //FirebaseDatabase.getInstance().getReference().child("Groups").push().setValue(group);
+                                reference.setValue(group);
+
+
+                                ArrayList<String> memberList = new ArrayList<String>();
+
+                                memberList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                //FirebaseDatabase.getInstance().getReference().child("Groups").push().child("groupMember").setValue(memberList);
+                                reference.child("groupMember").setValue(memberList);
+                                reference.child("memberCnt").setValue(1);
+
+
+
+                                Log.d("GT", "DB Reference : " + reference.getKey());
+
+
+                                ArrayList<String> groupList = new ArrayList<String>();
+
+                                Map<String, Object> taskMap = new HashMap<String, Object>();
+
+
+                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+                                mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("groupNumber").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        if(dataSnapshot.getValue(Integer.class) == 0)
+                                        {
+                                            groupList.add(reference.getKey());
+
+                                            taskMap.put("GroupList", groupList);
+
+                                            mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(taskMap);
+
+
+                                            taskMap.clear();
+                                            taskMap.put("groupNumber", 1);
+
+                                            mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(taskMap);
+
+
+                                            return;
+                                        }
+
+
+                                        int groupCnt = dataSnapshot.getValue(Integer.class);
+
+                                        for(int i = 0; i < groupCnt; i++)
+                                        {
+                                            String listID = Integer.toString(i);
+
+
+                                            mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("GroupList").child(listID).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                    String value = dataSnapshot.getValue(String.class);
+
+
+                                                    groupList.add(value);
+
+
+                                                    if(Integer.parseInt(listID) == (groupCnt - 1))
+                                                    {
+                                                        groupList.add(reference.getKey());
+
+                                                        taskMap.put("GroupList", groupList);
+
+                                                        mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(taskMap);
+
+
+                                                        taskMap.clear();
+                                                        taskMap.put("groupNumber", groupCnt + 1);
+
+                                                        mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(taskMap);
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    }
+                                });
+
 
 
                                 startActivity(new Intent(MakeGroupActivity.this, EmptyActivity.class));

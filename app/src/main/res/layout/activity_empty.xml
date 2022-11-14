@@ -22,5 +22,20 @@
         android:text="Personal TimeTable Activity" />
 
 
+    <Button
+        android:id="@+id/groupTimeTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Group Time Table" />
+
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="GroupList Add" />
+
+
 
 </LinearLayout>

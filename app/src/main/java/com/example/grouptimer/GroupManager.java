@@ -1,41 +1,26 @@
 package com.example.grouptimer;
 
-import com.example.grouptimer.model.Group;
+import java.util.ArrayList;
 
-public class GroupListManager
+public class GroupManager
 {
-    public String groupNumber;
+    String insertCode;
+    String groupMakerUid;
+    ArrayList<String> groupMember;
+    String groupName;
+    int groupNumber;
+    String groupPurpose;
+    int memberCnt;
 
 
-    public GroupListManager()
+    public GroupManager()
     {
 
     }
 
-    public GroupListManager(String groupNumber)
+    public GroupManager(String insertCode, String groupMakerUid, ArrayList<String> groupMember, String groupName, int groupNumber, String groupPurpose, int memberCnt)
     {
         this.groupNumber = groupNumber;
+        this.memberCnt = memberCnt;
     }
-
-
-
-    /*
-    private String GroupList;
-
-
-    public GroupListManager(String GroupList)
-    {
-        this.GroupList = GroupList;
-    }
-
-    public String Get_GroupList()
-    {
-        return GroupList;
-    }
-
-    public void Set_GroupList(String GroupList)
-    {
-        this.GroupList = GroupList;
-    }
-    */
 }

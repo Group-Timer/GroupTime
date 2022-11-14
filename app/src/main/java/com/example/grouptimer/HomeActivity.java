@@ -1,14 +1,558 @@
 package com.example.grouptimer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class HomeActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    private EditText insertCodeEdit;
+
+    private Button insertCodeButton;
+    private Button makeGroup;
+    private Button personal;
+    private Button groupTimeTable;
+
+    private RecyclerView recyclerView;
+
+    private TextView emptyText;
+
+    private LinearLayoutManager linearLayoutManager;
+    private GroupRecyclerViewAdapter recyclerViewAdapter;
+
+
+    public static int groupNumber = 0;
+    int firebaseIndex;
+
+
+    Map<String, Object> taskMap = new HashMap<String, Object>();
+
+    ArrayList<String> GroupList = new ArrayList<String>();
+    ArrayList<String> GroupNameList = new ArrayList<String>();
+
+
+    int CodeListIndex = 0;
+    boolean GroupEnter;
+
+    boolean AlreadyEntered;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        insertCodeEdit = (EditText) findViewById(R.id.insertCodeEdit);
+        insertCodeButton = (Button) findViewById(R.id.insertCodeButton);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        emptyText = (TextView) findViewById(R.id.emptyText);
+
+        makeGroup = (Button) findViewById(R.id.makeGroup);
+        personal = (Button) findViewById(R.id.personal);
+        groupTimeTable = (Button) findViewById(R.id.groupTimeTable);
+
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        if(linearLayoutManager == null)
+        {
+            Log.d("GT", "LayoutManager is null");
+        }
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+
+        insertCodeButton.setOnClickListener(this);
+        makeGroup.setOnClickListener(this);
+        personal.setOnClickListener(this);
+        groupTimeTable.setOnClickListener(this);
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+        Load_GroupList(false, true, null, user, mDatabase);
+    }
+
+
+    private void Check_InsertCode(String insertCode)
+    {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+        GroupEnter = false;
+
+
+        mDatabase.child("GroupInsertCode").child("codeCnt").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int codeCnt;
+
+
+                if(dataSnapshot.getValue() == null)
+                {
+                    Log.d("GT", "Empty InsertCode Database");
+
+                    Toast.makeText(getApplicationContext(), "Empty InsertCode Database", Toast.LENGTH_SHORT).show();
+
+
+                    return;
+                }
+
+
+                codeCnt = dataSnapshot.getValue(Integer.class);
+                CodeListIndex = 0;
+
+
+                mDatabase.child("GroupInsertCode").child("CodeList").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot childSnapshot : dataSnapshot.getChildren())
+                        {
+
+                            if(childSnapshot != null)
+                            {
+                                Log.d("GT", "HashMap Key : " + childSnapshot.getKey());
+                                Log.d("GT", "HashMap Value : " + childSnapshot.getValue());
+
+
+                                if(childSnapshot.getKey().equals(insertCode) == true)
+                                {
+                                    GroupEnter = true;
+
+
+                                    Enter_Group(childSnapshot.getValue().toString());
+
+
+                                    return;
+                                }
+
+                                CodeListIndex++;
+
+
+                                if((CodeListIndex == codeCnt) && (GroupEnter == false))
+                                {
+                                    Log.d("GT", "Fail Enter Group");
+
+                                    Toast.makeText(getApplicationContext(), "Fail Enter Group", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    private void Enter_Group(String groupID)
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+        AlreadyEntered = false;
+
+
+
+        mDatabase.child("Groups").child(groupID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int getGroupNumber;
+                int getMemberCnt;
+
+
+                getGroupNumber = 0;
+                getMemberCnt = 0;
+                for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    if(snapshot.getKey().equals("groupNumber") == true)
+                    {
+                        getGroupNumber = snapshot.getValue(Integer.class);
+
+                        Log.d("GT", "groupNumber : " + getGroupNumber);
+                    }
+
+                    if(snapshot.getKey().equals("memberCnt") == true)
+                    {
+                        getMemberCnt = snapshot.getValue(Integer.class);
+
+                        Log.d("GT", "memberCnt : " + getMemberCnt);
+                    }
+                }
+
+
+                if(getGroupNumber == getMemberCnt)
+                {
+                    Log.d("GT", "Group member is maximum");
+
+                    Toast.makeText(getApplicationContext(), "Group member is maximum", Toast.LENGTH_SHORT).show();
+
+
+                    return;
+                }
+
+
+                Load_GroupList(true, false, groupID, user, mDatabase);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    private void Load_GroupList(boolean listUpdate, boolean showRecyclerView, String groupID, FirebaseUser user, DatabaseReference mDatabase)
+    {
+        mDatabase.child("Users").child(user.getUid()).child("groupNumber").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int value = dataSnapshot.getValue(Integer.class);
+
+                Log.d("GT", "dataSnapshot : " + value );
+
+                groupNumber = value;
+
+
+                if(groupNumber > 0)
+                {
+                    GroupList.clear();
+                    GroupNameList.clear();
+
+
+                    for(firebaseIndex = 0; firebaseIndex < groupNumber; firebaseIndex++)
+                    {
+                        String listID = Integer.toString(firebaseIndex);
+
+                        mDatabase.child("Users").child(user.getUid()).child("GroupList").child(listID).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                String value = dataSnapshot.getValue(String.class);
+
+
+                                if(value == null)
+                                {
+                                    return;
+                                }
+
+                                if(AlreadyEntered == true)
+                                {
+                                    return;
+                                }
+
+
+                                if(value.equals(groupID) == true)
+                                {
+                                    AlreadyEntered = true;
+
+                                    Log.d("GT", "Already Enter Group");
+
+                                    Toast.makeText(getApplicationContext(), "Already Enter Group", Toast.LENGTH_SHORT).show();
+
+
+                                    return;
+                                }
+
+
+                                GroupList.add(value);
+
+
+                                Log.d("GT", "Database Get : " + value);
+
+
+                                if(Integer.parseInt(listID) == (groupNumber - 1))
+                                {
+                                    Log.d("GT", "Complete loading group list");
+
+                                    if(showRecyclerView == true)
+                                    {
+                                        Log.d("GT", "RecyclerView generating");
+
+
+                                        for(int i = 0; i < GroupList.size(); i++)
+                                        {
+                                            int groupIndex = i;
+
+                                            mDatabase.child("Groups").child(GroupList.get(groupIndex)).child("groupName").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                    String value = dataSnapshot.getValue(String.class);
+
+
+                                                    GroupNameList.add(value);
+
+                                                    if(groupIndex == (groupNumber - 1))
+                                                    {
+                                                        recyclerViewAdapter = new GroupRecyclerViewAdapter(GroupList, GroupNameList);
+                                                        recyclerView.setAdapter(recyclerViewAdapter);
+
+                                                        recyclerView.setVisibility(View.VISIBLE);
+                                                        emptyText.setVisibility(View.GONE);
+                                                    }
+                                                }
+
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                }
+                                            });
+                                        }
+                                    }
+
+
+                                    if(listUpdate == true)
+                                    {
+                                        GroupList.add(groupID);
+
+                                        for(int k = 0; k < GroupList.size(); k++)
+                                        {
+                                            Log.d("GT", "List(" + k + ") : " + GroupList.get(k));
+                                        }
+
+
+                                        taskMap.put("GroupList", GroupList);
+
+                                        mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                                        taskMap.clear();
+                                        taskMap.put("groupNumber", groupNumber + 1);
+
+                                        mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                                        Update_Group_Database(groupID);
+
+
+                                        Log.d("GT", "Success Enter Group");
+
+                                        Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.d("GT", "groupNumber is 0");
+
+                    GroupList.clear();
+
+
+                    if(listUpdate == true)
+                    {
+                        ArrayList<String> GroupList = new ArrayList<String>();
+
+                        GroupList.add(groupID);
+
+                        for(int k = 0; k < GroupList.size(); k++)
+                        {
+                            Log.d("GT", "List(" + k + ") : " + GroupList.get(k));
+                        }
+
+
+                        taskMap.put("GroupList", GroupList);
+
+                        mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                        taskMap.clear();
+                        taskMap.put("groupNumber", 1);
+
+                        mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                        Update_Group_Database(groupID);
+
+
+                        Log.d("GT", "Success Enter Group");
+
+                        Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        recyclerView.setVisibility(View.GONE);
+                        emptyText.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    private void Update_Group_Database(String groupID)
+    {
+        Map<String, Object> taskMap = new HashMap<String, Object>();
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+
+        mDatabase.child("Groups").child(groupID).child("memberCnt").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int memberCnt;
+
+                ArrayList<String> memberList = new ArrayList<String>();
+
+
+                if(dataSnapshot.getValue() == null)
+                {
+                    Log.d("GT", "dataSnapshot is null");
+
+
+                    memberList.add(groupID);
+
+                    taskMap.put("groupMember", user.getUid());
+
+                    mDatabase.child("Groups").child(groupID).updateChildren(taskMap);
+
+
+                    taskMap.clear();
+                    taskMap.put("memberCnt", 1);
+
+                    mDatabase.child("Groups").child(groupID).updateChildren(taskMap);
+
+
+                    return;
+                }
+
+
+                memberCnt = dataSnapshot.getValue(Integer.class);
+
+
+                for(int i = 0; i < memberCnt; i++)
+                {
+                    String listID = Integer.toString(i);
+
+
+                    mDatabase.child("Groups").child(groupID).child("groupMember").child(listID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            String value = dataSnapshot.getValue(String.class);
+
+
+                            if(value == null)
+                            {
+                                return;
+                            }
+
+
+                            memberList.add(value);
+
+
+                            if(Integer.parseInt(listID) == (memberCnt - 1))
+                            {
+                                memberList.add(user.getUid());
+
+                                taskMap.put("groupMember", memberList);
+
+                                mDatabase.child("Groups").child(groupID).updateChildren(taskMap);
+
+
+                                taskMap.clear();
+                                taskMap.put("memberCnt", memberCnt + 1);
+
+                                mDatabase.child("Groups").child(groupID).updateChildren(taskMap);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    @Override
+    public void onClick(View view)
+    {
+        if(view == insertCodeButton)
+        {
+            String insertCode;
+
+
+            insertCode = insertCodeEdit.getText().toString();
+
+            Log.d("GT", "EditText : " + insertCode);
+
+            Check_InsertCode(insertCode);
+        }
+        else if(view == makeGroup)
+        {
+            startActivity(new Intent(this, MakeGroupActivity.class));
+        }
+        else if(view == personal)
+        {
+            startActivity(new Intent(this, PersonalTimeTableActivity.class));
+        }
+        else if(view == groupTimeTable)
+        {
+            startActivity(new Intent(this, GroupTimeTableActivity.class));
+        }
     }
 }

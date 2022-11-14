@@ -101,15 +101,18 @@ public class RegisterActivity extends AppCompatActivity {
                         .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                User user = new User();
-                                user.userName = nameEditText.getText().toString();
-                                user.phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
+
+                                String userName = nameEditText.getText().toString();
+                                int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
+
+                                User user = new User(userName, phoneNumber);
+
+
+                                //user.GroupList.add("qaz");
+                                //user.GroupList.add("wsx");
 
                                 String uid = task.getResult().getUser().getUid();
                                 FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
-
-                                String groupID = "-NG93VCgOSyTQPn1zTKK";
-                                FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(groupID);
 
                                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
 

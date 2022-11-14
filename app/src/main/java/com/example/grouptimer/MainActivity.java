@@ -14,10 +14,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button register;
     private Button login;
 
-    private int hyunwoo;
-
-
-    private Button TempButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(view == login)
         {
             startActivity(new Intent(this, LoginActivity.class));
-        }
-        else if(view == TempButton)
-        {
-            ;
         }
     }
 }
