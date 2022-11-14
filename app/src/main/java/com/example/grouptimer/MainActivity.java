@@ -14,9 +14,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button login;
     private Button findID;
 
-    private Button register;
-    private Button login;
-
     private int hyunwoo;
 
 
@@ -53,8 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             startActivity(new Intent(this, LoginActivity.class));
         }
-        else if(view == findID){
+        else if(view == findID) {
             startActivity(new Intent(this, SearchIDActivity.class));
+        }
         else if(view == TempButton)
         {
             int testA;

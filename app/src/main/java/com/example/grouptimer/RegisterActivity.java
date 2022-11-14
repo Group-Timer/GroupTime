@@ -72,8 +72,8 @@ public class RegisterActivity extends AppCompatActivity {
                         });
             }
         });
-        password = passwordEditText.getText().toString();
-        confirmPassword = confirmPasswordEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        String confirmPassword = confirmPasswordEditText.getText().toString();
 
         if (emailEditText.getText().toString() == null || nameEditText.getText().toString() == null ||
                 passwordEditText.getText().toString() == null){
@@ -103,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
                             String userName = nameEditText.getText().toString();
                             int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
 
-                            User user = new User(userName, phoneNumber);
+                            User user = new User(emailEditText.getText().toString(), 0, phoneNumber,userName);
 
 
                             String uid = task.getResult().getUser().getUid();

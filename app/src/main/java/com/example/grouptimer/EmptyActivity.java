@@ -39,33 +39,21 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
         groupToDoList.setOnClickListener(this);
 
 
-
-
     }
 
 
     @Override
-    public void onClick(View view)
-    {
-        if(view == makeGroup)
-        {
+    public void onClick(View view) {
+        if (view == makeGroup) {
             startActivity(new Intent(this, MakeGroupActivity.class));
-        }
-        else if(view == personal)
-        {
+        } else if (view == personal) {
             startActivity(new Intent(this, PersonalTimeTableActivity.class));
-        }
-<<<<<<< HEAD
-        else if(view == mypage){
+        } else if (view == mypage) {
             startActivity(new Intent(this, MyPageActivity.class));
-        }
-        else if(view == changepw){
+        } else if (view == changepw) {
             startActivity(new Intent(this, ChangePWActivity.class));
-=======
-        else if(view == groupToDoList)
-        {
+        } else if (view == groupToDoList) {
             startActivity(new Intent(this, GroupToDoListActivity.class));
->>>>>>> Hyunwoo
         }
     }
 }
