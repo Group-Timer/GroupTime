@@ -196,13 +196,13 @@ public class GroupToDoListActivity extends AppCompatActivity {
                 }
 
                 FirebaseDatabase.getInstance()
-                        .getReference().child("Groups").child("Group_ID").child("ToDoList").setValue(toDoListArrayList);
+                        .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoList").setValue(toDoListArrayList);
 
                 FirebaseDatabase.getInstance()
-                        .getReference().child("Groups").child("Group_ID").child("CheckBox").setValue(toDoListCheckBoxArrayList);
+                        .getReference().child("Groups").child(DefineValue.Group_ID).child("CheckBox").setValue(toDoListCheckBoxArrayList);
 
                 FirebaseDatabase.getInstance()
-                        .getReference().child("Groups").child("Group_ID").child("ToDoListCnt").setValue(toDoListItemArrayList.size());
+                        .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt").setValue(toDoListItemArrayList.size());
 
 
 
