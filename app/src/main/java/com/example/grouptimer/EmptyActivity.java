@@ -15,6 +15,8 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
     Button mypage;
     Button changepw;
 
+    Button groupToDoList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
         personal = (Button) findViewById(R.id.personal);
         mypage = findViewById(R.id.mypage);
         changepw = findViewById(R.id.changePassword);
+        groupToDoList = (Button) findViewById(R.id.groupToDoList);
 
 
         makeGroup.setOnClickListener(this);
@@ -33,6 +36,11 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
 
         mypage.setOnClickListener(this);
         changepw.setOnClickListener(this);
+        groupToDoList.setOnClickListener(this);
+
+
+
+
     }
 
 
@@ -47,11 +55,17 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
         {
             startActivity(new Intent(this, PersonalTimeTableActivity.class));
         }
+<<<<<<< HEAD
         else if(view == mypage){
             startActivity(new Intent(this, MyPageActivity.class));
         }
         else if(view == changepw){
             startActivity(new Intent(this, ChangePWActivity.class));
+=======
+        else if(view == groupToDoList)
+        {
+            startActivity(new Intent(this, GroupToDoListActivity.class));
+>>>>>>> Hyunwoo
         }
     }
 }

@@ -14,6 +14,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button login;
     private Button findID;
 
+    private Button register;
+    private Button login;
+
+    private int hyunwoo;
+
+
+    private Button TempButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +33,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findID = findViewById(R.id.findID);
 
 
+
         register.setOnClickListener(this);
         login.setOnClickListener(this);
+
         findID.setOnClickListener(this);
+
     }
 
 
@@ -44,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(view == findID){
             startActivity(new Intent(this, SearchIDActivity.class));
+        else if(view == TempButton)
+        {
+            int testA;
         }
     }
 }

@@ -33,4 +33,9 @@
         android:layout_height="wrap_content"
         android:text = "change Password"/>
 
+    <Button
+        android:id="@+id/groupToDoList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Group To Do List Activity" />
 </LinearLayout>

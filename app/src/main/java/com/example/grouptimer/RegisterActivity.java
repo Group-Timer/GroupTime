@@ -1,5 +1,3 @@
-
-
 package com.example.grouptimer;
 
 import static java.lang.Thread.sleep;
@@ -74,5 +72,49 @@ public class RegisterActivity extends AppCompatActivity {
                         });
             }
         });
+        password = passwordEditText.getText().toString();
+        confirmPassword = confirmPasswordEditText.getText().toString();
+
+        if (emailEditText.getText().toString() == null || nameEditText.getText().toString() == null ||
+                passwordEditText.getText().toString() == null){
+            return;
+        }
+
+        if( password != confirmPassword ){
+
+            wrongPasswordTextView.setVisibility(View.VISIBLE);
+            passwordEditText.setText(null);
+            confirmPasswordEditText.setText(null);
+            confirmPassword = null;
+            return;
+        }
+
+
+        else if( password == confirmPassword || wrongPasswordTextView.getVisibility() == View.VISIBLE){
+
+            wrongPasswordTextView.setVisibility(View.INVISIBLE);
+
+            FirebaseAuth.getInstance()
+                    .createUserWithEmailAndPassword(emailEditText.getText().toString(),passwordEditText.getText().toString())
+                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            String userName = nameEditText.getText().toString();
+                            int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
+
+                            User user = new User(userName, phoneNumber);
+
+
+                            String uid = task.getResult().getUser().getUid();
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
+
+                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+
+
+                        }
+                    });
+        }
+
     }
 }
