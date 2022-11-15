@@ -247,7 +247,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
 
-                Load_GroupList(true, false, groupID, user, mDatabase);
+                Load_GroupList(true, true, groupID, user, mDatabase);
             }
 
             @Override
@@ -321,42 +321,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 {
                                     Log.d("GT", "Complete loading group list");
 
-                                    if(showRecyclerView == true)
-                                    {
-                                        Log.d("GT", "RecyclerView generating");
-
-
-                                        for(int i = 0; i < GroupList.size(); i++)
-                                        {
-                                            int groupIndex = i;
-
-                                            mDatabase.child("Groups").child(GroupList.get(groupIndex)).child("groupName").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                                    String value = dataSnapshot.getValue(String.class);
-
-
-                                                    GroupNameList.add(value);
-
-                                                    if(groupIndex == (groupNumber - 1))
-                                                    {
-                                                        recyclerViewAdapter = new GroupRecyclerViewAdapter(GroupList, GroupNameList);
-                                                        recyclerView.setAdapter(recyclerViewAdapter);
-
-                                                        recyclerView.setVisibility(View.VISIBLE);
-                                                        emptyText.setVisibility(View.GONE);
-                                                    }
-                                                }
-
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                }
-                                            });
-                                        }
-                                    }
-
 
                                     if(listUpdate == true)
                                     {
@@ -385,6 +349,44 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                         Log.d("GT", "Success Enter Group");
 
                                         Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                    if(showRecyclerView == true)
+                                    {
+                                        Log.d("GT", "RecyclerView generating");
+
+
+                                        for(int i = 0; i < GroupList.size(); i++)
+                                        {
+                                            int groupIndex = i;
+
+                                            mDatabase.child("Groups").child(GroupList.get(groupIndex)).child("groupName").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                    String value = dataSnapshot.getValue(String.class);
+
+
+                                                    GroupNameList.add(value);
+
+                                                    if(groupIndex == (groupNumber - 1))
+                                                    {
+                                                        recyclerViewAdapter = new GroupRecyclerViewAdapter(GroupList, GroupNameList);
+                                                        recyclerView.setAdapter(recyclerViewAdapter);
+
+                                                        recyclerView.setVisibility(View.VISIBLE);
+                                                        //recyclerView.setNestedScrollingEnabled(false);
+                                                        emptyText.setVisibility(View.GONE);
+                                                    }
+                                                }
+
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             }

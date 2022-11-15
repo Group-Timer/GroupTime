@@ -185,7 +185,7 @@ public class MakeGroupActivity extends AppCompatActivity{
                                             mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(taskMap);
 
 
-                                            return;
+                                            finish();
                                         }
 
 
@@ -219,6 +219,9 @@ public class MakeGroupActivity extends AppCompatActivity{
                                                         taskMap.put("groupNumber", groupCnt + 1);
 
                                                         mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(taskMap);
+
+
+                                                        finish();
                                                     }
                                                 }
 
@@ -233,12 +236,6 @@ public class MakeGroupActivity extends AppCompatActivity{
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
                                     }
                                 });
-
-
-
-                                startActivity(new Intent(MakeGroupActivity.this, EmptyActivity.class));
-
-
                             }
                         });
 

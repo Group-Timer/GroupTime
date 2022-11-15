@@ -12,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 {
     public TextView GroupNameText;
+    public TextView EmptyText;
 
     public Button ExpansionButton;
+
+    public RecyclerView ToDoListRecyclerView;
 
     public String GroupIDText;
 
@@ -25,6 +28,8 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 
         GroupNameText = item.findViewById(R.id.groupName);
         ExpansionButton = item.findViewById(R.id.expansion);
+        ToDoListRecyclerView = item.findViewById(R.id.toDoListRecyclerView);
+        EmptyText = item.findViewById(R.id.toDoListEmptyText);
     }
 
 

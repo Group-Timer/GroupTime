@@ -46,56 +46,54 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = (Button) findViewById(R.id.registerButton);
 
 
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                FirebaseAuth.getInstance()
-                        .createUserWithEmailAndPassword(emailEditText.getText().toString(),passwordEditText.getText().toString())
-                        .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                String userName = nameEditText.getText().toString();
-                                int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
-                                String eMail = emailEditText.getText().toString();
-                                int groupNum = 0;
+                String password = passwordEditText.getText().toString();
+                String confirmPassword = confirmPasswordEditText.getText().toString();
 
-                                User user = new User(eMail, groupNum, phoneNumber,userName);
+                if (emailEditText.getText().toString() == null || nameEditText.getText().toString() == null || passwordEditText.getText().toString() == null){
+                    return;
+                }
 
-                                String uid = task.getResult().getUser().getUid();
-                                FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
+                if( password.equals(confirmPassword) == false ){
 
-                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                            }
-                        });
+                    wrongPasswordTextView.setVisibility(View.VISIBLE);
+
+                    return;
+                }
+                else if( password.equals(confirmPassword) == true ){
+
+                    wrongPasswordTextView.setVisibility(View.INVISIBLE);
+                    FirebaseAuth.getInstance()
+                            .createUserWithEmailAndPassword(emailEditText.getText().toString(),passwordEditText.getText().toString())
+                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                    String userName = nameEditText.getText().toString();
+                                    int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
+                                    String eMail = emailEditText.getText().toString();
+                                    int groupNum = 0;
+
+                                    User user = new User(eMail, groupNum, phoneNumber,userName);
+
+                                    String uid = task.getResult().getUser().getUid();
+                                    FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
+
+                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                }
+                            });
+
+
+                }
+
             }
         });
 
-//        String password = passwordEditText.getText().toString();
-//        String confirmPassword = confirmPasswordEditText.getText().toString();
-//
-//        if (emailEditText.getText().toString() == null || nameEditText.getText().toString() == null || passwordEditText.getText().toString() == null){
-//            return;
-//        }
-//
-//        if( password != confirmPassword ){
-//
-//            wrongPasswordTextView.setVisibility(View.VISIBLE);
-//            passwordEditText.setText(null);
-//            confirmPasswordEditText.setText(null);
-//            confirmPassword = null;
-//            return;
-//        }
-//
-//
-//        else if( password == confirmPassword || wrongPasswordTextView.getVisibility() == View.VISIBLE){
-//
-//            wrongPasswordTextView.setVisibility(View.INVISIBLE);
-//
-//
-//        }
+
 
     }
 }
