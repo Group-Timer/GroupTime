@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,11 +33,16 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     private boolean ExpansionButtonClick;
 
 
+    private LinearLayoutManager linearLayoutManager;
     private GridLayoutManager gridLayoutManager;
     private GroupToDoListRecyclerViewAdapter recyclerViewAdapter;
 
     private ArrayList<String> toDoListTextList;
     private ArrayList<Boolean> toDoListCheckBoxList;
+
+
+    //ViewPager2 viewPager2;
+    //ViewPager2RecyclerAdapter pagerAdapter;
 
 
     public GroupRecyclerViewAdapter(ArrayList<String> idList, ArrayList<String> nameList)
@@ -80,7 +86,11 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
         viewHolder.GroupNameText.setText(name);
         viewHolder.GroupIDText = id;
-        viewHolder.ToDoListRecyclerView.setVisibility(View.GONE);
+        //viewHolder.ToDoListRecyclerView.setVisibility(View.GONE);
+
+        //viewPager2 = parent.findViewById(R.id.viewPager);
+        viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
+        //viewPager2.setVisibility(View.GONE);
 
 
         viewHolder.GroupNameText.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +121,8 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
 
                     viewHolder.ExpansionButton.setText("+");
-                    viewHolder.ToDoListRecyclerView.setVisibility(View.GONE);
+                    //viewHolder.ToDoListRecyclerView.setVisibility(View.GONE);
+                    viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
                     viewHolder.EmptyText.setVisibility(View.GONE);
                 }
                 else
@@ -162,11 +173,15 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
                                                     if(listIndex == (toDoListCnt - 1))
                                                     {
+
+                                                        // RecyclerView
+                                                        /*
                                                         gridLayoutManager = new GridLayoutManager(parent.getContext(), 3, GridLayoutManager.HORIZONTAL, false);
                                                         if(gridLayoutManager == null)
                                                         {
                                                             Log.d("GT", "LayoutManager is null");
                                                         }
+
                                                         viewHolder.ToDoListRecyclerView.setLayoutManager(gridLayoutManager);
 
                                                         recyclerViewAdapter = new GroupToDoListRecyclerViewAdapter(toDoListTextList, toDoListCheckBoxList);
@@ -175,6 +190,38 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                                                         //viewHolder.ExpansionButton.setText("-");
                                                         viewHolder.ToDoListRecyclerView.setVisibility(View.VISIBLE);
                                                         //viewHolder.ToDoListRecyclerView.setNestedScrollingEnabled(false);
+
+                                                         */
+
+
+
+                                                        // ViewPager2
+                                                        ViewPager2RecyclerAdapter pagerAdapter = new ViewPager2RecyclerAdapter(toDoListTextList, toDoListCheckBoxList);
+
+                                                        //viewPager2.setAdapter(pagerAdapter);
+                                                        //viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+                                                        viewHolder.ToDoListViewPagers.setAdapter(pagerAdapter);
+                                                        viewHolder.ToDoListViewPagers.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+
+                                                        //viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                                                        viewHolder.ToDoListViewPagers.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                                                            @Override
+                                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                                                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                                                                if (positionOffsetPixels == 0) {
+                                                                    viewHolder.ToDoListViewPagers.setCurrentItem(position);
+                                                                    //viewPager2.setCurrentItem(position);
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onPageSelected(int position) {
+                                                                super.onPageSelected(position);
+                                                            }
+                                                        });
+
+                                                        //viewPager2.setVisibility(View.VISIBLE);
+                                                        viewHolder.ToDoListViewPagers.setVisibility(View.VISIBLE);
 
 
 

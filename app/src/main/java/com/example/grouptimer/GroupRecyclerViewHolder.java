@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 {
@@ -16,7 +17,9 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 
     public Button ExpansionButton;
 
-    public RecyclerView ToDoListRecyclerView;
+    //public RecyclerView ToDoListRecyclerView;
+
+    public ViewPager2 ToDoListViewPagers;
 
     public String GroupIDText;
 
@@ -28,7 +31,8 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 
         GroupNameText = item.findViewById(R.id.groupName);
         ExpansionButton = item.findViewById(R.id.expansion);
-        ToDoListRecyclerView = item.findViewById(R.id.toDoListRecyclerView);
+        //ToDoListRecyclerView = item.findViewById(R.id.toDoListRecyclerView);
+        ToDoListViewPagers = item.findViewById(R.id.viewPager);
         EmptyText = item.findViewById(R.id.toDoListEmptyText);
     }
 
