@@ -3,42 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="LOGIN"/>
-    <!--layout_gravity: view를 감싸는 상위 뷰(Linear Layout)를 기준으로 할때 뷰의 위치-->
-    <!--gravity: view 내부의 content의 위치 설정-->
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@null"
-        android:src="@mipmap/ic_launcher"/>
-    <!--사진 넣고싶으면 되도록 src에 집어넣기-->
+
+
 
     <EditText
         android:id="@+id/idEditText"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="50dp"
+        android:layout_gravity="left"
         android:hint="EMAIL"/>
 
     <EditText
         android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="50dp"
+        android:layout_gravity="left"
         android:hint="PASSWORD"/>
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Log in"/>
+        android:text="LOGIN"/>
 
     <LinearLayout
         android:layout_width="match_parent"
