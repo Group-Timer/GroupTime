@@ -51,6 +51,12 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
     public static int[][]       GroupTimeTable          = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
 
+    public static int[][]        Member_1_TimeTable;
+    public static int[][]        Member_2_TimeTable;
+    public static int[][]        Member_3_TimeTable;
+    public static int[][]        Member_4_TimeTable;
+    public static int[][]        Member_5_TimeTable;
+
     public static Drawable      CustomButtonDrawable;
 
 
@@ -326,6 +332,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
             {
                 //Button button = new Button(this);
                 TimeTableButton[i][k] = new Button(this);
+                TimeTableButton[i][k].setOnClickListener(new GroupTimeTableOnClickListener());
                 TimeTableButton[i][k].setBackground(CustomButtonDrawable);
                 //TimeTableButton[i][k].setBackgroundColor(Color.GRAY);
                 TimeTableButton[i][k].setId(buttonID);
