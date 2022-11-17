@@ -3,6 +3,7 @@ package com.example.grouptimer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
@@ -165,6 +166,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         RootLayout.setOrientation(LinearLayout.VERTICAL);
 
         RootParams = new ContentFrameLayout.LayoutParams(ContentFrameLayout.LayoutParams.MATCH_PARENT, ContentFrameLayout.LayoutParams.MATCH_PARENT);
+        RootParams.setMargins(20,20,20,20);
 
     }
 
@@ -181,7 +183,9 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
         TextView textView = new TextView(this);
         textView.setText("Time Table");
-        textView.setTextSize(20);
+        textView.setTextSize(30);
+        textView.setTypeface(Typeface.DEFAULT_BOLD);
+        textView.setTextColor(Color.parseColor("#F08080"));
         textView.setGravity(Gravity.CENTER);
 
         LinearLayout.LayoutParams textParams    = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -193,16 +197,18 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         Button editButton = new Button(this);
         editButton.setId(EditButtonID);
         editButton.setText("Edit");
+        editButton.setBackgroundResource(R.drawable.small_button);
         editButton.setOnClickListener(this);
 
         LinearLayout.LayoutParams editParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         editParams.gravity                      = Gravity.CENTER_VERTICAL;
-        editParams.setMarginEnd(10);
+        editParams.setMarginEnd(20);
 
 
         Button saveButton = new Button(this);
         saveButton.setId(SaveButtonID);
         saveButton.setText("Save");
+        saveButton.setBackgroundResource(R.drawable.small_button);
         saveButton.setOnClickListener(this);
 
         LinearLayout.LayoutParams saveParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);

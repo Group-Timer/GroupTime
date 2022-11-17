@@ -10,35 +10,121 @@
     android:gravity="center">
 
 
-    <EditText
-        android:id="@+id/emailEditText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
 
-    <EditText
-        android:id="@+id/nameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Name"/>
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:hint="Email"
+            android:backgroundTint = "#FBAEAE"/>
 
-    <EditText
-        android:id="@+id/phoneEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phone Number"/>
+        <ImageView
+            android:src="@drawable/id_image"
+            android:layout_width="30dp"
+            android:layout_height="50dp">
 
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"/>
+        </ImageView>
 
-    <EditText
-        android:id="@+id/confirmPasswordEditText"
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Confirm Password"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:hint="Name"
+            android:backgroundTint = "#FBAEAE"/>
+
+        <ImageView
+            android:src="@drawable/user_image"
+            android:layout_width="30dp"
+            android:layout_height="50dp">
+
+        </ImageView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <EditText
+            android:id="@+id/phoneEditText"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:hint="Phone Number"
+            android:backgroundTint = "#FBAEAE"/>
+
+        <ImageView
+            android:src="@drawable/phone_image"
+            android:layout_width="30dp"
+            android:layout_height="50dp">
+
+        </ImageView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:backgroundTint = "#FBAEAE"/>
+
+        <ImageView
+            android:src="@drawable/password_image"
+            android:layout_width="30dp"
+            android:layout_height="50dp">
+
+        </ImageView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+        <EditText
+            android:id="@+id/confirmPasswordEditText"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:backgroundTint = "#FBAEAE"/>
+
+        <ImageView
+            android:src="@drawable/password_image"
+            android:layout_width="30dp"
+            android:layout_height="50dp">
+
+        </ImageView>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/wrongPasswordTextView"
@@ -56,7 +142,8 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Register" />
+        android:text="Register"
+        android:background="@drawable/big_button"/>
 
 
 </LinearLayout>
