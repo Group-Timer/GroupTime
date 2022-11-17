@@ -65,13 +65,14 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     private final int           ScheduleTimeButtonID    = 3;
 
 
-    int GroupMemberCnt;
+    static int GroupMemberCnt;
     int MemberCnt;
     int Member;
     int DayOfWeek;
     int LoadCnt;
 
     ArrayList<String> MemberIDLIst = new ArrayList<String>();
+    static ArrayList<String> MemberNameLIst = new ArrayList<String>();
 
     int[][] MemberTimeTable;
 
@@ -383,6 +384,21 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                 GroupMemberCnt = value;
 
 
+                for(int i = 0; i < GroupMemberCnt; i++)
+                {
+                    if(i == 0)
+                        Member_1_TimeTable = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
+                    else if(i == 1)
+                        Member_2_TimeTable = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
+                    else if(i == 2)
+                        Member_3_TimeTable = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
+                    else if(i == 3)
+                        Member_4_TimeTable = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
+                    else if(i == 4)
+                        Member_5_TimeTable = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
+                }
+
+
                 for(MemberCnt = 0; MemberCnt < GroupMemberCnt; MemberCnt++)
                 {
                     String listID = Integer.toString(MemberCnt);
@@ -441,10 +457,37 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
                                                 LoadCnt++;
 
-
                                                 if(LoadCnt == (DefineValue.Day_Cnt * GroupMemberCnt))
                                                 {
                                                     Show_GroupTimeTable();
+                                                }
+
+
+                                                if((memberIndex == MemberIDLIst.size() - 1) && (dayIndex == DefineValue.Day_Cnt -1) )
+                                                {
+                                                    for(int i = 0; i < MemberIDLIst.size(); i++)
+                                                    {
+                                                        int index = i;
+
+                                                        mDatabase.child("Users").child(MemberIDLIst.get(index)).child("userName").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                                if(dataSnapshot.getValue() == null)
+                                                                {
+                                                                    return;
+                                                                }
+
+                                                                String value = dataSnapshot.getValue(String.class);
+
+                                                                MemberNameLIst.add(value);
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                            }
+                                                        });
+                                                    }
                                                 }
                                             }
 
@@ -478,7 +521,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
         for(int i = 0; i < GroupMemberCnt; i++)
         {
-            Convert_Time_IntegerToBit(MemberTimeTable[i]);
+            Convert_Time_IntegerToBit(MemberTimeTable[i], i);
         }
 
 
@@ -548,7 +591,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     }
 
 
-    private void Convert_Time_IntegerToBit(int[] timeTable)
+    private void Convert_Time_IntegerToBit(int[] timeTable, int memberIndex)
     {
         //     TimeTable을 int형에서 bit 단위로 변환하는 과정
 
@@ -562,6 +605,18 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
             for( int i = DefineValue.Max_Bit_Size - 1; i >= 0; i-- )
             {
                 GroupTimeTable[ day ][ i ] += (loadTime & DefineValue.Time_Convert_Key);
+
+                if(memberIndex == 0)
+                    Member_1_TimeTable[day][i] = (loadTime & DefineValue.Time_Convert_Key);
+                else if(memberIndex == 1)
+                    Member_2_TimeTable[day][i] = (loadTime & DefineValue.Time_Convert_Key);
+                else if(memberIndex == 2)
+                    Member_3_TimeTable[day][i] = (loadTime & DefineValue.Time_Convert_Key);
+                else if(memberIndex == 3)
+                    Member_4_TimeTable[day][i] = (loadTime & DefineValue.Time_Convert_Key);
+                else if(memberIndex == 4)
+                    Member_5_TimeTable[day][i] = (loadTime & DefineValue.Time_Convert_Key);
+
 
                 loadTime >>= 1;
             }
