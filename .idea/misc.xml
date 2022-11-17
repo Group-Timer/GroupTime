@@ -3,12 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.11930091185410334" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.11930091185410334" />
+        <entry key="app/src/main/res/drawable/big_button.xml" value="0.1075" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2798980712890625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android API 32 Platform" project-jdk-type="Android SDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
