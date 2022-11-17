@@ -4,54 +4,75 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:layout_margin="20dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
 
 
 
-    <EditText
-        android:id="@+id/idEditText"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_gravity="left"
-        android:hint="EMAIL"/>
-
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_gravity="left"
-        android:hint="PASSWORD"/>
-
-    <Button
-        android:id="@+id/loginButton"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="LOGIN"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <EditText
+            android:id="@+id/idEditText"
+            android:layout_width="340dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:hint="EMAIL"/>
+
+        <ImageView
+            android:src="@drawable/activity_login_id"
+            android:layout_width="30dp"
+            android:layout_height="50dp">
+
+        </ImageView>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:weightSum="1">
-        <!--자식들을 중앙정렬 하고 싶으면 부모에게 속성을 준다.-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:text="Find Password"
-            android:layout_weight="0.5"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:text="Sign Up"
-            android:layout_weight="0.5"/>
+        android:layout_marginBottom="20dp">
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="340dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:hint="PASSWORD"/>
+
+        <ImageView
+            android:src="@drawable/activity_login_password"
+            android:layout_width="30dp"
+            android:layout_height="50dp">
+
+        </ImageView>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/findID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="FIND ID"
+        android:textColor="#9E9E9E"
+        android:background="@color/white"/>
+
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="LOGIN"
+        android:textAlignment="center"
+        android:background="@drawable/big_button"/>
+
+
 </LinearLayout>
