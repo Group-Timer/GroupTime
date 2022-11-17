@@ -19,7 +19,7 @@
 
         <EditText
             android:id="@+id/idEditText"
-            android:layout_width="340dp"
+            android:layout_width="320dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
             android:hint="EMAIL"/>
@@ -42,7 +42,7 @@
 
         <EditText
             android:id="@+id/passwordEditText"
-            android:layout_width="340dp"
+            android:layout_width="320dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
             android:hint="PASSWORD"/>
