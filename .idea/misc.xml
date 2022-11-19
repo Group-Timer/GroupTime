@@ -7,14 +7,15 @@
         <entry key="app/src/main/res/drawable/big_button.xml" value="0.1075" />
         <entry key="app/src/main/res/drawable/plus_button.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/small_button.xml" value="0.136" />
-        <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.13952789306640623" />
+        <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.24943389892578127" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.20050659179687502" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21902008056640626" />
-        <entry key="app/src/main/res/layout/activity_make_group.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_make_group.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_personal_time_table.xml" value="0.2950842594754869" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.27224032637001805" />
+        <entry key="app/src/main/res/layout/group_recyclerview_item.xml" value="0.11930091185410334" />
         <entry key="app/src/main/res/layout/group_todolist_recyclerview_item.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/to_do_list_layout.xml" value="0.23724429365517427" />
       </map>

@@ -8,6 +8,21 @@
     tools:context=".GroupToDoListActivity"
     >
 
+
+    <TextView
+        android:id="@+id/groupNameTextView"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="To-Do List"
+        android:textSize="35dp"
+        android:textAlignment="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/small_button"
+        >
+
+    </TextView>
+
     <Button
         android:id="@+id/toDoListSaveButton"
         android:layout_width="wrap_content"

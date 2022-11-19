@@ -179,7 +179,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         topLayout.setOrientation(LinearLayout.HORIZONTAL);
 
         LinearLayout.LayoutParams topLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
+        topLayoutParams.topMargin = 40;
 
         TextView textView = new TextView(this);
         textView.setText("Time Table");
