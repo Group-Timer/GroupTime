@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.database.DataSnapshot;
@@ -18,11 +19,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class GroupToDoListActivity extends AppCompatActivity {
 
     private RecyclerView toDoListRecycleView;
+
+    private TextView groupNameTextView;
 
     private Button toDoListPlusButton;
 
@@ -44,6 +49,8 @@ public class GroupToDoListActivity extends AppCompatActivity {
     //plus 버튼 누르기 전의 총 toDoListItemArrayList 의 크기
     private int toDoListPlusButtonBefore;
 
+    //GroupName
+    private String groupName;
 
 
     @Override
@@ -54,6 +61,30 @@ public class GroupToDoListActivity extends AppCompatActivity {
         toDoListRecycleView = (RecyclerView) findViewById(R.id.toDoListRecycleView);
         toDoListPlusButton = (Button) findViewById(R.id.toDoListPlusButton);
         toDoListSaveButton = (Button) findViewById(R.id.toDoListSaveButton);
+
+//        groupNameTextView = (TextView) findViewById(R.id.groupNameTextView);
+
+
+// todolist 화면에서 맨위에 group이름 보여주기 하려는 부분
+//        FirebaseDatabase.getInstance().getReference()
+//                .child("Groups").child(DefineValue.Group_ID).child("groupName").child(String.valueOf(0))
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                        groupName = dataSnapshot.getValue(String.class);
+//
+//                        }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//
+//                });
+//
+//        groupNameTextView.setText(groupName);
+//        groupNameTextView.setTextSize(30);
 
         toDoListArrayList = new ArrayList<>();
         toDoListCheckBoxArrayList =new ArrayList<>();

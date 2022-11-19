@@ -8,6 +8,21 @@
     tools:context=".GroupToDoListActivity"
     >
 
+
+    <TextView
+        android:id="@+id/groupNameTextView"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="To-Do List"
+        android:textSize="35dp"
+        android:textAlignment="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/small_button"
+        >
+
+    </TextView>
+
     <Button
         android:id="@+id/toDoListSaveButton"
         android:layout_width="wrap_content"
@@ -15,16 +30,17 @@
         android:layout_gravity="right"
         android:text="SAVE"
         android:textSize="20dp"
-        android:layout_weight="2">
+        android:layout_weight="1.5"
+        android:background="@drawable/small_button">
 
     </Button>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/toDoListRecycleView"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="18"/>
+        android:layout_weight="15"
+        android:scrollbars="vertical" />
 
     <Button
         android:id="@+id/toDoListPlusButton"
@@ -32,8 +48,9 @@
         android:layout_height="0dp"
         android:layout_gravity="right"
         android:text="+"
-        android:textSize="25dp"
-        android:layout_weight="2">
+        android:textSize="40dp"
+        android:layout_weight="2.5"
+        android:background="@drawable/plus_button">
 
     </Button>
 

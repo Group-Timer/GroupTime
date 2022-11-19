@@ -8,6 +8,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGIN"
+        android:textSize="40dp"
+        android:textColor="#F08080"
+        android:textStyle="bold"
+        android:layout_marginBottom="70dp">
+
+    </TextView>
+
 
 
 
@@ -22,10 +33,11 @@
             android:layout_width="320dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:hint="EMAIL"/>
+            android:hint="EMAIL"
+            android:backgroundTint = "#FBAEAE"/>
 
         <ImageView
-            android:src="@drawable/activity_login_id"
+            android:src="@drawable/id_image"
             android:layout_width="30dp"
             android:layout_height="50dp">
 
@@ -45,10 +57,12 @@
             android:layout_width="320dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:hint="PASSWORD"/>
+            android:hint="PASSWORD"
+            android:inputType="textPassword"
+            android:backgroundTint = "#FBAEAE"/>
 
         <ImageView
-            android:src="@drawable/activity_login_password"
+            android:src="@drawable/password_image"
             android:layout_width="30dp"
             android:layout_height="50dp">
 
@@ -56,14 +70,34 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/findID"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="FIND ID"
-        android:textColor="#9E9E9E"
-        android:background="@color/white"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="40dp">
+
+
+        <Button
+            android:id="@+id/findIdButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:text="FIND ID"
+            android:textColor="#9E9E9E"
+            android:background="@color/white"/>
+
+        <Button
+            android:id="@+id/findPasswordButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:text="FIND PASSWORD"
+            android:textColor="#9E9E9E"
+            android:background="@color/white"/>
+
+    </LinearLayout>
 
 
     <Button
