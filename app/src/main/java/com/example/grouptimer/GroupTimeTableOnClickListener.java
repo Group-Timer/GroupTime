@@ -80,7 +80,7 @@ public class GroupTimeTableOnClickListener implements View.OnClickListener
 
             if(timeOverlap == true)
             {
-                overlapMemberList.add(GroupTimeTableActivity.MemberNameLIst.get(i));
+                overlapMemberList.add(GroupTimeTableActivity.MemberNameList.get(i));
 
                 overlapCnt++;
             }

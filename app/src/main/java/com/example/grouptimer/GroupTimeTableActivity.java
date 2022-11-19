@@ -63,6 +63,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     private final int           ToDoListButtonID        = 1;
     private final int           ShareButtonID           = 2;
     private final int           ScheduleTimeButtonID    = 3;
+    private final int           ChattingButtonID        = 4;
 
 
     static int GroupMemberCnt;
@@ -71,8 +72,10 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     int DayOfWeek;
     int LoadCnt;
 
-    ArrayList<String> MemberIDLIst = new ArrayList<String>();
-    static ArrayList<String> MemberNameLIst = new ArrayList<String>();
+    static ArrayList<String> MemberIDList = new ArrayList<String>();
+    static ArrayList<String> MemberNameList = new ArrayList<String>();
+
+    static Map<String, String> MemberInfo = new HashMap<String, String>();
 
     int[][] MemberTimeTable;
 
@@ -93,18 +96,25 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
 
 
-        Init_GroupTimeTable();
-
-
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
 
 
         InsertCodeOverlap = false;
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+        Init_GroupTimeTable();
 
 
         mDatabase.child("Groups").child(DefineValue.Group_ID).child("groupMakerUid").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -225,6 +235,9 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     {
         LinearLayout bottomLayout = new LinearLayout(this);
 
+        bottomLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+
         LinearLayout.LayoutParams bottomLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
 
@@ -234,16 +247,28 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         scheduleTimeButton.setGravity(Gravity.CENTER);
         scheduleTimeButton.setOnClickListener(this);
 
+        Button chattingButton = new Button(this);
+        chattingButton.setId(ChattingButtonID);
+        chattingButton.setText("Chatting");
+        chattingButton.setGravity(Gravity.CENTER);
+        chattingButton.setOnClickListener(this);
+
+
         if(GroupMaker == false)
         {
             scheduleTimeButton.setVisibility(View.INVISIBLE);
         }
 
-        LinearLayout.LayoutParams scheduleParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        scheduleParams.setMargins(300, 15, 300, 15);
+        LinearLayout.LayoutParams scheduleParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //scheduleParams.setMargins(300, 15, 300, 15);
+
+        LinearLayout.LayoutParams chattingParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //scheduleParams.setMargins(300, 15, 300, 15);
 
 
         bottomLayout.addView(scheduleTimeButton, scheduleParams);
+        bottomLayout.addView(chattingButton, chattingParams);
+
 
         RootLayout.addView(bottomLayout, bottomLayoutParams);
     }
@@ -360,6 +385,8 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
+        MemberIDList.clear();
+
         GroupMemberCnt = 0;
 
         LoadCnt = 0;
@@ -421,15 +448,15 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                             }
 
 
-                            MemberIDLIst.add(value);
+                            MemberIDList.add(value);
 
 
                             //if(MemberCnt == (GroupMemberCnt - 1))
-                            if(MemberIDLIst.size() == GroupMemberCnt)
+                            if(MemberIDList.size() == GroupMemberCnt)
                             {
                                 MemberTimeTable = new int[GroupMemberCnt][DefineValue.Day_Cnt];
 
-                                for(Member = 0; Member < MemberIDLIst.size(); Member++)
+                                for(Member = 0; Member < MemberIDList.size(); Member++)
                                 {
                                     for(DayOfWeek = 0; DayOfWeek < DefineValue.Day_Cnt; DayOfWeek++)
                                     {
@@ -442,17 +469,28 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                                         listID = Integer.toString(dayIndex);
 
 
-                                        mDatabase.child("PersonalTimeTable").child(MemberIDLIst.get(memberIndex)).child("TimeTable").child(listID).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        mDatabase.child("PersonalTimeTable").child(MemberIDList.get(memberIndex)).child("TimeTable").child(listID).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                int value = dataSnapshot.getValue(Integer.class);
+                                                if(dataSnapshot == null)
+                                                {
+                                                    MemberTimeTable[memberIndex][dayIndex] = 0;
+                                                }
+                                                else if(dataSnapshot.getValue(Integer.class) == null)
+                                                {
+                                                    MemberTimeTable[memberIndex][dayIndex] = 0;
+                                                }
+                                                else
+                                                {
+                                                    int value = dataSnapshot.getValue(Integer.class);
 
 
-                                                Log.d("GT", "dataSnapshot : " + value);
+                                                    Log.d("GT", "dataSnapshot : " + value);
 
 
-                                                MemberTimeTable[memberIndex][dayIndex] = value;
+                                                    MemberTimeTable[memberIndex][dayIndex] = value;
+                                                }
 
 
                                                 LoadCnt++;
@@ -463,13 +501,13 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                                                 }
 
 
-                                                if((memberIndex == MemberIDLIst.size() - 1) && (dayIndex == DefineValue.Day_Cnt -1) )
+                                                if((memberIndex == MemberIDList.size() - 1) && (dayIndex == DefineValue.Day_Cnt -1) )
                                                 {
-                                                    for(int i = 0; i < MemberIDLIst.size(); i++)
+                                                    for(int i = 0; i < MemberIDList.size(); i++)
                                                     {
                                                         int index = i;
 
-                                                        mDatabase.child("Users").child(MemberIDLIst.get(index)).child("userName").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        mDatabase.child("Users").child(MemberIDList.get(index)).child("userName").addListenerForSingleValueEvent(new ValueEventListener() {
                                                             @Override
                                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -480,7 +518,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
                                                                 String value = dataSnapshot.getValue(String.class);
 
-                                                                MemberNameLIst.add(value);
+                                                                MemberNameList.add(value);
+
+
+                                                                if(MemberNameList.size() == MemberIDList.size())
+                                                                {
+                                                                    for(int k = 0; k < MemberNameList.size(); k++)
+                                                                    {
+                                                                        MemberInfo.put(MemberIDList.get(k), MemberNameList.get(k));
+                                                                    }
+                                                                }
                                                             }
 
                                                             @Override
@@ -970,6 +1017,10 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         else if(view.getId() == ScheduleTimeButtonID)
         {
 
+        }
+        else if(view.getId() == ChattingButtonID)
+        {
+            startActivity(new Intent(this, GroupChatting.class));
         }
     }
 }
