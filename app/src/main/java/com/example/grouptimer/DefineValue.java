@@ -32,4 +32,9 @@ public class DefineValue
                                                                 {0, 0, 0, 5, 4, 3},
                                                                 {0, 0, 0, 0, 5, 4},
                                                                 {0, 0, 0, 0, 0, 5} };
+
+    public final static String[] Days                       = {"일", "월", "화", "수", "목", "금", "토"};
+
+    public final static int     Chat_Right                  = 1;
+    public final static int     Chat_Left                   = 0;
 }
