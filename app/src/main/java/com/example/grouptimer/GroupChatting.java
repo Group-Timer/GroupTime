@@ -173,6 +173,8 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
+                Log.d("GT", "Chat child added");
+
                 if(snapshot == null)
                 {
                     return;
@@ -239,6 +241,8 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
 
                 String key = snapshot.getKey();
 
+
+                Log.d("GT", "Chat child changed");
 
                 for(int i = ChatList.size() - 1; i >= 0; i--)
                 {

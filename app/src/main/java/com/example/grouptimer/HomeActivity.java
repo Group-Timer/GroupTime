@@ -558,6 +558,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             insertCode = insertCodeEdit.getText().toString();
 
+            insertCodeEdit.setText("");
+
             Log.d("GT", "EditText : " + insertCode);
 
             Check_InsertCode(insertCode);
