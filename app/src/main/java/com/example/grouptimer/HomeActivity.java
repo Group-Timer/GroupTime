@@ -35,6 +35,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button makeGroup;
     private Button personal;
     private Button groupTimeTable;
+    private Button myPage;
 
     private RecyclerView recyclerView;
 
@@ -76,6 +77,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         makeGroup = (Button) findViewById(R.id.makeGroup);
         personal = (Button) findViewById(R.id.personal);
         groupTimeTable = (Button) findViewById(R.id.groupTimeTable);
+        myPage = (Button)findViewById(R.id.myPage);
 
 
         linearLayoutManager = new LinearLayoutManager(this);
@@ -90,6 +92,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         makeGroup.setOnClickListener(this);
         personal.setOnClickListener(this);
         groupTimeTable.setOnClickListener(this);
+        myPage.setOnClickListener(this);
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -570,6 +573,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         else if(view == groupTimeTable)
         {
             startActivity(new Intent(this, GroupTimeTableActivity.class));
+        }
+        else if(view == myPage){
+            startActivity(new Intent(this, MyPageActivity.class));
         }
     }
 }
