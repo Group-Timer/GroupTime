@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.11930091185410334" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.17291666666666666" />
-        <entry key="app/src/main/res/layout/activity_make_group.xml" value="0.17291666666666666" />
-        <entry key="app/src/main/res/layout/activity_personal_time_table.xml" value="0.13269927536231885" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.11930091185410334" />
-        <entry key="app/src/main/res/layout/group_recyclerview_item.xml" value="0.16197916666666667" />
-      </map>
-    </option>
-  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android API 32 Platform" project-jdk-type="Android SDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
