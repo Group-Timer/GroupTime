@@ -84,5 +84,11 @@
         android:layout_height="wrap_content"
         android:text="Group Time Table" />
 
+    <Button
+        android:id="@+id/myPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My page"/>
+
 
 </LinearLayout>

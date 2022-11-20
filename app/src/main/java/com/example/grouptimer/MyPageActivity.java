@@ -16,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.grouptimer.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -71,6 +73,21 @@ public class MyPageActivity extends AppCompatActivity {
         uid = user.getUid();
         userEmail.setText(userInfo.getEmail());
 
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+
+        storageReference.child(uid+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(MyPageActivity.this).load(uri).into(photo);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
         Query query =
                 FirebaseDatabase.getInstance().getReference("Users");
 
@@ -119,6 +136,8 @@ public class MyPageActivity extends AppCompatActivity {
                 startActivityForResult(intent, GALLERY_CODE);
             }
         });
+
+
     }
 
     protected void onActivityResult(int requestCode, final int resultCode, final Intent data){
