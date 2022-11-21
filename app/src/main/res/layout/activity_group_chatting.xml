@@ -12,6 +12,8 @@
         android:id="@+id/chattingRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_above="@+id/chatEditLayout"/>
 
 
@@ -20,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal"
         android:weightSum="10">
 
@@ -43,8 +45,9 @@
             android:layout_marginEnd="5dp"
             android:layout_weight="2"
             android:layout_gravity="center_vertical"
-            android:text="Send"
-            android:textSize="12sp"
+            android:background="@drawable/big_button"
+            android:text=">"
+            android:textSize="25sp"
             android:gravity="center" />
 
 

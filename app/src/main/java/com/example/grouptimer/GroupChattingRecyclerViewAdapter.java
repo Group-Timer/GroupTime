@@ -17,6 +17,8 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
 
     public ViewGroup parent;
 
+    int indiceCnt;
+
 
     public GroupChattingRecyclerViewAdapter(ArrayList<GroupChatRecyclerViewItem> chatList)
     {
@@ -70,8 +72,6 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
 
         Map<String, Boolean> memberIndice;
 
-        int indiceCnt;
-
 
         message = this.AdapterChatList.get(position).Message;
         sendTime = Integer.toString(this.AdapterChatList.get(position).SendTime);
@@ -115,6 +115,8 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
                     if(memberIndice.get(memberUID) == false)
                     {
                         indiceCnt++;
+
+                        Log.d("GT", "Indice : " + memberUID + ", " + message + ", " + indiceCnt);
                     }
                 }
             }
@@ -128,6 +130,10 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
         if(indiceCnt > 0)
         {
             viewHolder.ChatConfirm.setText(Integer.toString(indiceCnt));
+        }
+        else
+        {
+            viewHolder.ChatConfirm.setText("");
         }
     }
 

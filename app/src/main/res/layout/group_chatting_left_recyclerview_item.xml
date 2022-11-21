@@ -35,13 +35,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:padding="10dp"
-                android:background="#EAEAEA"
+                android:background="@drawable/chat_text_left"
                 android:gravity="center_vertical"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/chatTime"
-                android:layout_width="50dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:gravity="center_horizontal|bottom|start"

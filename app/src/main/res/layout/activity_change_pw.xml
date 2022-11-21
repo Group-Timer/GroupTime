@@ -22,7 +22,10 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
             android:text="PW찾기"
-            android:textSize="18dp"></TextView>
+            android:textSize="18dp"
+            android:background="@drawable/text_background"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"></TextView>
 
         <EditText
             android:id="@+id/inputEmail"
@@ -62,7 +65,10 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
             android:text="PW변경"
-            android:textSize="18dp"></TextView>
+            android:textSize="18dp"
+            android:background="@drawable/text_background"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"></TextView>
 
         <EditText
             android:id="@+id/inputPw"
@@ -73,7 +79,8 @@
             android:layout_toRightOf="@id/pwChangeText"
             android:hint="Input your PassWord"
             android:textAlignment="center"
-            android:textSize="25dp"></EditText>
+            android:textSize="25dp"
+            android:backgroundTint = "#FBAEAE"></EditText>
 
         <EditText
             android:id="@+id/inputNewPw"
@@ -84,7 +91,8 @@
             android:layout_toRightOf="@id/pwChangeText"
             android:hint="New PassWord"
             android:textAlignment="center"
-            android:textSize="25dp"></EditText>
+            android:textSize="25dp"
+            android:backgroundTint = "#FBAEAE"></EditText>
 
         <EditText
             android:id="@+id/checkPw"
@@ -95,7 +103,8 @@
             android:layout_toRightOf="@id/pwChangeText"
             android:hint="Confirm PassWord"
             android:textAlignment="center"
-            android:textSize="25dp"></EditText>
+            android:textSize="25dp"
+            android:backgroundTint = "#FBAEAE"></EditText>
 
 
         <Button
@@ -105,7 +114,8 @@
             android:layout_below="@+id/checkPw"
             android:layout_alignRight="@+id/checkPw"
             android:layout_marginTop="10dp"
-            android:text="pw변경"></Button>
+            android:text="pw변경"
+            android:background="@drawable/change_button_background"></Button>
     </RelativeLayout>
 
 </LinearLayout>
