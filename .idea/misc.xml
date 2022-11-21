@@ -3,11 +3,28 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/big_button.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/button_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/change_button_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/chat_text_left.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/chat_text_right.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/custom_button.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/line_23.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/plus_button.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/rectangle_4.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/small_button.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/text_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_change_name.xml" value="0.16691995947315097" />
+        <entry key="app/src/main/res/layout/activity_change_pw.xml" value="0.10714285714285714" />
         <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.11930091185410334" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.17291666666666666" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/activity_make_group.xml" value="0.17291666666666666" />
+        <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.16691995947315097" />
         <entry key="app/src/main/res/layout/activity_personal_time_table.xml" value="0.13269927536231885" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.11930091185410334" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.4179840783580096" />
         <entry key="app/src/main/res/layout/group_recyclerview_item.xml" value="0.16197916666666667" />
       </map>
     </option>
