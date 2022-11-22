@@ -85,8 +85,7 @@
             android:layout_gravity="right"
             android:text="FIND ID"
             android:textColor="#9E9E9E"
-            android:background="@drawable/button_layout"
-            android:layout_marginRight="5dp"
+            android:background="@drawable/find_id_button"
             />
 "/>
 
@@ -98,8 +97,8 @@
             android:layout_gravity="right"
             android:text="FIND PASSWORD"
             android:textColor="#9E9E9E"
-            android:background="@drawable/button_layout"
-            android:layout_marginLeft="5dp"/>
+            android:background="@drawable/find_password_button"
+            />
 "/>
 
     </LinearLayout>

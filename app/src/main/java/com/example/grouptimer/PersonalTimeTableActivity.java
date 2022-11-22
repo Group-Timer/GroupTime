@@ -45,7 +45,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
 
 
-    String[]                    Hour                    = {"9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
+    String[]                    Hour                    = {"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"};
     String[]                    Day                     = {"", "S", "M", "T", "W", "T", "F", "S"};
 
     GridLayout[]                TimeTableGridLayout     = new GridLayout[DefineValue.Day_Cnt];
@@ -271,6 +271,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
         LinearLayout.LayoutParams hourGridParams    = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
         hourGridParams.weight                       = 1;
+        hourGridParams.setMargins(0,100,0,0);
 
         for(int i = 0; i < DefineValue.Times_Of_Day; i++)
         {

@@ -49,6 +49,7 @@
         android:layout_gravity="right"
         android:text="+"
         android:textSize="40dp"
+        android:textColor="@color/white"
         android:layout_weight="2.5"
         android:background="@drawable/plus_button">
 
