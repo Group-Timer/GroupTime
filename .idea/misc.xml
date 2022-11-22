@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/big_button.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/button_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/find_id_button.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/find_password_button.xml" value="0.158" />
         <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.11930091185410334" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.17291666666666666" />
-        <entry key="app/src/main/res/layout/activity_make_group.xml" value="0.17291666666666666" />
-        <entry key="app/src/main/res/layout/activity_personal_time_table.xml" value="0.13269927536231885" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.11930091185410334" />
-        <entry key="app/src/main/res/layout/group_recyclerview_item.xml" value="0.16197916666666667" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2031403283580096" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.14044959349472833" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.17101447386582205" />
       </map>
     </option>
   </component>

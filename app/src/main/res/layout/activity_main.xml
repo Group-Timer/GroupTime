@@ -35,7 +35,7 @@
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login Activity"
+        android:text="LOGIN"
         android:textAlignment="center"
         android:layout_marginBottom="20dp"
         android:background="@drawable/big_button" />
@@ -44,7 +44,7 @@
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register Activity"
+        android:text="SIGN UP"
         android:textAlignment="center"
         android:layout_marginBottom="40dp"
         android:background="@drawable/big_button"/>
