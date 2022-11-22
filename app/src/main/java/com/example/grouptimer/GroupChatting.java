@@ -6,14 +6,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.telephony.mbms.MbmsErrors;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -29,6 +43,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimerTask;
+
+import kotlinx.coroutines.Delay;
 
 public class GroupChatting extends AppCompatActivity implements View.OnClickListener {
 
@@ -54,17 +71,22 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
     String UserUID;
 
 
+    ConnectivityManager connectivityManager = null;
+    ConnectivityManager.NetworkCallback networkCallback = null;
+    //Network currentNetwork = null;
+    NetworkInfo networkInfo = null;
+
+    boolean NetworkConnection = false;
+    boolean FirstNetworkCheck = false;
+
+
+    ProgressDialog progressDialog = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chatting);
-
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Chat").child("Messages").child(DefineValue.Group_ID);
-
-
-        UserUID = user.getUid();
 
 
         ChatRecyclerView = (RecyclerView) findViewById(R.id.chattingRecyclerView);
@@ -76,25 +98,64 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
         ChatButton.setOnClickListener(this);
 
 
+        NetworkConnection = false;
+        FirstNetworkCheck = false;
+
+
         ChatList = new ArrayList<GroupChatRecyclerViewItem>();
 
 
-        linearLayoutManager = new LinearLayoutManager(this);
-        if(linearLayoutManager == null)
+        connectivityManager = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
+        progressDialog = new ProgressDialog(GroupChatting.this);
+
+        runOnUiThread(new Runnable()
         {
-            Log.d("GT", "LayoutManager is null");
+            @Override
+            public void run()
+            {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("Loading ...\n\nNeed to access network");
+                progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+
+                        progressDialog.dismiss();
+
+                        finish();
+                    }
+                });
+
+                progressDialog.show();
+            }
+        });
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+
+        Check_Network();
+    }
+
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+
+        if(networkCallback == null)
+        {
+            return;
         }
-        linearLayoutManager.setStackFromEnd(true);
 
-        ChatRecyclerView.setLayoutManager(linearLayoutManager);
-
-
-        GroupChattingAdapter = new GroupChattingRecyclerViewAdapter(ChatList);
-        ChatRecyclerView.setAdapter(GroupChattingAdapter);
-
-
-        //Load_Chat();
-        Update_Chat();
+        connectivityManager.unregisterNetworkCallback(networkCallback);
     }
 
 
@@ -104,8 +165,243 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
         super.onDestroy();
 
 
-        databaseReference.removeEventListener(childEventListener);
+        if(childEventListener != null)
+        {
+            databaseReference.removeEventListener(childEventListener);
+        }
+
+
+
+        user = null;
+        databaseReference = null;
+        valueEventListener = null;
+        childEventListener = null;
+        linearLayoutManager = null;
+        GroupChattingAdapter = null;
+        ChatRecyclerView = null;
+        ChatEdit = null;
+        ChatButton = null;
+        ChatList.clear();
+        ChatList = null;
+        ListSize = 0;
+        UserUID = null;
+        connectivityManager = null;
+        networkCallback = null;
+        networkInfo = null;
+        NetworkConnection = false;
+        FirstNetworkCheck = false;
     }
+
+
+    private void Check_Network()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            NetworkRequest.Builder builder = new NetworkRequest.Builder();
+            networkCallback = new ConnectivityManager.NetworkCallback()
+            {
+                @Override
+                public void onAvailable(Network network) {
+
+                    int connectionState = -1;
+                    Network currentNetwork = connectivityManager.getActiveNetwork();
+
+                    if(currentNetwork != null) {
+                        NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(currentNetwork);
+                        if(networkCapabilities != null)
+                        {
+                            if(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI))
+                            {
+                                connectionState = NetworkCapabilities.TRANSPORT_WIFI;
+                            }
+                            else if(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+                            {
+                                connectionState = NetworkCapabilities.TRANSPORT_CELLULAR;
+                            }
+                            else if(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET))
+                            {
+                                connectionState = NetworkCapabilities.TRANSPORT_ETHERNET;
+                            }
+                            else
+                            {
+                                connectionState = 9;
+                            }
+                        }
+                    }
+
+                    if(connectionState >= 0)
+                    {
+                        String message = "Network connected : ";
+
+                        if(connectionState == NetworkCapabilities.TRANSPORT_WIFI)
+                        {
+                            message += "WIFI";
+                        }
+                        else if(connectionState == NetworkCapabilities.TRANSPORT_CELLULAR)
+                        {
+                            message += "CELLULAR";
+                        }
+                        else if(connectionState == NetworkCapabilities.TRANSPORT_ETHERNET)
+                        {
+                            message += "ETHERNET";
+                        }
+                        else
+                        {
+                            message += "other";
+                        }
+
+
+                        Log.d("GT", message);
+
+
+                        NetworkConnection = true;
+
+                        Ready_Chatting();
+                    }
+                    else
+                    {
+                        NetworkConnection = false;
+
+                        Log.d("GT", "Fail network checking");
+                    }
+                }
+
+                @Override
+                public void onLost(Network network) {
+
+                    if(progressDialog != null)
+                    {
+                        progressDialog.dismiss();
+                        progressDialog = null;
+                    }
+
+                    Toast.makeText(getApplicationContext(), "인터넷 연결이 필요합니다.", Toast.LENGTH_SHORT).show();
+
+                    NetworkConnection = false;
+
+                    Log.d("GT", "Disconnect network");
+                }
+            };
+
+
+            connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
+        }
+        else
+        {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+
+            boolean isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
+
+            if(isConnected == false)
+            {
+                if(progressDialog != null)
+                {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
+
+
+                NetworkConnection = false;
+
+                Log.d("GT", "Disconnect network");
+
+                Toast.makeText(this, "인터넷 연결이 필요합니다.", Toast.LENGTH_SHORT).show();
+
+
+                return;
+            }
+
+
+            NetworkConnection = true;
+
+            Log.d("GT", "Connected network");
+
+            Toast.makeText(this, "인터넷 연결됨.", Toast.LENGTH_SHORT).show();
+
+            Ready_Chatting();
+        }
+    }
+
+
+    private void Ready_Chatting()
+    {
+        if(NetworkConnection == false)
+        {
+            if(progressDialog != null)
+            {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+
+
+            Toast.makeText(this, "인터넷 연결이 필요합니다.", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
+
+        if(FirstNetworkCheck == false)
+        {
+            FirstNetworkCheck = true;
+
+
+            user = FirebaseAuth.getInstance().getCurrentUser();
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("Chat").child("Messages").child(DefineValue.Group_ID);
+
+
+            databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("GT", "Error getting data", task.getException());
+                    }
+                    else {
+                        if(task.getResult().getValue() == null)
+                        {
+                            if(progressDialog != null)
+                            {
+                                progressDialog.dismiss();
+                                progressDialog = null;
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            UserUID = user.getUid();
+
+
+            linearLayoutManager = new LinearLayoutManager(this);
+            if(linearLayoutManager == null)
+            {
+                Log.d("GT", "LayoutManager is null");
+            }
+            linearLayoutManager.setStackFromEnd(true);
+
+
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    ChatRecyclerView.setLayoutManager(linearLayoutManager);
+
+
+                    GroupChattingAdapter = new GroupChattingRecyclerViewAdapter(ChatList);
+                    ChatRecyclerView.setAdapter(GroupChattingAdapter);
+
+
+                    Update_Chat();
+                }
+            });
+        }
+
+
+        //Load_Chat();
+        //Update_Chat();
+    }
+
 
 /*
     private void Load_Chat()
@@ -172,6 +468,13 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                if(progressDialog != null && ChatList.isEmpty() == false)
+                {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
+
 
                 Log.d("GT", "Chat child added");
 
@@ -356,6 +659,14 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
         }
         else if(view == ChatButton)
         {
+            if(NetworkConnection == false)
+            {
+                Toast.makeText(this, "인터넷 연결이 필요합니다.", Toast.LENGTH_SHORT).show();
+
+                return;
+            }
+
+
             String sendMessage;
 
             sendMessage = ChatEdit.getText().toString();

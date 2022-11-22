@@ -1,9 +1,6 @@
 package com.example.grouptimer;
 
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -34,7 +31,7 @@ public class GroupToDoListRecyclerViewAdapter extends RecyclerView.Adapter<Group
         this.parent = parent;
 
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_todolist_recyclerview_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_todolist_viewpager2_item, parent, false);
 
         GroupToDoListRecyclerViewHolder viewHolder = new GroupToDoListRecyclerViewHolder(view);
 

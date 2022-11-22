@@ -5,6 +5,7 @@ public class DefineValue
     public final static int     INVALID_VALUE               = -1;
 
     public static String        Group_ID;
+    public static String        Group_Name;
 
 
     public final static int     Time_Convert_Key            = 0x1;                      // 0000 0000 0000 0001

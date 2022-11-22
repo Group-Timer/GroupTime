@@ -1,23 +1,35 @@
 package com.example.grouptimer;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ContentFrameLayout;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,10 +40,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.TimeZone;
 
 public class GroupTimeTableActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -91,6 +106,22 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     String GroupInsertCode;
 
 
+    ActivityResultLauncher<Intent> requestLauncher;
+
+
+    //public final Cursor query(Uri url, String[] projection, String selection, String[] selectionArgs, String sortOrder)
+
+
+    DatePickerDialog datePickerDialog = null;
+    TimePickerDialog timePickerDialog = null;
+
+    private String dateText = null;
+    private String timeText = null;
+    private String ScheduleTimeText = null;
+
+    static LayoutInflater inflater;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +129,40 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
 
+        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
         InsertCodeOverlap = false;
+
+
+        requestLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>()
+        {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+
+                if(result == null)
+                {
+                    return;
+                }
+
+                if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
+                    Intent data = result.getData();
+
+                    String[] projection = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER};
+                    Cursor cursor = getContentResolver().query(result.getData().getData(), projection, null, null, null);
+
+                    if(cursor.moveToFirst() == true)
+                    {
+                        String name = cursor.getString(0);
+                        String phone = cursor.getString(1);
+
+                        Log.d("GT", "Name, Phone : " + name + ", " + phone);
+
+
+                        Send_SMS(phone);
+                    }
+                }
+            }
+        });
     }
 
 
@@ -120,6 +183,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         mDatabase.child("Groups").child(DefineValue.Group_ID).child("groupMakerUid").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot == null)
+                {
+                    return;
+                }
+
+                if(dataSnapshot.getValue(String.class) == null)
+                {
+                    return;
+                }
 
                 String value = dataSnapshot.getValue(String.class);
 
@@ -737,6 +810,19 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     }
 
 
+    private void Send_SMS(String number){
+        try{
+            Uri smsUri = Uri.parse("sms:"+number);
+            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, smsUri);
+            sendIntent.putExtra("sms_body", "<Group Timer>\n\n그룹 입장 코드 : " + GroupInsertCode);
+            startActivity(sendIntent);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     private String Generate_GroupInsertCode()
     {
         int integerCnt;
@@ -953,11 +1039,12 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     {
         AlertDialog.Builder builder;
 
-        LayoutInflater inflater;
-
         View customDialogView;
 
         DialogInterface.OnClickListener dialogClickListener;
+
+        TextView groupNameText;
+        TextView insertCodeText;
 
 
         dialogClickListener = new DialogInterface.OnClickListener() {
@@ -966,7 +1053,9 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
                 if(dialogInterface == groupShareDialog && i == DialogInterface.BUTTON_POSITIVE)
                 {
+                    Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
 
+                    requestLauncher.launch(intent);
                 }
                 else if(dialogInterface == groupShareDialog && i == DialogInterface.BUTTON_NEGATIVE)
                 {
@@ -978,21 +1067,151 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
         builder = new AlertDialog.Builder(this);
 
-        //inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        customDialogView = inflater.inflate(R.layout.custom_dialog_insertcode_share_layout, null);
 
-        //customDialogView = inflater.inflate(R.layout.custom_dialog_insertcode_share_layout, null);
-
-        //TextView textView = (TextView) findViewById(R.id.insertCode);
-        //textView.setText(GroupInsertCode);
-
-
-        //builder.setView(customDialogView);
-        builder.setMessage(GroupInsertCode);
+        builder.setView(customDialogView);
+        //builder.setMessage(GroupInsertCode);
         builder.setPositiveButton("공유", dialogClickListener);
         builder.setNegativeButton("확인", dialogClickListener);
 
         groupShareDialog = builder.create();
+
+        groupNameText = (TextView) customDialogView.findViewById(R.id.groupName);
+        insertCodeText= (TextView) customDialogView.findViewById(R.id.insertCode);
+
+        groupNameText.setText(DefineValue.Group_Name);
+        insertCodeText.setText(GroupInsertCode);
+
         groupShareDialog.show();
+    }
+    
+    
+    private void Set_ScheduleTime()
+    {
+        Show_DatePicker();
+    }
+
+
+    private void Show_DatePicker()
+    {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA);
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day)
+            {
+                dateText = Integer.toString(year);
+
+                if(month + 1 < 10)
+                {
+                    dateText += "0" + Integer.toString(month + 1);
+                }
+                else
+                {
+                    dateText += Integer.toString(month + 1);
+                }
+
+                if(day < 10)
+                {
+                    dateText += "0" + Integer.toString(day);
+                }
+                else
+                {
+                    dateText += Integer.toString(day);
+                }
+
+
+                if(datePickerDialog != null)
+                {
+                    datePickerDialog.dismiss();
+
+                    datePickerDialog = null;
+                }
+
+                if(dateText.isEmpty() == false)
+                {
+                    Show_TimePicker();
+                }
+            }
+        }, year, month, day);
+
+        datePickerDialog.setCanceledOnTouchOutside(false);
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                datePickerDialog.show();
+            }
+        });
+    }
+
+
+    private void Show_TimePicker()
+    {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA);
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+
+        timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hour, int minute)
+            {
+                if(hour < 10)
+                {
+                    timeText = "0" + Integer.toString(hour);
+                }
+                else
+                {
+                    timeText = Integer.toString(hour);
+                }
+
+                if(minute < 10)
+                {
+                    timeText += "0" + Integer.toString(minute);
+                }
+                else
+                {
+                    timeText += Integer.toString(minute);
+                }
+
+
+                if(datePickerDialog != null)
+                {
+                    datePickerDialog.dismiss();
+
+                    datePickerDialog = null;
+                }
+
+                if(timeText.isEmpty() == false)
+                {
+                    ScheduleTimeText = dateText + timeText;
+
+                    Log.d("GT", "Schedule Time : " + ScheduleTimeText);
+                }
+            }
+        }, hour, minute,false);
+
+        timePickerDialog.setCanceledOnTouchOutside(false);
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                timePickerDialog.show();
+            }
+        });
     }
 
 
@@ -1009,6 +1228,8 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
             if(GroupInsertCode == null)
             {
+                Toast.makeText(this, "그룹 입장 코드가 없습니다.", Toast.LENGTH_SHORT);
+
                 return;
             }
 
@@ -1016,7 +1237,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         }
         else if(view.getId() == ScheduleTimeButtonID)
         {
-
+            Set_ScheduleTime();
         }
         else if(view.getId() == ChattingButtonID)
         {

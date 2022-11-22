@@ -14,8 +14,11 @@
             android:id="@+id/groupName"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/expansion"
@@ -25,7 +28,7 @@
             android:background="#00FFFFFF"
             android:gravity="center"
             android:text="+"
-            android:textColor="#F08080"
+            android:textColor="#FFFFFFFF"
             android:textSize="32sp" />
 
 
@@ -43,13 +46,27 @@
     -->
 
 
+    <ProgressBar
+        android:id="@+id/toDoListProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="30dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:indeterminateTint="#FFFFFFFF"
+        android:visibility="gone" />
+
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:visibility="visible"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"/>
 
 
     <TextView
@@ -59,9 +76,11 @@
         android:text="- Your ToDo list is empty -"
         android:textSize="16sp"
         android:gravity="center"
-        android:visibility="gone"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="30dp" />
+        android:paddingBottom="30dp"
+        android:visibility="gone" />
 
 
     </LinearLayout>

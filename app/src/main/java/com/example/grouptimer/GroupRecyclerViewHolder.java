@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,11 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 
     public ViewPager2 ToDoListViewPagers;
 
+    public ProgressBar ToDoListProgressBar;
+
     public String GroupIDText;
+
+    public boolean ExpansionButtonClick;
 
 
     public GroupRecyclerViewHolder(@NonNull View item)
@@ -33,7 +38,10 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
         ExpansionButton = item.findViewById(R.id.expansion);
         //ToDoListRecyclerView = item.findViewById(R.id.toDoListRecyclerView);
         ToDoListViewPagers = item.findViewById(R.id.viewPager);
+        ToDoListProgressBar = item.findViewById(R.id.toDoListProgressBar);
         EmptyText = item.findViewById(R.id.toDoListEmptyText);
+
+        ExpansionButtonClick = false;
     }
 
 

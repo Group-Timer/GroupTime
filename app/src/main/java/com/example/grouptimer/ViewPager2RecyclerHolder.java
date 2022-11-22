@@ -23,14 +23,14 @@ public class ViewPager2RecyclerHolder extends RecyclerView.ViewHolder
         super(item);
 
 
-        todoListCheckBox1 = item.findViewById(R.id.recyclerViewCheckBox1);
-        todoListText1 = item.findViewById(R.id.recyclerViewText1);
+        todoListCheckBox1 = item.findViewById(R.id.viewpager2CheckBox1);
+        todoListText1 = item.findViewById(R.id.viewpager2Text1);
 
-        todoListCheckBox2 = item.findViewById(R.id.recyclerViewCheckBox2);
-        todoListText2 = item.findViewById(R.id.recyclerViewText2);
+        todoListCheckBox2 = item.findViewById(R.id.viewpager2CheckBox2);
+        todoListText2 = item.findViewById(R.id.viewpager2Text2);
 
-        todoListCheckBox3 = item.findViewById(R.id.recyclerViewCheckBox3);
-        todoListText3 = item.findViewById(R.id.recyclerViewText3);
+        todoListCheckBox3 = item.findViewById(R.id.viewpager2CheckBox3);
+        todoListText3 = item.findViewById(R.id.viewpager2Text3);
     }
 
 

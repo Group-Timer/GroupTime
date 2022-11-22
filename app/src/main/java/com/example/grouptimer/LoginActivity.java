@@ -2,6 +2,9 @@ package com.example.grouptimer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,11 +33,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText idEditText;
     EditText passwordEditText;
 
+
+    boolean LoginButtonCheck;
+
+    ProgressDialog progressDialog = null;
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+
+
+        LoginButtonCheck = false;
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -50,8 +64,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         findPasswordButton = (Button) findViewById(R.id.findPasswordButton);
         findPasswordButton.setOnClickListener(this);
-
-
     }
 
 
@@ -61,10 +73,50 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view){
 
         if(view == loginButton){
-            String id = idEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
 
-            signIn(id,password);
+            if(LoginButtonCheck == false)
+            {
+                LoginButtonCheck = true;
+
+
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        progressDialog = new ProgressDialog(LoginActivity.this);
+
+                        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        progressDialog.setCanceledOnTouchOutside(false);
+                        progressDialog.setCancelable(false);
+                        progressDialog.setMessage("Sign in ...");
+
+                        progressDialog.show();
+                    }
+                });
+
+
+                String id = idEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+
+                if(id.isEmpty() == true || password.isEmpty() == true)
+                {
+                    if(progressDialog != null)
+                    {
+                        progressDialog.dismiss();
+
+                        progressDialog = null;
+                    }
+
+                    LoginButtonCheck = false;
+
+                    Toast.makeText(this, "입력이 올바르지 않습니다", Toast.LENGTH_SHORT).show();
+
+                    return;
+                }
+
+                signIn(id,password);
+            }
         }
 
         else if(view == findIdButton){
@@ -103,6 +155,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
+
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
@@ -122,10 +175,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            if(progressDialog != null)
+                            {
+                                progressDialog.dismiss();
+
+                                progressDialog = null;
+
+                                LoginButtonCheck = false;
+                            }
+
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
+
+                            if(progressDialog != null)
+                            {
+                                progressDialog.dismiss();
+
+                                progressDialog = null;
+
+                                LoginButtonCheck = false;
+                            }
+
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
@@ -157,5 +230,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return ;
 
         startActivity(new Intent(this, HomeActivity.class));
+
+        finish();
     }
 }

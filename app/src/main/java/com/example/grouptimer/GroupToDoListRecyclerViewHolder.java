@@ -20,8 +20,8 @@ public class GroupToDoListRecyclerViewHolder extends RecyclerView.ViewHolder
         super(item);
 
 
-        todoListCheckBox = item.findViewById(R.id.recyclerViewCheckBox1);
-        todoListText = item.findViewById(R.id.recyclerViewText1);
+        todoListCheckBox = item.findViewById(R.id.viewpager2CheckBox1);
+        todoListText = item.findViewById(R.id.viewpager2Text1);
     }
 
 

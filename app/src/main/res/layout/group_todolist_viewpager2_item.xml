@@ -8,10 +8,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/recyclerViewCheckBox1"
+            android:id="@+id/viewpager2CheckBox1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -20,7 +22,7 @@
         </CheckBox>
 
         <TextView
-            android:id="@+id/recyclerViewText1"
+            android:id="@+id/viewpager2Text1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -32,10 +34,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/recyclerViewCheckBox2"
+            android:id="@+id/viewpager2CheckBox2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone" >
@@ -43,7 +47,7 @@
         </CheckBox>
 
         <TextView
-            android:id="@+id/recyclerViewText2"
+            android:id="@+id/viewpager2Text2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -55,10 +59,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/recyclerViewCheckBox3"
+            android:id="@+id/viewpager2CheckBox3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone" >
@@ -66,7 +72,7 @@
         </CheckBox>
 
         <TextView
-            android:id="@+id/recyclerViewText3"
+            android:id="@+id/viewpager2Text3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

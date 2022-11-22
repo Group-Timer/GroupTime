@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private GroupRecyclerViewAdapter recyclerViewAdapter;
 
 
+    private ProgressBar progressBar;
+
+
     public static int groupNumber = 0;
     int firebaseIndex;
 
@@ -59,6 +64,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     boolean GroupEnter;
 
     boolean AlreadyEntered;
+
+    ProgressDialog progressDialog = null;
 
 
     @Override
@@ -80,6 +87,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         myPage = (Button)findViewById(R.id.myPage);
 
 
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setIndeterminate(true);
+
+
         linearLayoutManager = new LinearLayoutManager(this);
         if(linearLayoutManager == null)
         {
@@ -95,9 +106,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         myPage.setOnClickListener(this);
 
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
         //Load_GroupList(false, true, null, user, mDatabase);
@@ -107,6 +118,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
+
+
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        emptyText.setVisibility(View.GONE);
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -137,6 +153,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 if(dataSnapshot.getValue() == null)
                 {
                     Log.d("GT", "Empty InsertCode Database");
+
+
+                    if(progressDialog != null)
+                    {
+                        progressDialog.dismiss();
+
+                        progressDialog = null;
+                    }
+
 
                     Toast.makeText(getApplicationContext(), "Empty InsertCode Database", Toast.LENGTH_SHORT).show();
 
@@ -179,6 +204,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 if((CodeListIndex == codeCnt) && (GroupEnter == false))
                                 {
                                     Log.d("GT", "Fail Enter Group");
+
+
+                                    if(progressDialog != null)
+                                    {
+                                        progressDialog.dismiss();
+
+                                        progressDialog = null;
+                                    }
+
 
                                     Toast.makeText(getApplicationContext(), "Fail Enter Group", Toast.LENGTH_SHORT).show();
 
@@ -243,6 +277,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     Log.d("GT", "Group member is maximum");
 
+
+                    if(progressDialog != null)
+                    {
+                        progressDialog.dismiss();
+
+                        progressDialog = null;
+                    }
+
+
                     Toast.makeText(getApplicationContext(), "Group member is maximum", Toast.LENGTH_SHORT).show();
 
 
@@ -262,6 +305,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void Load_GroupList(boolean listUpdate, boolean showRecyclerView, String groupID, FirebaseUser user, DatabaseReference mDatabase)
     {
+        ArrayList<String> tempIDList = new ArrayList<String>();
+        ArrayList<String> tempNameList = new ArrayList<String>();
+
+        tempIDList.addAll(GroupList);
+        tempNameList.addAll(GroupNameList);
+
+
         mDatabase.child("Users").child(user.getUid()).child("groupNumber").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -292,11 +342,45 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                                 if(value == null)
                                 {
+                                    if(progressDialog != null)
+                                    {
+                                        progressDialog.dismiss();
+
+                                        progressDialog = null;
+                                    }
+
+
                                     return;
                                 }
 
                                 if(AlreadyEntered == true)
                                 {
+                                    if(progressDialog != null)
+                                    {
+                                        progressDialog.dismiss();
+
+                                        progressDialog = null;
+                                    }
+
+
+                                    if(Integer.parseInt(listID) == groupNumber - 1)
+                                    {
+                                        GroupList = tempIDList;
+                                        GroupNameList = tempNameList;
+
+
+                                        recyclerViewAdapter = new GroupRecyclerViewAdapter(tempIDList, tempNameList);
+                                        recyclerView.setAdapter(recyclerViewAdapter);
+
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        progressBar.setVisibility(View.GONE);
+                                        //recyclerView.setNestedScrollingEnabled(false);
+                                        emptyText.setVisibility(View.GONE);
+
+                                        Log.d("GT", "Reload Group List");
+                                    }
+
+
                                     return;
                                 }
 
@@ -306,6 +390,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                     AlreadyEntered = true;
 
                                     Log.d("GT", "Already Enter Group");
+
+
+                                    if(progressDialog != null)
+                                    {
+                                        progressDialog.dismiss();
+
+                                        progressDialog = null;
+                                    }
+
 
                                     Toast.makeText(getApplicationContext(), "Already Enter Group", Toast.LENGTH_SHORT).show();
 
@@ -351,6 +444,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                                         Log.d("GT", "Success Enter Group");
 
+
+                                        if(progressDialog != null)
+                                        {
+                                            progressDialog.dismiss();
+
+                                            progressDialog = null;
+                                        }
+
+
                                         Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
                                     }
 
@@ -380,7 +482,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                                                         recyclerView.setVisibility(View.VISIBLE);
                                                         //recyclerView.setNestedScrollingEnabled(false);
+                                                        progressBar.setVisibility(View.GONE);
                                                         emptyText.setVisibility(View.GONE);
+
+
+                                                        if(progressDialog != null)
+                                                        {
+                                                            progressDialog.dismiss();
+
+                                                            progressDialog = null;
+                                                        }
                                                     }
                                                 }
 
@@ -441,6 +552,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     {
                         recyclerView.setVisibility(View.GONE);
                         emptyText.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+
+                    if(progressDialog != null)
+                    {
+                        progressDialog.dismiss();
+
+                        progressDialog = null;
                     }
                 }
             }
@@ -554,6 +674,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         if(view == insertCodeButton)
         {
             String insertCode;
+
+
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    progressDialog = new ProgressDialog(HomeActivity.this);
+
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Group matching ...");
+
+                    progressDialog.show();
+                }
+            });
 
 
             insertCode = insertCodeEdit.getText().toString();

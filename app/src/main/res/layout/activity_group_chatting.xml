@@ -8,6 +8,34 @@
     android:orientation="vertical" >
 
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/chatEditLayout" >
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chattingRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/networkText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="- Disconnect Network -"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+
+    </FrameLayout>
+
+
+    <!--
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chattingRecyclerView"
         android:layout_width="match_parent"
@@ -15,6 +43,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         android:layout_above="@+id/chatEditLayout"/>
+    -->
 
 
     <LinearLayout
@@ -30,17 +59,24 @@
         <EditText
             android:id="@+id/chatEdit"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="2dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:layout_weight="8"
             android:layout_gravity="center_vertical"
-            android:hint="Enter your chat text" />
+            android:gravity="center_vertical"
+            android:background="@drawable/custom_edittext" />
 
         <Button
             android:id="@+id/chatButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="2"

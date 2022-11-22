@@ -1,8 +1,12 @@
 package com.example.grouptimer;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -23,7 +27,7 @@ public class GroupTimeTableOnClickListener implements View.OnClickListener
 
         boolean timeOverlap;
 
-        String dialogMessage;
+        String dialogTitle;
 
 
         ArrayList<String> overlapMemberList = new ArrayList<String>();
@@ -96,6 +100,14 @@ public class GroupTimeTableOnClickListener implements View.OnClickListener
 
         AlertDialog.Builder builder;
 
+        TextView dateText;
+        TextView textView1;
+        TextView textView2;
+        TextView textView3;
+        TextView textView4;
+        TextView textView5;
+
+
 
         builder = new AlertDialog.Builder(view.getContext());
 
@@ -112,13 +124,60 @@ public class GroupTimeTableOnClickListener implements View.OnClickListener
         };
 
 
-        dialogMessage = Generate_Dialog_Message(day, times, overlapMemberList, overlapCnt);
+        dialogTitle = Generate_Dialog_Message(day, times);
 
-        builder.setMessage(dialogMessage);
+
+        View customDialogView = GroupTimeTableActivity.inflater.inflate(R.layout.custom_dialog_overlap_member_layout, null);
+
+        builder.setView(customDialogView);
+        //builder.setMessage(dialogMessage);
         builder.setPositiveButton("확인", dialogClickListener);
-        //builder.setNegativeButton("취소", dialogClickListener);
 
         dialog = builder.create();
+
+        dateText = (TextView) customDialogView.findViewById(R.id.date);
+        textView1 = (TextView) customDialogView.findViewById(R.id.member1);
+        textView2 = (TextView) customDialogView.findViewById(R.id.member2);
+        textView3 = (TextView) customDialogView.findViewById(R.id.member3);
+        textView4 = (TextView) customDialogView.findViewById(R.id.member4);
+        textView5 = (TextView) customDialogView.findViewById(R.id.member5);
+
+
+        dateText.setText(dialogTitle);
+
+        for(int i = 0; i < overlapMemberList.size(); i++)
+        {
+            String value = overlapMemberList.get(i);
+
+
+            if(i == 0)
+            {
+                textView1.setText(value);
+                textView1.setVisibility(View.VISIBLE);
+            }
+            else if(i == 1)
+            {
+                textView2.setText(value);
+                textView2.setVisibility(View.VISIBLE);
+            }
+            else if(i == 2)
+            {
+                textView3.setText(value);
+                textView3.setVisibility(View.VISIBLE);
+            }
+            else if(i == 3)
+            {
+                textView4.setText(value);
+                textView4.setVisibility(View.VISIBLE);
+            }
+            else if(i == 4)
+            {
+                textView5.setText(value);
+                textView5.setVisibility(View.VISIBLE);
+            }
+        }
+
+
         dialog.show();
 
 
@@ -126,7 +185,7 @@ public class GroupTimeTableOnClickListener implements View.OnClickListener
     }
 
 
-    private String Generate_Dialog_Message(int day, int time, ArrayList<String> overlapMemberList, int overlapCnt)
+    private String Generate_Dialog_Message(int day, int time)
     {
         String message;
         String dayText;
@@ -136,12 +195,7 @@ public class GroupTimeTableOnClickListener implements View.OnClickListener
         dayText = DefineValue.Days[day];
         timeText = Integer.toString(time + 9);
 
-        message = dayText + "요일" + " " + timeText + "시" + "\n\n";
-
-        for(int i = 0; i < overlapCnt; i++)
-        {
-            message += overlapMemberList.get(i) + "\n";
-        }
+        message = dayText + "요일" + " " + timeText + "시";
 
 
         return message;

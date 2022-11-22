@@ -3,6 +3,7 @@ package com.example.grouptimer;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,7 +31,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
     private ViewGroup parent;
 
-    private boolean ExpansionButtonClick;
+    //private boolean ExpansionButtonClick;
 
 
     private LinearLayoutManager linearLayoutManager;
@@ -47,7 +48,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
     public GroupRecyclerViewAdapter(ArrayList<String> idList, ArrayList<String> nameList)
     {
-        Log.d("GT", "id ataList size : " + idList.size());
+        Log.d("GT", "id dataList size : " + idList.size());
         Log.d("GT", "name dataList size : " + nameList.size());
 
         this.AdapterIDList = idList;
@@ -75,21 +76,26 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
 
     @Override
-    public void onBindViewHolder(@NonNull GroupRecyclerViewHolder viewHolder, int position)
+    public void onBindViewHolder(@NonNull GroupRecyclerViewHolder viewHolder, @SuppressLint("RecyclerView") int position)
     {
         String name = this.AdapterNameList.get(position);
         String id = this.AdapterIDList.get(position);
 
 
-        ExpansionButtonClick = false;
+        viewHolder.ExpansionButtonClick = false;
 
+
+        if(position < AdapterNameList.size() - 1)
+        {
+            viewHolder.GroupNameText.setBackgroundResource(R.drawable.group_list_recycler_item);
+        }
 
         viewHolder.GroupNameText.setText(name);
         viewHolder.GroupIDText = id;
         //viewHolder.ToDoListRecyclerView.setVisibility(View.GONE);
 
         //viewPager2 = parent.findViewById(R.id.viewPager);
-        viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
+        //viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
         //viewPager2.setVisibility(View.GONE);
 
 
@@ -103,6 +109,8 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
                 Log.d("GT", "Select Group ID : " + DefineValue.Group_ID);
 
+                DefineValue.Group_Name = viewHolder.GroupNameText.getText().toString();
+
                 parent.getContext().startActivity(new Intent(parent.getContext(), GroupTimeTableActivity.class));
             }
         });
@@ -115,21 +123,42 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                 Log.d("GT", viewHolder.GroupNameText.getText() + " : Expansion button pressed");
 
 
-                if(ExpansionButtonClick == true)
+                if(viewHolder.ExpansionButtonClick == true)
                 {
-                    ExpansionButtonClick = false;
+                    viewHolder.ExpansionButtonClick = false;
 
 
                     viewHolder.ExpansionButton.setText("+");
                     //viewHolder.ToDoListRecyclerView.setVisibility(View.GONE);
+
+                    viewHolder.ToDoListProgressBar.setBackground(null);
+                    viewHolder.ToDoListViewPagers.setBackground(null);
+                    viewHolder.EmptyText.setBackground(null);
+
+                    viewHolder.ToDoListProgressBar.setVisibility(View.GONE);
                     viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
                     viewHolder.EmptyText.setVisibility(View.GONE);
+
+                    if(position < AdapterNameList.size() - 1)
+                    {
+                        viewHolder.GroupNameText.setBackgroundResource(R.drawable.group_list_recycler_item);
+                    }
                 }
                 else
                 {
-                    ExpansionButtonClick = true;
+                    viewHolder.ExpansionButtonClick = true;
 
                     viewHolder.ExpansionButton.setText("-");
+
+
+                    if(position < AdapterNameList.size() - 1)
+                    {
+                        viewHolder.ToDoListProgressBar.setBackgroundResource(R.drawable.group_list_recycler_item);
+                    }
+                    viewHolder.GroupNameText.setBackground(null);
+                    viewHolder.ToDoListProgressBar.setVisibility(View.VISIBLE);
+                    viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
+                    viewHolder.EmptyText.setVisibility(View.GONE);
 
 
                     toDoListTextList.clear();
@@ -221,7 +250,14 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                                                         });
 
                                                         //viewPager2.setVisibility(View.VISIBLE);
+                                                        if(position < AdapterNameList.size() - 1)
+                                                        {
+                                                            viewHolder.ToDoListViewPagers.setBackgroundResource(R.drawable.group_list_recycler_item);
+                                                        }
+                                                        viewHolder.ToDoListProgressBar.setBackground(null);
+                                                        viewHolder.ToDoListProgressBar.setVisibility(View.GONE);
                                                         viewHolder.ToDoListViewPagers.setVisibility(View.VISIBLE);
+                                                        viewHolder.EmptyText.setVisibility(View.GONE);
 
 
 
@@ -250,6 +286,13 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                             }
                             else
                             {
+                                if(position < AdapterNameList.size() - 1)
+                                {
+                                    viewHolder.EmptyText.setBackgroundResource(R.drawable.group_list_recycler_item);
+                                }
+                                viewHolder.ToDoListProgressBar.setBackground(null);
+                                viewHolder.ToDoListProgressBar.setVisibility(View.GONE);
+                                viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
                                 viewHolder.EmptyText.setVisibility(View.VISIBLE);
                             }
                         }

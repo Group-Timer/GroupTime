@@ -26,7 +26,7 @@ public class ViewPager2RecyclerAdapter extends RecyclerView.Adapter<ViewPager2Re
     @Override
     public ViewPager2RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_todolist_recyclerview_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.group_todolist_viewpager2_item, parent, false);
 
         ViewPager2RecyclerHolder holder = new ViewPager2RecyclerHolder(view);
 
