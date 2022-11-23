@@ -93,44 +93,37 @@
             android:layout_marginBottom="50dp" />
 
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/menu"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="bottom"
-            android:orientation="vertical" >
-
+            >
 
             <Button
                 android:id="@+id/makeGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Make Group Activity" />
+                android:layout_above="@id/main_bottom"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:text="Make group"
+                android:paddingBottom="10dp"
+                android:background="@drawable/group_list_recyclerview"
+                android:drawableTop="@drawable/ic_add_black_24dp"
+                android:paddingTop="10dp"
+                />
 
-
-            <Button
-                android:id="@+id/personal"
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/main_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Personal TimeTable Activity" />
-
-
-            <Button
-                android:id="@+id/groupTimeTable"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Group Time Table" />
-
-            <Button
-                android:id="@+id/myPage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="My page"/>
-
-
-        </LinearLayout>
-
-
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/button_layout"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/menu" />
+        </RelativeLayout>
     </LinearLayout>
 
 

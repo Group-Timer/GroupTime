@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,9 +39,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button insertCodeButton;
     private Button makeGroup;
-    private Button personal;
-    private Button groupTimeTable;
-    private Button myPage;
+    private BottomNavigationView bottom;
 
     private RecyclerView recyclerView;
 
@@ -68,6 +70,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     ProgressDialog progressDialog = null;
 
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +85,30 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         emptyText = (TextView) findViewById(R.id.emptyText);
 
         makeGroup = (Button) findViewById(R.id.makeGroup);
-        personal = (Button) findViewById(R.id.personal);
-        groupTimeTable = (Button) findViewById(R.id.groupTimeTable);
-        myPage = (Button)findViewById(R.id.myPage);
+
+        bottom = findViewById(R.id.main_bottom);
+
+        bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.bottom_home:
+                        Log.d("home","home");
+                        startActivity(new Intent(HomeActivity.this,HomeActivity.class));
+                        break;
+                    case R.id.bottom_todo:
+                        Log.d("todo","todo");
+                        startActivity(new Intent(HomeActivity.this, PersonalTimeTableActivity.class));
+                        break;
+                    case R.id.bottom_mypage:
+                        Log.d("my","my");
+                        startActivity(new Intent(HomeActivity.this,MyPageActivity.class));
+                        break;
+                }
+                return true;
+            }
+        });
 
 
         progressBar = findViewById(R.id.progressBar);
@@ -101,9 +125,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         insertCodeButton.setOnClickListener(this);
         makeGroup.setOnClickListener(this);
-        personal.setOnClickListener(this);
-        groupTimeTable.setOnClickListener(this);
-        myPage.setOnClickListener(this);
+
 
 
         //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -704,17 +726,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         else if(view == makeGroup)
         {
             startActivity(new Intent(this, MakeGroupActivity.class));
-        }
-        else if(view == personal)
-        {
-            startActivity(new Intent(this, PersonalTimeTableActivity.class));
-        }
-        else if(view == groupTimeTable)
-        {
-            startActivity(new Intent(this, GroupTimeTableActivity.class));
-        }
-        else if(view == myPage){
-            startActivity(new Intent(this, MyPageActivity.class));
         }
     }
 }
