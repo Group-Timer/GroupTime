@@ -5,9 +5,9 @@
     <solid android:color="#EAEAEA"/>
     <!-- 네 귀퉁이? 모양 -->
     <corners
-        android:bottomLeftRadius="120dp"
-        android:bottomRightRadius="120dp"
-        android:topLeftRadius="120dp"
-        android:topRightRadius="120dp"/>
+        android:bottomLeftRadius="30dp"
+        android:bottomRightRadius="30dp"
+        android:topLeftRadius="30dp"
+        android:topRightRadius="30dp"/>
 
 </shape>

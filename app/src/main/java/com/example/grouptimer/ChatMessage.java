@@ -7,7 +7,7 @@ public class ChatMessage
     public String Message;
     public String SenderUID;
 
-    public int SendTime;
+    public long SendTime;
 
     public Map<String, Boolean> MemberIndice;
 
@@ -18,7 +18,7 @@ public class ChatMessage
     }
 
 
-    public ChatMessage(String message, String senderUID, int sendTime, Map<String, Boolean> memberIndice)
+    public ChatMessage(String message, String senderUID, long sendTime, Map<String, Boolean> memberIndice)
     {
         this.Message = message;
         this.SenderUID = senderUID;

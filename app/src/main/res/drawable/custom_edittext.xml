@@ -12,10 +12,10 @@
             <solid android:color="#00FFFFFF" />
 
             <corners
-                android:bottomLeftRadius="50dp"
-                android:bottomRightRadius="50dp"
-                android:topLeftRadius="50dp"
-                android:topRightRadius="50dp"/>
+                android:bottomLeftRadius="30dp"
+                android:bottomRightRadius="30dp"
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp"/>
         </shape>
     </item>
 

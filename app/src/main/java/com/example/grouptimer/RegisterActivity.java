@@ -54,9 +54,21 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 String confirmPassword = confirmPasswordEditText.getText().toString();
 
-                if (emailEditText.getText().toString() == null || nameEditText.getText().toString() == null || passwordEditText.getText().toString() == null){
+                if (emailEditText.getText().toString().isEmpty() == true ||
+                        nameEditText.getText().toString().isEmpty() == true ||
+                        passwordEditText.getText().toString().isEmpty() == true ||
+                        phoneEditText.getText().toString().isEmpty() == true ||
+                        confirmPasswordEditText.getText().toString().isEmpty() == true ||
+                        wrongPasswordTextView.getText().toString().isEmpty() == true)
+                {
+                    Toast.makeText(getApplicationContext(), "입력이 올바르지 않습니다", Toast.LENGTH_SHORT);
+
+
                     return;
                 }
+
+
+
 
                 if( password.equals(confirmPassword) == false ){
 

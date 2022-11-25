@@ -42,7 +42,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
@@ -1241,7 +1240,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         }
         else if(view.getId() == ChattingButtonID)
         {
-            startActivity(new Intent(this, GroupChatting.class));
+            startActivity(new Intent(this, GroupChattingActivity.class));
         }
     }
 }

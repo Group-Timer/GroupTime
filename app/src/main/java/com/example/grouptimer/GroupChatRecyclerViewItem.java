@@ -10,7 +10,7 @@ public class GroupChatRecyclerViewItem
     public String Message;
     public String SenderUID;
 
-    public int SendTime;
+    public long SendTime;
 
     public Map<String, Boolean> MemberIndice;
 
@@ -25,7 +25,7 @@ public class GroupChatRecyclerViewItem
     }
 
 
-    public GroupChatRecyclerViewItem(Map<String, Boolean> memberIndice, String message, int sendTime, String senderUID)
+    public GroupChatRecyclerViewItem(Map<String, Boolean> memberIndice, String message, long sendTime, String senderUID)
     {
         this.MemberIndice = memberIndice;
         this.Message = message;

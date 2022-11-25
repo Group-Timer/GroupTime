@@ -20,7 +20,7 @@
         android:windowSoftInputMode="adjustNothing"
         tools:targetApi="31">
         <activity
-            android:name=".GroupChatting"
+            android:name=".GroupChattingActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

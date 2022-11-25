@@ -63,6 +63,10 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
         String message;
 
         String sendTime;
+        String year;
+        String month;
+        String day;
+        String date;
         String hour;
         String minute;
         String time;
@@ -70,17 +74,42 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
         String senderUID;
         String senderName;
 
+        //int date;
+
         Map<String, Boolean> memberIndice;
 
 
-        message = this.AdapterChatList.get(position).Message;
-        sendTime = Integer.toString(this.AdapterChatList.get(position).SendTime);
-        senderUID = this.AdapterChatList.get(position).SenderUID;
         memberIndice = this.AdapterChatList.get(position).MemberIndice;
+        message = this.AdapterChatList.get(position).Message;
+        sendTime = Long.toString(this.AdapterChatList.get(position).SendTime);
+        senderUID = this.AdapterChatList.get(position).SenderUID;
 
 
-        hour = sendTime.substring(4, 6);
-        minute = sendTime.substring(6, 8);
+        if(message == null)
+        {
+            year = sendTime.substring(0, 4);
+            month = sendTime.substring(4, 6);
+            day = sendTime.substring(6, 8);
+
+            date = year + "년  " + month + "월  " + day +"일";
+
+            viewHolder.ChatDate.setText(date);
+
+            viewHolder.DateLinearLayout.setVisibility(View.VISIBLE);
+            viewHolder.ChatLinearLayout.setVisibility(View.GONE);
+
+            return;
+        }
+        else
+        {
+            viewHolder.DateLinearLayout.setVisibility(View.GONE);
+            viewHolder.ChatLinearLayout.setVisibility(View.VISIBLE);
+        }
+
+
+        //date = Integer.parseInt(sendTime.substring(0, 8));
+        hour = sendTime.substring(8, 10);
+        minute = sendTime.substring(10, 12);
 
 
         /*
@@ -126,6 +155,10 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
         viewHolder.ChatText.setText(message);
         viewHolder.ChatTime.setText(time);
         viewHolder.ChatSenderName.setText(senderName);
+
+
+        //Log.d("GT", "Last Send Date : " + date + ", " + message);
+
 
         if(indiceCnt > 0)
         {

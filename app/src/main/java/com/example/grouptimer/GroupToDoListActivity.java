@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +25,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class GroupToDoListActivity extends AppCompatActivity {
+
+    private ProgressBar toDoListProgressBar;
 
     private RecyclerView toDoListRecycleView;
 
@@ -58,6 +61,7 @@ public class GroupToDoListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_to_do_list);
 
+        toDoListProgressBar = (ProgressBar) findViewById(R.id.toDoListProgressBar);
         toDoListRecycleView = (RecyclerView) findViewById(R.id.toDoListRecycleView);
         toDoListPlusButton = (Button) findViewById(R.id.toDoListPlusButton);
         toDoListSaveButton = (Button) findViewById(R.id.toDoListSaveButton);
@@ -150,6 +154,10 @@ public class GroupToDoListActivity extends AppCompatActivity {
                                                                     toDoListRecycleView.setLayoutManager(new LinearLayoutManager(GroupToDoListActivity.this));
                                                                     RecyclerAdapter.setToDoListItemArrayList(toDoListItemArrayList);
                                                                     toDoListRecycleView.setAdapter(RecyclerAdapter);
+
+
+                                                                    toDoListProgressBar.setVisibility(View.GONE);
+                                                                    toDoListRecycleView.setVisibility(View.VISIBLE);
                                                                 }
 
                                                             }

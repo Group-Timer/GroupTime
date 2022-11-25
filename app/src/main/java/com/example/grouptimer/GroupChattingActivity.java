@@ -16,13 +16,10 @@ import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
-import android.telephony.mbms.MbmsErrors;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,15 +36,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TimerTask;
 
-import kotlinx.coroutines.Delay;
-
-public class GroupChatting extends AppCompatActivity implements View.OnClickListener {
+public class GroupChattingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseUser user;
     DatabaseReference databaseReference;
@@ -83,6 +76,9 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
     ProgressDialog progressDialog = null;
 
 
+    private long LastChatDate;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +97,8 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
         NetworkConnection = false;
         FirstNetworkCheck = false;
 
+        LastChatDate = 0;
+
 
         ChatList = new ArrayList<GroupChatRecyclerViewItem>();
 
@@ -108,7 +106,7 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
         connectivityManager = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
 
-        progressDialog = new ProgressDialog(GroupChatting.this);
+        progressDialog = new ProgressDialog(GroupChattingActivity.this);
 
         runOnUiThread(new Runnable()
         {
@@ -492,7 +490,7 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
 
 
                 Log.d("GT", item.Message);
-                Log.d("GT", Integer.toString(item.SendTime));
+                Log.d("GT", Long.toString(item.SendTime));
                 Log.d("GT", item.SenderUID);
 
 
@@ -528,6 +526,29 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
 
 
                 item.Key = snapshot.getKey();
+
+
+
+                {
+                    String buffer;
+                    long date;
+
+
+                    buffer = Long.toString(item.SendTime);
+                    buffer = buffer.substring(0, 8);
+
+                    date = Long.parseLong(buffer);
+
+
+                    if(LastChatDate != date)
+                    {
+                        GroupChatRecyclerViewItem dateItem = new GroupChatRecyclerViewItem(null, null, date, null);
+
+                        LastChatDate = date;
+
+                        ChatList.add(dateItem);
+                    }
+                }
 
 
                 ChatList.add(item);
@@ -595,7 +616,7 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
 
         String senderUID;
 
-        int sendTime;
+        long sendTime;
 
         Map<String, Boolean> memberIndice;
 
@@ -634,16 +655,16 @@ public class GroupChatting extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private int Generate_Time()
+    private long Generate_Time()
     {
-        int sendTime;
+        long sendTime;
 
-        SimpleDateFormat date = new SimpleDateFormat("MMddHHmmss", Locale.KOREAN);
+        SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREAN);
 
 
-        sendTime = Integer.parseInt(date.format(System.currentTimeMillis()));
+        sendTime = Long.parseLong(date.format(System.currentTimeMillis()));
 
-        Log.d("GT", Integer.toString(sendTime));
+        Log.d("GT", Long.toString(sendTime));
 
 
         return sendTime;
