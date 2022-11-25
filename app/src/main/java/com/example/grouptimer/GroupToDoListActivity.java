@@ -106,6 +106,25 @@ public class GroupToDoListActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
+                        if(dataSnapshot == null)
+                        {
+                            toDoListProgressBar.setVisibility(View.GONE);
+                            toDoListRecycleView.setVisibility(View.VISIBLE);
+
+
+                            return;
+                        }
+
+                        if(dataSnapshot.getValue(Integer.class) == null)
+                        {
+                            toDoListProgressBar.setVisibility(View.GONE);
+                            toDoListRecycleView.setVisibility(View.VISIBLE);
+
+
+                            return;
+                        }
+
+
                         if(dataSnapshot.getValue(Integer.class) != null){
                             toDoListCnt = dataSnapshot.getValue(Integer.class);
 
