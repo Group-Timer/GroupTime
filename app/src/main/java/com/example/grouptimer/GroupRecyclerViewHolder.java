@@ -20,6 +20,8 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 
     //public RecyclerView ToDoListRecyclerView;
 
+    public TextView GroupScheduleTimeText;
+
     public ViewPager2 ToDoListViewPagers;
 
     public ProgressBar ToDoListProgressBar;
@@ -37,6 +39,7 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
         GroupNameText = item.findViewById(R.id.groupName);
         ExpansionButton = item.findViewById(R.id.expansion);
         //ToDoListRecyclerView = item.findViewById(R.id.toDoListRecyclerView);
+        GroupScheduleTimeText = item.findViewById(R.id.groupScheduleTime);
         ToDoListViewPagers = item.findViewById(R.id.viewPager);
         ToDoListProgressBar = item.findViewById(R.id.toDoListProgressBar);
         EmptyText = item.findViewById(R.id.toDoListEmptyText);

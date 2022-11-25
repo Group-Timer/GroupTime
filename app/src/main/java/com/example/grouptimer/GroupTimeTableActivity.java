@@ -10,6 +10,8 @@ import androidx.appcompat.widget.ContentFrameLayout;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,18 +21,23 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +45,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +62,26 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     LinearLayout                        RootLayout;
     ContentFrameLayout.LayoutParams     RootParams;
 
+
+    boolean scheduleChecked;
+    boolean endTimeChecked;
+
+    AlertDialog customPickerDialog;
+
+    private TextView StartDateTextView;
+    private TextView StartTimeTextView;
+    private TextView EndDateTextView;
+    private TextView EndTimeTextView;
+
+    int StartDateValue;
+    int StartTimeValue;
+    int EndDateValue;
+    int EndTimeValue;
+
+    boolean StartDateChecked;
+    boolean StartTimeChecked;
+    boolean EndDateChecked;
+    boolean EndTimeChecked;
 
 
     String[]                    Hour                    = {"9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
@@ -121,6 +150,9 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     static LayoutInflater inflater;
 
 
+    ProgressDialog progressDialog = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +163,12 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
         InsertCodeOverlap = false;
+
+
+        StartDateValue = 0;
+        StartTimeValue = 0;
+        EndDateValue = 0;
+        EndTimeValue = 0;
 
 
         requestLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>()
@@ -169,6 +207,23 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     public void onResume()
     {
         super.onResume();
+
+
+        progressDialog = new ProgressDialog(GroupTimeTableActivity.this);
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("Loading ...");
+                progressDialog.setCancelable(false);
+
+                progressDialog.show();
+            }
+        });
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -263,38 +318,61 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     {
         LinearLayout topLayout = new LinearLayout(this);
         topLayout.setOrientation(LinearLayout.HORIZONTAL);
+        topLayout.setWeightSum(5);
+        topLayout.setGravity(Gravity.CENTER);
 
         LinearLayout.LayoutParams topLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        topLayoutParams.setMargins(20, 40, 20, 20);
+        topLayoutParams.gravity = Gravity.CENTER;
 
 
-        Button toDoListButton = new Button(this);
-        toDoListButton.setId(ToDoListButtonID);
-        toDoListButton.setText("To Do List");
-        toDoListButton.setGravity(Gravity.CENTER);
-        toDoListButton.setOnClickListener(this);
+        Button scheduleStartTimeButton = new Button(this);
+        scheduleStartTimeButton.setId(ScheduleTimeButtonID);
+        scheduleStartTimeButton.setText("Schedule Time");
+        scheduleStartTimeButton.setGravity(Gravity.CENTER);
+        scheduleStartTimeButton.setBackgroundResource(R.drawable.small_button);
+        scheduleStartTimeButton.setOnClickListener(this);
 
-        LinearLayout.LayoutParams toDoListParams    = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-        toDoListParams.weight                       = 2;
-        toDoListParams.setMargins(200, 0, 30, 15);
+
+        LinearLayout.LayoutParams scheduleStartParams       = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        scheduleStartParams.weight                          = 2;
+        scheduleStartParams.setMargins(0, 5, 0, 5);
+
+
+        TextView tempTextView = new Button(this);
+        tempTextView.setVisibility(View.INVISIBLE);
+
+        LinearLayout.LayoutParams tempTextParams    = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        tempTextParams.weight                       = 0.5f;
 
 
         Button shareButton = new Button(this);
         shareButton.setId(ShareButtonID);
         shareButton.setText("Share");
         shareButton.setGravity(Gravity.CENTER);
+        shareButton.setBackgroundResource(R.drawable.small_button);
         shareButton.setOnClickListener(this);
+
+
+        LinearLayout.LayoutParams shareParams   = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        shareParams.weight                      = 1.5f;
+        shareParams.setMargins(0, 5, 0, 5);
+        //shareParams.setMargins(30, 15, 20, 15);
+
 
         if(GroupMaker == false)
         {
             shareButton.setVisibility(View.INVISIBLE);
         }
 
-        LinearLayout.LayoutParams shareParams   = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-        shareParams.weight                      = 1;
-        shareParams.setMargins(30, 0, 200, 15);
+        if(GroupMaker == false)
+        {
+            scheduleStartTimeButton.setVisibility(View.INVISIBLE);
+        }
 
 
-        topLayout.addView(toDoListButton, toDoListParams);
+        topLayout.addView(scheduleStartTimeButton, scheduleStartParams);
+        topLayout.addView(tempTextView, tempTextParams);
         topLayout.addView(shareButton, shareParams);
 
         RootLayout.addView(topLayout, topLayoutParams);
@@ -313,11 +391,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         LinearLayout.LayoutParams bottomLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
 
-        Button scheduleTimeButton = new Button(this);
-        scheduleTimeButton.setId(ScheduleTimeButtonID);
-        scheduleTimeButton.setText("Schedule Time");
-        scheduleTimeButton.setGravity(Gravity.CENTER);
-        scheduleTimeButton.setOnClickListener(this);
+        Button toDoListButton = new Button(this);
+        toDoListButton.setId(ToDoListButtonID);
+        toDoListButton.setText("To Do List");
+        toDoListButton.setGravity(Gravity.CENTER);
+        toDoListButton.setOnClickListener(this);
+
+        LinearLayout.LayoutParams toDoListParams    = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        toDoListParams.weight                       = 2;
+        toDoListParams.setMargins(200, 0, 30, 15);
+
 
         Button chattingButton = new Button(this);
         chattingButton.setId(ChattingButtonID);
@@ -326,19 +409,11 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         chattingButton.setOnClickListener(this);
 
 
-        if(GroupMaker == false)
-        {
-            scheduleTimeButton.setVisibility(View.INVISIBLE);
-        }
-
-        LinearLayout.LayoutParams scheduleParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        //scheduleParams.setMargins(300, 15, 300, 15);
-
         LinearLayout.LayoutParams chattingParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         //scheduleParams.setMargins(300, 15, 300, 15);
 
 
-        bottomLayout.addView(scheduleTimeButton, scheduleParams);
+        bottomLayout.addView(toDoListButton, toDoListParams);
         bottomLayout.addView(chattingButton, chattingParams);
 
 
@@ -570,6 +645,13 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                                                 if(LoadCnt == (DefineValue.Day_Cnt * GroupMemberCnt))
                                                 {
                                                     Show_GroupTimeTable();
+
+
+                                                    if(progressDialog != null)
+                                                    {
+                                                        progressDialog.dismiss();
+                                                        progressDialog = null;
+                                                    }
                                                 }
 
 
@@ -1087,7 +1169,407 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     
     private void Set_ScheduleTime()
     {
-        Show_DatePicker();
+        //Show_DatePicker();
+
+        Show_CustomPickerDialog();
+    }
+
+
+    private void Show_CustomPickerDialog()
+    {
+        CheckBox checkBox;
+        LinearLayout endDateLayout;
+        LinearLayout endTimeLayout;
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        View customDialogView = inflater.inflate(R.layout.custom_schedule_time_dialog, null);
+
+
+        endDateLayout = (LinearLayout) customDialogView.findViewById(R.id.endDateLayout);
+        endTimeLayout = (LinearLayout) customDialogView.findViewById(R.id.endTimeLayout);
+
+        endDateLayout.setVisibility(View.GONE);
+        endTimeLayout.setVisibility(View.GONE);
+
+
+        StartDateTextView = (TextView) customDialogView.findViewById(R.id.startDate);
+        StartTimeTextView = (TextView) customDialogView.findViewById(R.id.startTime);
+        EndDateTextView = (TextView) customDialogView.findViewById(R.id.endDate);
+        EndTimeTextView = (TextView) customDialogView.findViewById(R.id.endTime);
+
+        StartDateTextView.setOnClickListener(this);
+        StartTimeTextView.setOnClickListener(this);
+        EndDateTextView.setOnClickListener(this);
+        EndTimeTextView.setOnClickListener(this);
+
+
+        checkBox = (CheckBox) customDialogView.findViewById(R.id.endTimeCheck);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                scheduleChecked = checkBox.isChecked();
+
+                Log.d("GT", "Dialog check box : " + scheduleChecked);
+
+                if(scheduleChecked == true)
+                {
+                    endDateLayout.setVisibility(View.VISIBLE);
+                    endTimeLayout.setVisibility(View.VISIBLE);
+
+                    if (customDialogView.getParent() != null) {
+                        ((ViewGroup) customDialogView.getParent()).removeView(customDialogView);
+                    }
+
+                    builder.setView(customDialogView);
+
+                    if(customPickerDialog != null)
+                    {
+                        customPickerDialog.dismiss();
+                        customPickerDialog = null;
+
+                        customPickerDialog = builder.create();
+
+                        runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                customPickerDialog.show();
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    endDateLayout.setVisibility(View.GONE);
+                    endTimeLayout.setVisibility(View.GONE);
+
+                    if (customDialogView.getParent() != null)
+                    {
+                        ((ViewGroup) customDialogView.getParent()).removeView(customDialogView);
+                    }
+
+                    builder.setView(customDialogView);
+
+                    if(customPickerDialog != null)
+                    {
+                        customPickerDialog.dismiss();
+                        customPickerDialog = null;
+
+                        customPickerDialog = builder.create();
+
+                        runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                customPickerDialog.show();
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+
+
+        builder.setView(customDialogView);
+        builder.setPositiveButton("저장", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if(scheduleChecked == true)
+                {
+                    if(StartDateValue == 0 || StartTimeValue == 0 || EndDateValue == 0 || EndTimeValue == 0)
+                    {
+                        Toast.makeText(getApplicationContext(), "입력이 올바르지 않습니다", Toast.LENGTH_SHORT).show();
+
+                        if(customPickerDialog != null)
+                        {
+                            customPickerDialog.dismiss();
+
+                            customPickerDialog = null;
+
+                            if (customDialogView.getParent() != null)
+                            {
+                                ((ViewGroup) customDialogView.getParent()).removeView(customDialogView);
+                            }
+
+                            checkBox.setChecked(scheduleChecked);
+
+                            customPickerDialog = builder.create();
+
+
+                            runOnUiThread(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    customPickerDialog.show();
+                                }
+                            });
+                        }
+
+
+                        return;
+                    }
+
+
+                    if(StartDateValue == EndDateValue)
+                    {
+                        if(StartTimeValue == EndTimeValue)
+                        {
+                            Toast.makeText(getApplicationContext(), "시작, 종료 시간이 동일합니다", Toast.LENGTH_SHORT).show();
+
+                            if(customPickerDialog != null)
+                            {
+                                customPickerDialog.dismiss();
+
+                                customPickerDialog = null;
+
+                                if (customDialogView.getParent() != null)
+                                {
+                                    ((ViewGroup) customDialogView.getParent()).removeView(customDialogView);
+                                }
+
+                                checkBox.setChecked(scheduleChecked);
+
+                                customPickerDialog = builder.create();
+
+
+                                runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        customPickerDialog.show();
+                                    }
+                                });
+                            }
+
+
+                            return;
+                        }
+                        else if(StartTimeValue > EndTimeValue)
+                        {
+                            Toast.makeText(getApplicationContext(), "시작, 종료 시간이 올바르지 않습니다", Toast.LENGTH_SHORT).show();
+
+                            if(customPickerDialog != null)
+                            {
+                                customPickerDialog.dismiss();
+
+                                customPickerDialog = null;
+
+                                if (customDialogView.getParent() != null)
+                                {
+                                    ((ViewGroup) customDialogView.getParent()).removeView(customDialogView);
+                                }
+
+                                checkBox.setChecked(scheduleChecked);
+
+                                customPickerDialog = builder.create();
+
+
+                                runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        customPickerDialog.show();
+                                    }
+                                });
+                            }
+
+
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if(StartDateValue == 0 || StartTimeValue == 0)
+                    {
+                        Toast.makeText(getApplicationContext(), "입력이 올바르지 않습니다", Toast.LENGTH_SHORT).show();
+
+                        if(customPickerDialog != null)
+                        {
+                            customPickerDialog.dismiss();
+
+                            customPickerDialog = null;
+
+                            if (customDialogView.getParent() != null)
+                            {
+                                ((ViewGroup) customDialogView.getParent()).removeView(customDialogView);
+                            }
+
+                            checkBox.setChecked(scheduleChecked);
+
+                            customPickerDialog = builder.create();
+
+
+                            runOnUiThread(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    customPickerDialog.show();
+                                }
+                            });
+                        }
+
+
+                        return;
+                    }
+                }
+
+
+
+                if(StartDateValue != 0)
+                {
+                    FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("ScheduleStartDate").setValue(StartDateValue);
+                }
+
+                if(StartTimeValue != 0)
+                {
+                    FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("ScheduleStartTime").setValue(StartTimeValue);
+                }
+
+                if(EndDateValue != 0)
+                {
+                    FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("ScheduleEndDate").setValue(EndDateValue);
+                }
+                else
+                {
+                    FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("ScheduleEndDate").setValue(0);
+                    FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("ScheduleEndTime").setValue(0);
+                }
+
+                if(EndTimeValue != 0)
+                {
+                    FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("ScheduleEndTime").setValue(EndTimeValue);
+                }
+                else
+                {
+                    FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("ScheduleEndDate").setValue(0);
+                    FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("ScheduleEndTime").setValue(0);
+                }
+            }
+        });
+
+        builder.setNegativeButton("취소", null);
+
+
+        customPickerDialog = builder.create();
+
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                customPickerDialog.show();
+            }
+        });
+    }
+
+
+    private void Show_CustomDialog_DatePicker()
+    {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA);
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+        dateText = null;
+
+
+        datePickerDialog = new DatePickerDialog(this, R.style.PickerDialogTheme, new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day)
+            {
+                dateText = Integer.toString(year);
+
+                if(month + 1 < 10)
+                {
+                    dateText += "0" + Integer.toString(month + 1);
+                }
+                else
+                {
+                    dateText += Integer.toString(month + 1);
+                }
+
+                if(day < 10)
+                {
+                    dateText += "0" + Integer.toString(day);
+                }
+                else
+                {
+                    dateText += Integer.toString(day);
+                }
+
+
+                if(datePickerDialog != null)
+                {
+                    String buffer;
+                    String yearText;
+                    String monthText;
+                    String dayText;
+
+
+                    yearText = dateText.substring(0, 4);
+                    monthText = dateText.substring(4, 6);
+                    dayText = dateText.substring(6, 8);
+
+
+                    buffer = yearText + " - " + monthText + " - " + dayText;
+
+
+                    if(StartDateChecked == true)
+                    {
+                        StartDateValue = Integer.parseInt(dateText);
+
+                        StartDateTextView.setText(buffer);
+
+                        Log.d("GT", "Custom Picker Dialog Value : " + StartDateValue);
+                    }
+
+                    if(EndDateChecked == true)
+                    {
+                        EndDateValue = Integer.parseInt(dateText);
+
+                        EndDateTextView.setText(buffer);
+
+                        Log.d("GT", "Custom Picker Dialog Value : " + EndDateValue);
+                    }
+
+                    datePickerDialog.dismiss();
+
+                    datePickerDialog = null;
+                }
+            }
+        }, year, month, day);
+
+
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePickerDialog.setCanceledOnTouchOutside(false);
+
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                datePickerDialog.show();
+            }
+        });
     }
 
 
@@ -1100,7 +1582,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
+        datePickerDialog = new DatePickerDialog(this, R.style.PickerDialogTheme, new DatePickerDialog.OnDateSetListener()
         {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day)
@@ -1140,7 +1622,45 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
             }
         }, year, month, day);
 
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.custom_picker_dialog, null);
+
+        TextView textView = customView.findViewById(R.id.pickerTitle);
+
+        if(endTimeChecked == false)
+        {
+            textView.setText("시작 시간");
+        }
+        else
+        {
+            textView.setText("종료 시간");
+        }
+
+
+        datePickerDialog.setCustomTitle(customView);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.setCanceledOnTouchOutside(false);
+        datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+
+                if(scheduleChecked == true && endTimeChecked == true)
+                {
+                    endTimeChecked = false;
+
+                    if(datePickerDialog != null)
+                    {
+                        datePickerDialog.dismiss();
+
+                        datePickerDialog = null;
+                    }
+
+
+                    Show_TimePicker();
+                }
+            }
+        });
 
         runOnUiThread(new Runnable()
         {
@@ -1153,7 +1673,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     }
 
 
-    private void Show_TimePicker()
+    private void Show_CustomDialog_TimePicker()
     {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA);
 
@@ -1161,7 +1681,10 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         int minute = calendar.get(Calendar.MINUTE);
 
 
-        timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener()
+        timeText = null;
+
+
+        timePickerDialog = new TimePickerDialog(this, R.style.PickerDialogTheme, new TimePickerDialog.OnTimeSetListener()
         {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute)
@@ -1185,23 +1708,176 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                 }
 
 
-                if(datePickerDialog != null)
+                if(timePickerDialog != null)
                 {
-                    datePickerDialog.dismiss();
+                    String buffer;
+                    String hourText;
+                    String minuteText;
 
-                    datePickerDialog = null;
+
+                    if(timeText.length() < 4)
+                    {
+                        hourText = timeText.substring(0, 1);
+                        minuteText = timeText.substring(1, 3);
+                    }
+                    else
+                    {
+                        hourText = timeText.substring(0, 2);
+                        minuteText = timeText.substring(2, 4);
+                    }
+
+                    buffer = hourText + " : " + minuteText;
+
+
+                    if(StartTimeChecked == true)
+                    {
+                        StartTimeValue = Integer.parseInt(timeText);
+
+                        StartTimeTextView.setText(buffer);
+
+
+                        Log.d("GT", "Custom Picker Dialog Value : " + StartTimeValue);
+                    }
+
+                    if(EndTimeChecked == true)
+                    {
+                        EndTimeValue = Integer.parseInt(timeText);
+
+                        EndTimeTextView.setText(buffer);
+
+                        Log.d("GT", "Custom Picker Dialog Value : " + EndTimeValue);
+                    }
+
+
+                    timePickerDialog.dismiss();
+
+                    timePickerDialog = null;
+                }
+            }
+        }, hour, minute,false);
+
+
+        timePickerDialog.setCanceledOnTouchOutside(false);
+
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                timePickerDialog.show();
+            }
+        });
+    }
+
+
+    private void Show_TimePicker()
+    {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA);
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+
+        timePickerDialog = new TimePickerDialog(this, R.style.PickerDialogTheme, new TimePickerDialog.OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hour, int minute)
+            {
+                if(hour < 10)
+                {
+                    timeText = "0" + Integer.toString(hour);
+                }
+                else
+                {
+                    timeText = Integer.toString(hour);
+                }
+
+                if(minute < 10)
+                {
+                    timeText += "0" + Integer.toString(minute);
+                }
+                else
+                {
+                    timeText += Integer.toString(minute);
+                }
+
+
+                if(timePickerDialog != null)
+                {
+                    timePickerDialog.dismiss();
+
+                    timePickerDialog = null;
                 }
 
                 if(timeText.isEmpty() == false)
                 {
                     ScheduleTimeText = dateText + timeText;
 
+
                     Log.d("GT", "Schedule Time : " + ScheduleTimeText);
+
+
+                    if(scheduleChecked == false)
+                    {
+                        return;
+                    }
+
+
+                    if(endTimeChecked == false)
+                    {
+                        endTimeChecked = true;
+
+                        Show_DatePicker();
+                    }
                 }
             }
         }, hour, minute,false);
 
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.custom_picker_dialog, null);
+
+        TextView textView = customView.findViewById(R.id.pickerTitle);
+
+        if(endTimeChecked == false)
+        {
+            textView.setText("시작 시간");
+        }
+        else
+        {
+            textView.setText("종료 시간");
+        }
+
+
+        timePickerDialog.setCustomTitle(customView);
+        //timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         timePickerDialog.setCanceledOnTouchOutside(false);
+        timePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+
+                Log.d("GT", "Timepicker Dialog : Dismiss");
+            }
+        });
+        timePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+
+                Log.d("GT", "Timepicker Dialog : Cancel");
+
+
+                if(timePickerDialog != null)
+                {
+                    timePickerDialog.dismiss();
+
+                    timePickerDialog = null;
+                }
+
+                Show_DatePicker();
+            }
+        });
+
 
         runOnUiThread(new Runnable()
         {
@@ -1236,11 +1912,49 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         }
         else if(view.getId() == ScheduleTimeButtonID)
         {
+            endTimeChecked = false;
+
             Set_ScheduleTime();
         }
         else if(view.getId() == ChattingButtonID)
         {
             startActivity(new Intent(this, GroupChattingActivity.class));
+        }
+        else if(view == StartDateTextView)
+        {
+            StartDateChecked = true;
+            StartTimeChecked = false;
+            EndDateChecked = false;
+            EndTimeChecked = false;
+
+            Show_CustomDialog_DatePicker();
+        }
+        else if(view == StartTimeTextView)
+        {
+            StartDateChecked = false;
+            StartTimeChecked = true;
+            EndDateChecked = false;
+            EndTimeChecked = false;
+
+            Show_CustomDialog_TimePicker();
+        }
+        else if(view == EndDateTextView)
+        {
+            StartDateChecked = false;
+            StartTimeChecked = false;
+            EndDateChecked = true;
+            EndTimeChecked = false;
+
+            Show_CustomDialog_DatePicker();
+        }
+        else if(view == EndTimeTextView)
+        {
+            StartDateChecked = false;
+            StartTimeChecked = false;
+            EndDateChecked = false;
+            EndTimeChecked = true;
+
+            Show_CustomDialog_TimePicker();
         }
     }
 }

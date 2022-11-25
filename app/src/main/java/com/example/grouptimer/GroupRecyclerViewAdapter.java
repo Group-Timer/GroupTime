@@ -46,6 +46,12 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     //ViewPager2RecyclerAdapter pagerAdapter;
 
 
+    int startDateValue;
+    int startTimeValue;
+    int endDateValue;
+    int endTimeTavlue;
+
+
     public GroupRecyclerViewAdapter(ArrayList<String> idList, ArrayList<String> nameList)
     {
         Log.d("GT", "id dataList size : " + idList.size());
@@ -136,6 +142,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                     viewHolder.EmptyText.setBackground(null);
 
                     viewHolder.ToDoListProgressBar.setVisibility(View.GONE);
+                    viewHolder.GroupScheduleTimeText.setVisibility(View.GONE);
                     viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
                     viewHolder.EmptyText.setVisibility(View.GONE);
 
@@ -157,12 +164,169 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                     }
                     viewHolder.GroupNameText.setBackground(null);
                     viewHolder.ToDoListProgressBar.setVisibility(View.VISIBLE);
+                    viewHolder.GroupScheduleTimeText.setVisibility(View.GONE);
                     viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
                     viewHolder.EmptyText.setVisibility(View.GONE);
 
 
                     toDoListTextList.clear();
                     toDoListCheckBoxList.clear();
+
+
+                    FirebaseDatabase.getInstance().getReference().child("Groups").child(id).child("ScheduleStartDate").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            startDateValue = 0;
+
+                            if(snapshot.getValue() == null || snapshot.getValue(Integer.class) == 0)
+                            {
+                                viewHolder.GroupScheduleTimeText.setVisibility(View.GONE);
+
+
+                                return;
+                            }
+
+                            startDateValue = snapshot.getValue(Integer.class);
+
+
+                            FirebaseDatabase.getInstance().getReference().child("Groups").child(id).child("ScheduleStartTime").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                    startTimeValue = 0;
+
+                                    if(snapshot.getValue() == null || snapshot.getValue(Integer.class) == 0)
+                                    {
+                                        viewHolder.GroupScheduleTimeText.setVisibility(View.GONE);
+
+
+                                        return;
+                                    }
+
+                                    startTimeValue = snapshot.getValue(Integer.class);
+
+
+                                    FirebaseDatabase.getInstance().getReference().child("Groups").child(id).child("ScheduleEndDate").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                            endDateValue = 0;
+
+                                            /*
+                                            if(snapshot.getValue() == null || snapshot.getValue(Integer.class) == 0)
+                                            {
+                                                viewHolder.GroupScheduleTimeText.setVisibility(View.GONE);
+
+
+                                                return;
+                                            }
+
+                                             */
+
+
+                                            endDateValue = snapshot.getValue(Integer.class);
+
+
+                                            FirebaseDatabase.getInstance().getReference().child("Groups").child(id).child("ScheduleEndTime").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                    String scheduleText;
+
+
+                                                    endTimeTavlue = 0;
+
+                                                    /*
+                                                    if(snapshot.getValue() == null || snapshot.getValue(Integer.class) == 0)
+                                                    {
+                                                        viewHolder.GroupScheduleTimeText.setVisibility(View.GONE);
+
+
+                                                        return;
+                                                    }
+
+                                                     */
+
+                                                    endTimeTavlue = snapshot.getValue(Integer.class);
+
+
+                                                    scheduleText = Integer.toString(startDateValue).substring(0, 4) + " / ";
+                                                    scheduleText += Integer.toString(startDateValue).substring(4, 6) + " / ";
+                                                    scheduleText += Integer.toString(startDateValue).substring(6, 8) + "  -  ";
+
+                                                    if(Integer.toString(startTimeValue).length() < 2)
+                                                    {
+                                                        scheduleText += "0" + " : ";
+                                                        scheduleText += "0" + Integer.toString(startTimeValue).substring(0, 1);
+                                                    }
+                                                    else if(Integer.toString(startTimeValue).length() < 3)
+                                                    {
+                                                        scheduleText += "0" + " : ";
+                                                        scheduleText += Integer.toString(startTimeValue).substring(0, 2);
+                                                    }
+                                                    else if(Integer.toString(startTimeValue).length() < 4)
+                                                    {
+                                                        scheduleText += Integer.toString(startTimeValue).substring(0, 1) + " : ";
+                                                        scheduleText += Integer.toString(startTimeValue).substring(1, 3);
+                                                    }
+                                                    else
+                                                    {
+                                                        scheduleText += Integer.toString(startTimeValue).substring(0, 2) + " : ";
+                                                        scheduleText += Integer.toString(startTimeValue).substring(2, 4);
+                                                    }
+
+                                                    if(endDateValue != 0)
+                                                    {
+                                                        scheduleText += "\n\n";
+
+                                                        scheduleText += Integer.toString(endDateValue).substring(0, 4) + " / ";
+                                                        scheduleText += Integer.toString(endDateValue).substring(4, 6) + " / ";
+                                                        scheduleText += Integer.toString(endDateValue).substring(6, 8) + "  -  ";
+
+                                                        if(Integer.toString(endTimeTavlue).length() < 4)
+                                                        {
+                                                            scheduleText += Integer.toString(endTimeTavlue).substring(0, 1) + " : ";
+                                                            scheduleText += Integer.toString(endTimeTavlue).substring(1, 3);
+                                                        }
+                                                        else
+                                                        {
+                                                            scheduleText += Integer.toString(endTimeTavlue).substring(0, 2) + " : ";
+                                                            scheduleText += Integer.toString(endTimeTavlue).substring(2, 4);
+                                                        }
+                                                    }
+
+
+                                                    viewHolder.GroupScheduleTimeText.setText(scheduleText);
+                                                    viewHolder.GroupScheduleTimeText.setVisibility(View.VISIBLE);
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
 
                     FirebaseDatabase.getInstance().getReference().child("Groups").child(id).child("ToDoListCnt").addListenerForSingleValueEvent(new ValueEventListener()
@@ -254,11 +418,11 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                                                         {
                                                             viewHolder.ToDoListViewPagers.setBackgroundResource(R.drawable.group_list_recycler_item);
                                                         }
+
                                                         viewHolder.ToDoListProgressBar.setBackground(null);
                                                         viewHolder.ToDoListProgressBar.setVisibility(View.GONE);
                                                         viewHolder.ToDoListViewPagers.setVisibility(View.VISIBLE);
                                                         viewHolder.EmptyText.setVisibility(View.GONE);
-
 
 
                                                         for(int i = 0; i < toDoListTextList.size(); i++)
@@ -290,6 +454,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                                 {
                                     viewHolder.EmptyText.setBackgroundResource(R.drawable.group_list_recycler_item);
                                 }
+
                                 viewHolder.ToDoListProgressBar.setBackground(null);
                                 viewHolder.ToDoListProgressBar.setVisibility(View.GONE);
                                 viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
@@ -306,7 +471,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             }
         });
     }
-
 
     @Override
     public int getItemCount()

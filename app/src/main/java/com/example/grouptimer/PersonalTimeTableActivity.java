@@ -3,6 +3,7 @@ package com.example.grouptimer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.annotation.DrawableRes;
@@ -43,6 +44,8 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     LinearLayout                        RootLayout;
     ContentFrameLayout.LayoutParams     RootParams;
 
+    private Button editButton;
+
 
 
     String[]                    Hour                    = {"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"};
@@ -70,6 +73,9 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     int LoadCnt;
 
     int[][] TimeTableBit;
+
+
+    ProgressDialog progressDialog = null;
 
 
     @Override
@@ -125,6 +131,13 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
                     if(timeTable.size() == DefineValue.Day_Cnt)
                     {
                         Show_TimeTable(timeTable);
+
+
+                        if(progressDialog != null)
+                        {
+                            progressDialog.dismiss();
+                            progressDialog = null;
+                        }
                     }
                 }
 
@@ -133,6 +146,30 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
                 }
             });
         }
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+
+        progressDialog = new ProgressDialog(PersonalTimeTableActivity.this);
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("Loading ...");
+                progressDialog.setCancelable(false);
+
+                progressDialog.show();
+            }
+        });
     }
 
 
@@ -194,10 +231,10 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         textParams.setMarginEnd(10);
 
 
-        Button editButton = new Button(this);
+        editButton = new Button(this);
         editButton.setId(EditButtonID);
         editButton.setText("Edit");
-        editButton.setBackgroundResource(R.drawable.small_button);
+        editButton.setBackgroundResource(R.drawable.small_button_outline);
         editButton.setOnClickListener(this);
 
         LinearLayout.LayoutParams editParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -539,13 +576,19 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
             {
                 TimeTableEditable = false;
 
-                Toast.makeText(this, "Diseditable", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Diseditable", Toast.LENGTH_SHORT).show();
+
+                editButton.setText("Edit");
+                editButton.setBackgroundResource(R.drawable.small_button_outline);
             }
             else
             {
                 TimeTableEditable = true;
 
-                Toast.makeText(this, "Editable", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Editable", Toast.LENGTH_SHORT).show();
+
+                editButton.setText("Editing");
+                editButton.setBackgroundResource(R.drawable.small_button);
             }
         }
         else if(view.getId() == SaveButtonID)
