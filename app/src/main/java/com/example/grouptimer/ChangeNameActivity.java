@@ -34,7 +34,6 @@ public class ChangeNameActivity extends AppCompatActivity {
     private EditText input;
     private boolean accept;
     private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +112,5 @@ public class ChangeNameActivity extends AppCompatActivity {
                         });
             }
         });
-
     }
 }

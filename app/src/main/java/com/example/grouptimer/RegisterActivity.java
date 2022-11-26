@@ -1,5 +1,3 @@
-
-
 package com.example.grouptimer;
 
 import static java.lang.Thread.sleep;
@@ -48,31 +46,66 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = (Button) findViewById(R.id.registerButton);
 
 
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                FirebaseAuth.getInstance()
-                        .createUserWithEmailAndPassword(emailEditText.getText().toString(),passwordEditText.getText().toString())
-                        .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                String userName = nameEditText.getText().toString();
-                                int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
-                                String eMail = emailEditText.getText().toString();
-                                int groupNum = 0;
+                String password = passwordEditText.getText().toString();
+                String confirmPassword = confirmPasswordEditText.getText().toString();
 
-                                User user = new User(eMail, groupNum, phoneNumber,userName);
+                if (emailEditText.getText().toString().isEmpty() == true ||
+                        nameEditText.getText().toString().isEmpty() == true ||
+                        passwordEditText.getText().toString().isEmpty() == true ||
+                        phoneEditText.getText().toString().isEmpty() == true ||
+                        confirmPasswordEditText.getText().toString().isEmpty() == true ||
+                        wrongPasswordTextView.getText().toString().isEmpty() == true)
+                {
+                    Toast.makeText(getApplicationContext(), "입력이 올바르지 않습니다", Toast.LENGTH_SHORT);
 
-                                String uid = task.getResult().getUser().getUid();
-                                FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
 
-                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                            }
-                        });
+                    return;
+                }
+
+
+
+
+                if( password.equals(confirmPassword) == false ){
+
+                    wrongPasswordTextView.setVisibility(View.VISIBLE);
+
+                    return;
+                }
+                else if( password.equals(confirmPassword) == true ){
+
+                    wrongPasswordTextView.setVisibility(View.INVISIBLE);
+                    FirebaseAuth.getInstance()
+                            .createUserWithEmailAndPassword(emailEditText.getText().toString(),passwordEditText.getText().toString())
+                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                    String userName = nameEditText.getText().toString();
+                                    int phoneNumber = Integer.parseInt(phoneEditText.getText().toString());
+                                    String eMail = emailEditText.getText().toString();
+                                    int groupNum = 0;
+
+                                    User user = new User(eMail, groupNum, phoneNumber,userName);
+
+                                    String uid = task.getResult().getUser().getUid();
+                                    FirebaseDatabase.getInstance().getReference().child("Users").child(uid).setValue(user);
+
+                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                }
+                            });
+
+
+                }
+
             }
         });
+
+
+
     }
 }

@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="GroupName"
-        android:textSize="25dp">
+        android:textSize="25dp"
+        android:backgroundTint = "#FBAEAE">
     </EditText>
 
     <Space
@@ -42,7 +43,8 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:hint="최대 5"
-        android:textSize="25dp">
+        android:textSize="25dp"
+        android:backgroundTint = "#FBAEAE">
     </EditText>
 
     <Space
@@ -87,7 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text=">"
-            android:textSize="25dp">
+            android:textSize="25dp"
+            android:background="@drawable/small_button">
 
         </Button>
 
@@ -113,7 +116,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="MAKE GROUP">
+        android:text="MAKE GROUP"
+        android:background="@drawable/big_button">
 
     </Button>
 

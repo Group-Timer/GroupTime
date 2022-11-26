@@ -8,7 +8,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="100dp">
     </Space>
 
     <RelativeLayout
@@ -30,9 +30,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/profileIMG"
-            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
-            android:text="프로필 이미지 변경"/>
+            android:layout_marginTop="10dp"
+            android:text="프로필 이미지 변경"
+            android:background="@drawable/change_button_background"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -68,8 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@id/UserID"
-                android:background="@drawable/line_23"
-                />
+                android:background="@drawable/line_23" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -91,16 +93,15 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/rectangle_2"
                 android:text="UserName"
-                android:textSize="25dp">
-            </TextView>
+                android:textAlignment="center"
+                android:textSize="25dp"></TextView>
 
             <View
                 android:id="@+id/line_2"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@id/nickname"
-                android:background="@drawable/line_23"
-                />
+                android:background="@drawable/line_23" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -122,6 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/rectangle_3"
                 android:text="PhoneNumber"
+                android:textAlignment="center"
                 android:textSize="25dp">
             </TextView>
 
@@ -130,8 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@id/phoneNumber"
-                android:background="@drawable/line_23"
-                />
+                android:background="@drawable/line_23" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -150,7 +151,8 @@
             android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:textAlignment="center"
-            android:text="프로필 변경"/>
+            android:text="프로필 변경"
+            android:background="@drawable/change_button_background"/>
 
         <Button
             android:id="@+id/changePW"
@@ -159,7 +161,8 @@
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:textAlignment="center"
-            android:text="비밀번호 변경"/>
+            android:text="비밀번호 변경"
+            android:background="@drawable/change_button_background"/>
     </LinearLayout>
 
 </LinearLayout>
