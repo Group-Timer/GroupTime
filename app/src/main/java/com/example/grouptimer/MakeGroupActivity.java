@@ -15,6 +15,7 @@ package com.example.grouptimer;
         import android.widget.EditText;
         import android.widget.ListView;
         import android.widget.TextView;
+        import android.widget.Toast;
 
         import com.example.grouptimer.model.Group;
         import com.example.grouptimer.model.User;
@@ -104,8 +105,15 @@ public class MakeGroupActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
-                if (groupNameEditText.getText().toString() == null || howManyEditText.getText().toString() ==null ||
-                        selectTextView.getText().toString() == null){
+                if (groupNameEditText.getText().toString().isEmpty() == true || howManyEditText.getText().toString().isEmpty() == true ||
+                        selectTextView.getText().toString().isEmpty() == true){
+
+                    Log.d("GT", "Make Group fail");
+
+
+                    Toast.makeText(getApplicationContext(), "입력이 올바르지 않습니다", Toast.LENGTH_SHORT).show();
+
+
                     return;
                 }
 

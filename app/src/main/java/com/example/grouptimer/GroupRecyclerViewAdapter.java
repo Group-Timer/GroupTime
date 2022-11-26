@@ -284,6 +284,16 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                                                         scheduleText += Integer.toString(endDateValue).substring(4, 6) + " / ";
                                                         scheduleText += Integer.toString(endDateValue).substring(6, 8) + "  -  ";
 
+                                                        if(Integer.toString(endTimeTavlue).length() < 2)
+                                                        {
+                                                            scheduleText += "0" + " : ";
+                                                            scheduleText += "0" + Integer.toString(endTimeTavlue).substring(0, 1);
+                                                        }
+                                                        else if(Integer.toString(endTimeTavlue).length() < 3)
+                                                        {
+                                                            scheduleText += "0" + " : ";
+                                                            scheduleText += Integer.toString(endTimeTavlue).substring(0, 2);
+                                                        }
                                                         if(Integer.toString(endTimeTavlue).length() < 4)
                                                         {
                                                             scheduleText += Integer.toString(endTimeTavlue).substring(0, 1) + " : ";

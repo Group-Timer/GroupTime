@@ -61,7 +61,10 @@ public class RegisterActivity extends AppCompatActivity {
                         confirmPasswordEditText.getText().toString().isEmpty() == true ||
                         wrongPasswordTextView.getText().toString().isEmpty() == true)
                 {
-                    Toast.makeText(getApplicationContext(), "입력이 올바르지 않습니다", Toast.LENGTH_SHORT);
+                    Log.d("GT", "Sign Up fail");
+
+
+                    Toast.makeText(getApplicationContext(), "입력이 올바르지 않습니다", Toast.LENGTH_SHORT).show();
 
 
                     return;

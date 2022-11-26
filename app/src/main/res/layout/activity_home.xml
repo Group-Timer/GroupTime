@@ -28,7 +28,9 @@
             android:gravity="center"
             android:layout_gravity="center_vertical"
             android:layout_weight="5"
-            android:background="@drawable/custom_edittext" />
+            android:background="@drawable/custom_edittext"
+            android:maxLength="6"
+            android:inputType="text" />
 
         <Button
             android:id="@+id/insertCodeButton"

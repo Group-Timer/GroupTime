@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void run()
                     {
-                        progressDialog = new ProgressDialog(LoginActivity.this);
+                        progressDialog = new ProgressDialog(LoginActivity.this, R.style.ProgressDialogTheme);
 
                         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         progressDialog.setCanceledOnTouchOutside(false);

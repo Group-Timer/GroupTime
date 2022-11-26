@@ -34,7 +34,8 @@
             android:layout_height="50dp"
             android:layout_gravity="left"
             android:hint="EMAIL"
-            android:backgroundTint = "#FBAEAE"/>
+            android:backgroundTint = "#FBAEAE"
+            android:inputType="textEmailAddress"/>
 
         <ImageView
             android:src="@drawable/id_image"

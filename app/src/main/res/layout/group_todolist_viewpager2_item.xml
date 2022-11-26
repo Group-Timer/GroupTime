@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:buttonTint="#FBAEAE">
+            android:buttonTint="#FFFFFFFF" >
 
         </CheckBox>
 
@@ -26,7 +26,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:visibility="gone" >
+            android:visibility="gone"
+            android:textStyle="bold" >
         </TextView>
 
     </LinearLayout>
@@ -42,7 +43,8 @@
             android:id="@+id/viewpager2CheckBox2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" >
+            android:visibility="gone"
+            android:buttonTint="#FFFFFFFF" >
 
         </CheckBox>
 
@@ -51,7 +53,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:visibility="gone" >
+            android:visibility="gone"
+            android:textStyle="bold" >
         </TextView>
 
     </LinearLayout>
@@ -67,7 +70,8 @@
             android:id="@+id/viewpager2CheckBox3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" >
+            android:visibility="gone"
+            android:buttonTint="#FFFFFFFF" >
 
         </CheckBox>
 
@@ -76,7 +80,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:visibility="gone" >
+            android:visibility="gone"
+            android:textStyle="bold" >
         </TextView>
 
     </LinearLayout>

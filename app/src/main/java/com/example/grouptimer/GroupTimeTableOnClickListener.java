@@ -4,6 +4,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -144,6 +145,7 @@ public class GroupTimeTableOnClickListener implements View.OnClickListener
 
 
         dateText.setText(dialogTitle);
+        dateText.setTextColor(Color.parseColor("#FBAEAE"));
 
         for(int i = 0; i < overlapMemberList.size(); i++)
         {
@@ -176,6 +178,15 @@ public class GroupTimeTableOnClickListener implements View.OnClickListener
                 textView5.setVisibility(View.VISIBLE);
             }
         }
+
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+            }
+        });
 
 
         dialog.show();

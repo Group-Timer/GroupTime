@@ -37,4 +37,9 @@
     </style>
 
 
+    <style name="ProgressDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:indeterminateTint">@color/dialog_low_pink</item>
+    </style>
+
+
 </resources>

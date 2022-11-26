@@ -106,7 +106,7 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
         connectivityManager = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
 
-        progressDialog = new ProgressDialog(GroupChattingActivity.this);
+        progressDialog = new ProgressDialog(GroupChattingActivity.this, R.style.ProgressDialogTheme);
 
         runOnUiThread(new Runnable()
         {

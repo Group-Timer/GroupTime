@@ -1,16 +1,11 @@
 package com.example.grouptimer;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +13,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,7 +67,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     boolean AlreadyEntered;
 
-    ProgressDialog progressDialog = null;
+    public static ProgressDialog progressDialog = null;
 
 
     @SuppressLint("WrongViewCast")
@@ -131,6 +131,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         recyclerView.setLayoutManager(linearLayoutManager);
 
+
+        insertCodeEdit.setCursorVisible(false);
+        insertCodeEdit.setOnClickListener(this);
 
         insertCodeButton.setOnClickListener(this);
         makeGroup.setOnClickListener(this);
@@ -702,7 +705,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view)
     {
-        if(view == insertCodeButton)
+        if(view == insertCodeEdit)
+        {
+
+        }
+        else if(view == insertCodeButton)
         {
             String insertCode;
 
@@ -712,7 +719,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void run()
                 {
-                    progressDialog = new ProgressDialog(HomeActivity.this);
+                    progressDialog = new ProgressDialog(HomeActivity.this, R.style.ProgressDialogTheme);
 
                     progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressDialog.setCanceledOnTouchOutside(false);

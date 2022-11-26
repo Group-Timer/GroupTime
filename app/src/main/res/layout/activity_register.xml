@@ -39,7 +39,8 @@
             android:id="@+id/emailEditText"
             android:layout_width="320dp"
             android:layout_height="40dp"
-            android:backgroundTint = "#FBAEAE"/>
+            android:backgroundTint = "#FBAEAE"
+            android:inputType="textEmailAddress" />
 
         <ImageView
             android:src="@drawable/id_image"
@@ -69,7 +70,8 @@
             android:id="@+id/nameEditText"
             android:layout_width="320dp"
             android:layout_height="40dp"
-            android:backgroundTint = "#FBAEAE"/>
+            android:backgroundTint = "#FBAEAE"
+            android:inputType="textPersonName" />
 
         <ImageView
             android:src="@drawable/user_image"
@@ -99,7 +101,8 @@
             android:id="@+id/phoneEditText"
             android:layout_width="320dp"
             android:layout_height="40dp"
-            android:backgroundTint = "#FBAEAE"/>
+            android:backgroundTint = "#FBAEAE"
+            android:inputType="phone" />
 
         <ImageView
             android:src="@drawable/phone_image"

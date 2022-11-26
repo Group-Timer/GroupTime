@@ -209,7 +209,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         super.onResume();
 
 
-        progressDialog = new ProgressDialog(GroupTimeTableActivity.this);
+        progressDialog = new ProgressDialog(GroupTimeTableActivity.this, R.style.ProgressDialogTheme);
 
         runOnUiThread(new Runnable()
         {
@@ -1161,7 +1161,19 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         insertCodeText= (TextView) customDialogView.findViewById(R.id.insertCode);
 
         groupNameText.setText(DefineValue.Group_Name);
+        groupNameText.setTextColor(Color.parseColor("#FBAEAE"));
         insertCodeText.setText(GroupInsertCode);
+
+
+        groupShareDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                groupShareDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                groupShareDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+            }
+        });
+
 
         groupShareDialog.show();
     }
@@ -1234,6 +1246,17 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
                         customPickerDialog = builder.create();
 
+
+                        customPickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+
+                                customPickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                                customPickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                            }
+                        });
+
+
                         runOnUiThread(new Runnable()
                         {
                             @Override
@@ -1262,6 +1285,17 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                         customPickerDialog = null;
 
                         customPickerDialog = builder.create();
+
+
+                        customPickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialogInterface) {
+
+                                customPickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                                customPickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                            }
+                        });
+
 
                         runOnUiThread(new Runnable()
                         {
@@ -1305,6 +1339,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                             customPickerDialog = builder.create();
 
 
+                            customPickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                @Override
+                                public void onShow(DialogInterface dialogInterface) {
+
+                                    customPickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                                    customPickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                                }
+                            });
+
+
                             runOnUiThread(new Runnable()
                             {
                                 @Override
@@ -1342,6 +1386,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                                 customPickerDialog = builder.create();
 
 
+                                customPickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                    @Override
+                                    public void onShow(DialogInterface dialogInterface) {
+
+                                        customPickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                                        customPickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                                    }
+                                });
+
+
                                 runOnUiThread(new Runnable()
                                 {
                                     @Override
@@ -1373,6 +1427,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                                 checkBox.setChecked(scheduleChecked);
 
                                 customPickerDialog = builder.create();
+
+
+                                customPickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                    @Override
+                                    public void onShow(DialogInterface dialogInterface) {
+
+                                        customPickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                                        customPickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                                    }
+                                });
 
 
                                 runOnUiThread(new Runnable()
@@ -1410,6 +1474,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                             checkBox.setChecked(scheduleChecked);
 
                             customPickerDialog = builder.create();
+
+
+                            customPickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                @Override
+                                public void onShow(DialogInterface dialogInterface) {
+
+                                    customPickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                                    customPickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                                }
+                            });
 
 
                             runOnUiThread(new Runnable()
@@ -1465,6 +1539,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
 
         customPickerDialog = builder.create();
+
+
+        customPickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                customPickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                customPickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+            }
+        });
 
 
         runOnUiThread(new Runnable()

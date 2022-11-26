@@ -14,9 +14,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,6 +47,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     ContentFrameLayout.LayoutParams     RootParams;
 
     private Button editButton;
+    private Button saveButton;
 
 
 
@@ -77,6 +80,8 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
     ProgressDialog progressDialog = null;
 
+    ProgressDialog saveProgressDialog = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,23 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
 
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
+
+
+        progressDialog = new ProgressDialog(PersonalTimeTableActivity.this, R.style.ProgressDialogTheme);
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("Loading ...");
+                progressDialog.setCancelable(false);
+
+                progressDialog.show();
+            }
+        });
 
 
         Show_Screen();
@@ -153,23 +175,6 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     public void onResume()
     {
         super.onResume();
-
-
-        progressDialog = new ProgressDialog(PersonalTimeTableActivity.this);
-
-        runOnUiThread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setMessage("Loading ...");
-                progressDialog.setCancelable(false);
-
-                progressDialog.show();
-            }
-        });
     }
 
 
@@ -242,7 +247,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         editParams.setMarginEnd(20);
 
 
-        Button saveButton = new Button(this);
+        saveButton = new Button(this);
         saveButton.setId(SaveButtonID);
         saveButton.setText("Save");
         saveButton.setBackgroundResource(R.drawable.small_button);
@@ -482,6 +487,17 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
 
         //Convert_Time_IntegerToBit(timeTable);
+
+
+        if(saveProgressDialog != null)
+        {
+            Log.d("GT", "Dismiss Dialog");
+
+
+            saveProgressDialog.dismiss();
+
+            saveProgressDialog = null;
+        }
     }
 
 
@@ -593,18 +609,97 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         }
         else if(view.getId() == SaveButtonID)
         {
-            int time;
+            Log.d("GT", "Save Button Click");
 
 
-            for(int day = 0; day < DefineValue.Day_Cnt; day++)
+            saveProgressDialog = new ProgressDialog(PersonalTimeTableActivity.this, R.style.ProgressDialogTheme);
+
+            saveProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            saveProgressDialog.setCanceledOnTouchOutside(false);
+            saveProgressDialog.setCancelable(false);
+            saveProgressDialog.setMessage("Save ...");
+
+            saveProgressDialog.show();
+
+
+            Handler handler = new Handler();
+
+            handler.postDelayed(new Runnable()
             {
-                time = Convert_Time_BitToInteger(day);
+                public void run()
+                {
+                    int time;
 
-                timeTable[day] = time;
+                    for(int day = 0; day < DefineValue.Day_Cnt; day++)
+                    {
+                        time = Convert_Time_BitToInteger(day);
+
+                        timeTable[day] = time;
+                    }
+
+
+                    Save_Firebase(timeTable);
+                }
+            }, 500);
+        }
+    }
+
+
+    /*
+    public static class Custom_SvaeButton extends androidx.appcompat.widget.AppCompatButton implements View.OnClickListener
+    {
+        private OnClickListener clickListener;
+
+
+        public Custom_SvaeButton(Context context)
+        {
+            super(context);
+        }
+
+
+        @Override
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+
+            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+            {
+                saveButton.setBackgroundResource(R.drawable.small_button_outline);
+            }
+            else if(motionEvent.getAction() == MotionEvent.ACTION_UP)
+            {
+                saveButton.setBackgroundResource(R.drawable.small_button);
+
+                //Click_SaveButton();
+            }
+            else if(motionEvent.getAction() == MotionEvent.ACTION_CANCEL)
+            {
+                saveButton.setBackgroundResource(R.drawable.small_button);
             }
 
 
-            Save_Firebase(timeTable);
+            return true;
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            Log.d("GT", "Custom_SaveButton click");
+
+            clickListener.onClick(view);
+            //Click_SaveButton();
+        }
+
+
+        public interface OnClickListener
+        {
+            void onClick(View view);
+        }
+
+
+        public void setOnClickListener(OnClickListener listner)
+        {
+            clickListener = listner;
         }
     }
+
+     */
 }
