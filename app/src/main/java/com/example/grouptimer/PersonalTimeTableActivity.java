@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,6 +46,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
     LinearLayout                        RootLayout;
     ContentFrameLayout.LayoutParams     RootParams;
+    ViewGroup.LayoutParams params;
 
     private Button editButton;
     private Button saveButton;
@@ -209,6 +211,20 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
         RootParams = new ContentFrameLayout.LayoutParams(ContentFrameLayout.LayoutParams.MATCH_PARENT, ContentFrameLayout.LayoutParams.MATCH_PARENT);
         RootParams.setMargins(20,20,20,20);
+
+    }
+
+    private void Menu_Bottom(){
+        LinearLayout BottomLayout = new LinearLayout(this);
+        BottomLayout.setGravity(Gravity.BOTTOM);
+        LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        bottomParams.bottomMargin = 5;
+        bottomParams.setMarginStart(2);
+        bottomParams.setMarginEnd(2);
+        BottomLayout.setOrientation(LinearLayout.VERTICAL);
+
+        BottomNavigationView bottomNavigationView = new BottomNavigationView(this);
+
 
     }
 

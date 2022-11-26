@@ -22,11 +22,11 @@
         <entry key="app/src/main/res/layout/activity_change_name.xml" value="0.16691995947315097" />
         <entry key="app/src/main/res/layout/activity_change_pw.xml" value="0.10714285714285714" />
         <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.11930091185410334" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.16485595703124994" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/activity_make_group.xml" value="0.17291666666666666" />
-        <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.16691995947315097" />
-        <entry key="app/src/main/res/layout/activity_personal_time_table.xml" value="0.13269927536231885" />
+        <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.22976226806640626" />
+        <entry key="app/src/main/res/layout/activity_personal_time_table.xml" value="0.22919433151466262" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.4179840783580096" />
         <entry key="app/src/main/res/layout/group_recyclerview_item.xml" value="0.16197916666666667" />
         <entry key="app/src/main/res/layout/to_do_list_layout.xml" value="0.1" />

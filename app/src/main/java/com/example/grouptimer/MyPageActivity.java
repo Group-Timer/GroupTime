@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.grouptimer.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,6 +47,7 @@ public class MyPageActivity extends AppCompatActivity {
     private String photoName;
     private FirebaseAuth mAuth;
     private String uid;
+    private BottomNavigationView bottom;
 
     private final int GALLERY_CODE = 10;
     ImageView photo;
@@ -137,6 +140,38 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
 
+        bottom = findViewById(R.id.mypage_bottom);
+
+        bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.bottom_home:
+                        Log.d("home","home");
+                        startActivity(new Intent(MyPageActivity.this,HomeActivity.class));
+
+                        finish();
+
+                        break;
+                    case R.id.bottom_todo:
+                        Log.d("todo","todo");
+                        startActivity(new Intent(MyPageActivity.this, PersonalTimeTableActivity.class));
+
+                        finish();
+
+                        break;
+                    case R.id.bottom_mypage:
+                        Log.d("my","my");
+                        startActivity(new Intent(MyPageActivity.this,MyPageActivity.class));
+
+                        finish();
+
+                        break;
+                }
+                return true;
+            }
+        });
 
     }
 
