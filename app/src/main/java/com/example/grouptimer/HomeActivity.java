@@ -2,6 +2,7 @@ package com.example.grouptimer;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    public static Context context;
 
 
     private EditText insertCodeEdit;
@@ -75,6 +79,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        context = this;
 
 
         insertCodeEdit = (EditText) findViewById(R.id.insertCodeEdit);
@@ -337,7 +344,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void Load_GroupList(boolean listUpdate, boolean showRecyclerView, String groupID, FirebaseUser user, DatabaseReference mDatabase)
+    public void Load_GroupList(boolean listUpdate, boolean showRecyclerView, String groupID, FirebaseUser user, DatabaseReference mDatabase)
     {
         ArrayList<String> tempIDList = new ArrayList<String>();
         ArrayList<String> tempNameList = new ArrayList<String>();
@@ -405,6 +412,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                                         recyclerViewAdapter = new GroupRecyclerViewAdapter(tempIDList, tempNameList);
                                         recyclerView.setAdapter(recyclerViewAdapter);
+
 
                                         recyclerView.setVisibility(View.VISIBLE);
                                         progressBar.setVisibility(View.GONE);

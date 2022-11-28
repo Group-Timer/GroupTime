@@ -13,6 +13,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -57,6 +58,9 @@ import java.util.Random;
 import java.util.TimeZone;
 
 public class GroupTimeTableActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    public static Context context;
 
 
     LinearLayout                        RootLayout;
@@ -156,6 +160,9 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        context = this;
 
 
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
@@ -309,6 +316,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         RootLayout.setOrientation(LinearLayout.VERTICAL);
 
         RootParams = new ContentFrameLayout.LayoutParams(ContentFrameLayout.LayoutParams.MATCH_PARENT, ContentFrameLayout.LayoutParams.MATCH_PARENT);
+        RootParams.setMargins(0,20,20,20);
     }
 
 
@@ -1971,6 +1979,43 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                 timePickerDialog.show();
             }
         });
+    }
+
+
+    public void Reload_GroupMemberList(String groupID, int reloadMemberCnt, String message, String senderUID, long sendTime)
+    {
+        DatabaseReference reloadDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Groups").child(groupID).child("groupMember");
+
+
+        MemberIDList.clear();
+
+
+        for(int i = 0; i < reloadMemberCnt; i++)
+        {
+            String position = Integer.toString(i);
+
+
+            reloadDatabaseReference.child(position).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    String value = dataSnapshot.getValue(String.class);
+
+
+                    MemberIDList.add(value);
+
+                    if(Integer.parseInt(position) == (reloadMemberCnt - 1))
+                    {
+                        ((GroupChattingActivity)GroupChattingActivity.GroupChattingContext).function(message, senderUID, sendTime);
+                    }
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        }
     }
 
 

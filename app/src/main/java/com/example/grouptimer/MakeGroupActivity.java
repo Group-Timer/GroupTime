@@ -5,8 +5,11 @@ package com.example.grouptimer;
         import androidx.annotation.NonNull;
         import androidx.appcompat.app.AppCompatActivity;
 
+        import android.app.AlertDialog;
+        import android.app.ProgressDialog;
         import android.content.Intent;
         import android.os.Bundle;
+        import android.os.Handler;
         import android.util.Log;
         import android.view.View;
         import android.widget.AdapterView;
@@ -48,6 +51,11 @@ public class MakeGroupActivity extends AppCompatActivity{
 //    private int randomNumber; // random number
 
     private boolean ClickChecker = false; // selectButton 누를때 selectListView visibility 확인하는 변수
+
+    ProgressDialog progressDialog = null;
+
+    AlertDialog dialog = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +142,24 @@ public class MakeGroupActivity extends AppCompatActivity{
 //                });
 
 
+
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        progressDialog = new ProgressDialog(MakeGroupActivity.this, R.style.ProgressDialogTheme);
+
+                        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        progressDialog.setCanceledOnTouchOutside(false);
+                        progressDialog.setCancelable(false);
+                        progressDialog.setMessage("Group making ...");
+
+                        progressDialog.show();
+                    }
+                });
+
+
                 FirebaseAuth.getInstance()
                         .createUserWithEmailAndPassword(groupNameEditText.getText().toString(),howManyEditText.getText().toString())
                         .addOnCompleteListener(MakeGroupActivity.this, new OnCompleteListener<AuthResult>() {
@@ -196,7 +222,39 @@ public class MakeGroupActivity extends AppCompatActivity{
                                             mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(taskMap);
 
 
-                                            finish();
+                                            if(progressDialog != null)
+                                            {
+                                                progressDialog.dismiss();
+
+                                                progressDialog = null;
+                                            }
+
+
+                                            dialog = new ProgressDialog(MakeGroupActivity.this);
+
+                                            dialog.setCanceledOnTouchOutside(false);
+                                            dialog.setCancelable(false);
+                                            dialog.setMessage("그룹 생성 성공");
+
+                                            dialog.show();
+
+
+                                            Handler handler = new Handler();
+
+                                            handler.postDelayed(new Runnable()
+                                            {
+                                                public void run()
+                                                {
+                                                    if(dialog != null)
+                                                    {
+                                                        dialog.dismiss();
+
+                                                        dialog = null;
+
+                                                        finish();
+                                                    }
+                                                }
+                                            }, 1500);
                                         }
 
 
@@ -232,7 +290,41 @@ public class MakeGroupActivity extends AppCompatActivity{
                                                         mDatabase.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(taskMap);
 
 
-                                                        finish();
+
+                                                        if(progressDialog != null)
+                                                        {
+                                                            progressDialog.dismiss();
+
+                                                            progressDialog = null;
+                                                        }
+
+
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(MakeGroupActivity.this);
+
+                                                        builder.setCancelable(false);
+                                                        builder.setMessage("\n그룹 생성 성공\n");
+
+
+                                                        dialog = builder.create();
+                                                        dialog.show();
+
+
+                                                        Handler handler = new Handler();
+
+                                                        handler.postDelayed(new Runnable()
+                                                        {
+                                                            public void run()
+                                                            {
+                                                                if(dialog != null)
+                                                                {
+                                                                    dialog.dismiss();
+
+                                                                    dialog = null;
+
+                                                                    finish();
+                                                                }
+                                                            }
+                                                        }, 1500);
                                                     }
                                                 }
 

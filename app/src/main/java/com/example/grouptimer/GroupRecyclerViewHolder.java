@@ -27,6 +27,7 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
     public ProgressBar ToDoListProgressBar;
 
     public String GroupIDText;
+    public String GroupName;
 
     public boolean ExpansionButtonClick;
 

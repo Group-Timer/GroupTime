@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:hint="GroupName"
         android:textSize="25dp"
-        android:backgroundTint = "#FBAEAE">
+        android:backgroundTint = "#FBAEAE"
+        android:inputType="text" >
     </EditText>
 
     <Space

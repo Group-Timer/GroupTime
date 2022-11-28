@@ -26,6 +26,7 @@
         android:background="@drawable/chat_date"
         android:gravity="center"
         android:textSize="12sp"
+        android:textStyle="bold"
         android:layout_weight="6" />
 
     <TextView

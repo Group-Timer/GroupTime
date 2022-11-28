@@ -208,7 +208,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         RootLayout.setOrientation(LinearLayout.VERTICAL);
 
         RootParams = new ContentFrameLayout.LayoutParams(ContentFrameLayout.LayoutParams.MATCH_PARENT, ContentFrameLayout.LayoutParams.MATCH_PARENT);
-        RootParams.setMargins(20,20,20,20);
+        RootParams.setMargins(0,20,20,20);
 
     }
 

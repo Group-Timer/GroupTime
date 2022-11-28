@@ -236,17 +236,7 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
                 for(int i = toDoListPlusButtonBefore ; i < toDoListItemArrayList.size() ; i++){
 
-                    String toDoList = toDoListItemArrayList.get(i).GetToDoListString();
 
-                    System.out.println("********************************");
-                    System.out.println(i);
-                    System.out.println(toDoList);
-
-                    boolean checkbox = toDoListItemArrayList.get(i).GetToDoListCheckBoxBoolean();
-
-                    toDoListArrayList.add(toDoList);
-
-                    toDoListCheckBoxArrayList.add(checkbox);
 
                 }
 

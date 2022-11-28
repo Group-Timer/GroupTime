@@ -1,8 +1,12 @@
 package com.example.grouptimer;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,15 +21,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecyclerViewHolder>
 {
+    FirebaseUser user;
+    DatabaseReference databaseReference;
+
+
     private ArrayList<String> AdapterIDList;
     private ArrayList<String> AdapterNameList;
 
@@ -50,6 +63,17 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     int startTimeValue;
     int endDateValue;
     int endTimeTavlue;
+
+
+    private ArrayList<String> GroupMemberList;
+    private int MemberCnt;
+    private int GroupNumber;
+
+
+    AlertDialog dialog = null;
+    ProgressDialog progressDialog = null;
+
+    boolean GroupMakerCheck;
 
 
     public GroupRecyclerViewAdapter(ArrayList<String> idList, ArrayList<String> nameList)
@@ -96,6 +120,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             viewHolder.GroupNameText.setBackgroundResource(R.drawable.group_list_recycler_item);
         }
 
+        viewHolder.GroupName = name;
         viewHolder.GroupNameText.setText(name);
         viewHolder.GroupIDText = id;
         //viewHolder.ToDoListRecyclerView.setVisibility(View.GONE);
@@ -109,15 +134,75 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             @Override
             public void onClick(View view) {
 
-                //DefineValue.Group_ID = viewHolder.GroupNameText.getText().toString();
-                //DefineValue.Group_ID = AdapterIDList.get(viewHolder.getAdapterPosition());
-                DefineValue.Group_ID = viewHolder.GroupIDText;
+                FirebaseDatabase.getInstance().getReference().child("Groups").child(viewHolder.GroupIDText).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Log.d("GT", "Select Group ID : " + DefineValue.Group_ID);
+                        if(dataSnapshot.getValue() == null)
+                        {
+                            AlertDialog noticeDialog;
+                            AlertDialog.Builder builder;
 
-                DefineValue.Group_Name = viewHolder.GroupNameText.getText().toString();
 
-                parent.getContext().startActivity(new Intent(parent.getContext(), GroupTimeTableActivity.class));
+                            builder = new AlertDialog.Builder(parent.getContext());
+
+                            builder.setMessage("그룹 생성자가 그룹을 삭제했습니다");
+                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    Load_User_GroupNumber(viewHolder.GroupIDText, true);
+                                }
+                            });
+
+
+                            noticeDialog = builder.create();
+                            noticeDialog.setCancelable(false);
+                            noticeDialog.setCanceledOnTouchOutside(false);
+
+                            noticeDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                @Override
+                                public void onShow(DialogInterface dialogInterface) {
+
+                                    noticeDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                                }
+                            });
+
+                            noticeDialog.show();
+
+
+                            return;
+                        }
+
+
+                        //DefineValue.Group_ID = viewHolder.GroupNameText.getText().toString();
+                        //DefineValue.Group_ID = AdapterIDList.get(viewHolder.getAdapterPosition());
+                        DefineValue.Group_ID = viewHolder.GroupIDText;
+
+                        Log.d("GT", "Select Group ID : " + DefineValue.Group_ID);
+
+                        DefineValue.Group_Name = viewHolder.GroupNameText.getText().toString();
+
+                        parent.getContext().startActivity(new Intent(parent.getContext(), GroupTimeTableActivity.class));
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+            }
+        });
+
+
+        viewHolder.GroupNameText.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                Group_LongClick(viewHolder.GroupIDText, viewHolder.GroupName);
+
+
+                return false;
             }
         });
 
@@ -486,5 +571,326 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     public int getItemCount()
     {
         return this.AdapterIDList.size();
+    }
+
+
+    private void Group_LongClick(String groupID, String groupName)
+    {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
+        Show_LongClickDialog(groupID, groupName);
+    }
+
+
+    private void Show_LongClickDialog(String groupID, String groupName)
+    {
+        AlertDialog.Builder builder;
+
+
+        builder = new AlertDialog.Builder(parent.getContext());
+
+        builder.setTitle(groupName);
+        builder.setMessage("\n그룹을 나가시겠습니까?\n\n그룹 생성자일 경우 다른 그룹 멤버들도 그룹을 나가게 됩니다\n\n또한, 채팅 기록도 사라지게 됩니다\n");
+        builder.setPositiveButton("나가기", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                progressDialog = new ProgressDialog(parent.getContext(), R.style.ProgressDialogTheme);
+
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("그룹 나가는중 ...");
+
+
+                if(dialog != null)
+                {
+                    dialog.dismiss();
+
+                    dialog = null;
+                }
+
+
+                progressDialog.show();
+
+
+                Load_GroupMaker(groupID);
+            }
+        });
+
+        builder.setNegativeButton("취소", null);
+
+
+        dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+            }
+        });
+
+
+        dialog.show();
+    }
+
+
+    private void Load_GroupMaker(String groupID)
+    {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Groups").child(groupID).child("groupMakerUid");
+
+        GroupMakerCheck = false;
+
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String value = dataSnapshot.getValue(String.class);
+
+
+                if(user.getUid().equals(value) == true)
+                {
+                    GroupMakerCheck = true;
+                }
+
+
+                Load_MemberCnt(groupID);
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    private void Load_MemberCnt(String groupID)
+    {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Groups").child(groupID).child("memberCnt");
+
+        MemberCnt = 0;
+
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int value = dataSnapshot.getValue(Integer.class);
+
+
+                MemberCnt = value;
+
+                Load_GroupMemberList(groupID);
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    private void Load_GroupMemberList(String groupID)
+    {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Groups").child(groupID).child("groupMember");
+
+        GroupMemberList = new ArrayList<String>();
+
+
+        for(int i = 0; i < MemberCnt; i++)
+        {
+            String position = Integer.toString(i);
+
+
+            databaseReference.child(position).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    String value = dataSnapshot.getValue(String.class);
+
+
+                    GroupMemberList.add(value);
+
+                    if(Integer.parseInt(position) == (MemberCnt - 1))
+                    {
+                        Load_User_GroupNumber(groupID, false);
+                    }
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        }
+    }
+
+
+    private void Load_User_GroupNumber(String groupID, boolean reload)
+    {
+        if(reload == true)
+        {
+            user = FirebaseAuth.getInstance().getCurrentUser();
+        }
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("groupNumber");
+
+        GroupNumber = 0;
+
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int value = dataSnapshot.getValue(Integer.class);
+
+
+                GroupNumber = value;
+
+
+                if(reload == true)
+                {
+                    Map<String, Object> taskMap = new HashMap<String, Object>();
+
+
+                    String userID = user.getUid();
+
+                    databaseReference = FirebaseDatabase.getInstance().getReference();
+
+
+                    for(int i = 0; i < AdapterIDList.size(); i++)
+                    {
+                        if(AdapterIDList.get(i).equals(groupID) == true)
+                        {
+                            AdapterIDList.remove(i);
+                            AdapterNameList.remove(i);
+
+                            break;
+                        }
+                    }
+
+                    GroupNumber--;
+
+
+                    taskMap.put("groupNumber", GroupNumber);
+                    databaseReference.child("Users").child(userID).updateChildren(taskMap);
+                    taskMap.clear();
+
+
+                    taskMap.put("GroupList", AdapterIDList);
+                    databaseReference.child("Users").child(userID).updateChildren(taskMap);
+                    taskMap.clear();
+
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+                    ((HomeActivity)HomeActivity.context).Load_GroupList(false, true, null, user, mDatabase);
+                }
+                else
+                {
+                    Exit_Group(groupID);
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    private void Exit_Group(String groupID)
+    {
+        Map<String, Object> taskMap = new HashMap<String, Object>();
+
+
+        String userID = user.getUid();
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+
+        for(int i = 0; i < AdapterIDList.size(); i++)
+        {
+            if(AdapterIDList.get(i).equals(groupID) == true)
+            {
+                AdapterIDList.remove(i);
+                AdapterNameList.remove(i);
+
+                break;
+            }
+        }
+
+        for(int i = 0; i < MemberCnt; i++)
+        {
+            if(GroupMemberList.get(i).equals(userID) == true)
+            {
+                GroupMemberList.remove(i);
+
+                break;
+            }
+        }
+
+        MemberCnt--;
+        GroupNumber--;
+
+
+        taskMap.put("memberCnt", MemberCnt);
+        databaseReference.child("Groups").child(groupID).updateChildren(taskMap);
+        taskMap.clear();
+
+
+        taskMap.put("groupMember", GroupMemberList);
+        databaseReference.child("Groups").child(groupID).updateChildren(taskMap);
+        taskMap.clear();
+
+
+        taskMap.put("groupNumber", GroupNumber);
+        databaseReference.child("Users").child(userID).updateChildren(taskMap);
+        taskMap.clear();
+
+
+        taskMap.put("GroupList", AdapterIDList);
+        databaseReference.child("Users").child(userID).updateChildren(taskMap);
+        taskMap.clear();
+
+
+        if(GroupMakerCheck == true)
+        {
+            databaseReference.child("Groups").child(groupID).removeValue();
+            databaseReference.child("Chat").child("Messages").child(groupID).removeValue();
+
+
+            Log.d("GT", "Group : " + groupID);
+            Log.d("GT", "Group Maker : Delete group");
+        }
+
+
+        if(progressDialog != null)
+        {
+            progressDialog.dismiss();
+
+            progressDialog = null;
+        }
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+        ((HomeActivity)HomeActivity.context).Load_GroupList(false, true, null, user, mDatabase);
     }
 }

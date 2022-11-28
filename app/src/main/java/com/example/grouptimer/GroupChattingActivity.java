@@ -36,17 +36,24 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 public class GroupChattingActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    public static Context GroupChattingContext;
+
+
     private FirebaseUser user;
     DatabaseReference databaseReference;
 
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
+
+    private ChildEventListener GroupMemberCntEventListener;
 
 
     private LinearLayoutManager linearLayoutManager;
@@ -79,10 +86,16 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
     private long LastChatDate;
 
 
+    private int GroupMemberCnt;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chatting);
+
+
+        GroupChattingContext = this;
 
 
         ChatRecyclerView = (RecyclerView) findViewById(R.id.chattingRecyclerView);
@@ -98,6 +111,8 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
         FirstNetworkCheck = false;
 
         LastChatDate = 0;
+
+        GroupMemberCnt = 0;
 
 
         ChatList = new ArrayList<GroupChatRecyclerViewItem>();
@@ -343,6 +358,9 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
             FirstNetworkCheck = true;
 
 
+            //Check_GroupMemberCnt();
+
+
             user = FirebaseAuth.getInstance().getCurrentUser();
             databaseReference = FirebaseDatabase.getInstance().getReference().child("Chat").child("Messages").child(DefineValue.Group_ID);
 
@@ -555,9 +573,35 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
                 ListSize = ChatList.size();
 
-                GroupChattingAdapter.notifyItemInserted(ListSize);
+                Sort_Chat_Message();
+
+                //GroupChattingAdapter.notifyItemInserted(ListSize);
+                GroupChattingAdapter.notifyItemRangeChanged(0, ListSize);
 
                 ChatRecyclerView.scrollToPosition(ListSize - 1);
+
+
+                if(progressDialog != null && ChatList.isEmpty() == false)
+                {
+                    // 채팅 기록 최초 로딩 시 메세지 리스트 시간 순서로 정렬
+                    //Sort_Chat_Message();
+
+                    //ListSize = ChatList.size();
+
+                    //GroupChattingAdapter.notifyItemRangeChanged(0, ListSize);
+
+                    //ChatRecyclerView.setLayoutManager(linearLayoutManager);
+
+
+                    //GroupChattingAdapter = new GroupChattingRecyclerViewAdapter(ChatList);
+                    //ChatRecyclerView.setAdapter(GroupChattingAdapter);
+
+                    //ChatRecyclerView.scrollToPosition(ListSize - 1);
+
+
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
             }
 
             @Override
@@ -608,6 +652,109 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
     }
 
 
+    private void Sort_Chat_Message()
+    {
+        for(int i = 1; i < ChatList.size(); i++)
+        {
+            for(int j = i ; j >= 1; j--)
+            {
+                if(ChatList.get(j).SendTime < ChatList.get(j - 1).SendTime)
+                {
+                    Log.d("GT", "j : " + ChatList.get(j).SendTime);
+                    Log.d("GT", "j - 1: " + ChatList.get(j -1).SendTime);
+
+
+                    //GroupChatRecyclerViewItem tempItem = ChatList.get(j);
+
+                    Collections.swap(ChatList, j, j - 1);
+                    //ChatList.get(j) = ChatList.get(j-1);
+                    //ChatList.get(j-1) = tempItem;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+
+        for(int i = 0; i < ChatList.size(); i++)
+        {
+            Log.d("GT", "Time : " + ChatList.get(i).SendTime);
+        }
+
+
+        Log.d("GT", "Complete ChatList Sort");
+    }
+
+
+    private void Check_GroupMemberCnt()
+    {
+        Log.d("GT", "Check GroupMemberCnt");
+
+
+        /*
+        GroupMemberCntEventListener = new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                int value = snapshot.getValue(Integer.class);
+
+
+                GroupMemberCnt = value;
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                int value = snapshot.getValue(Integer.class);
+
+
+                GroupMemberCnt = value;
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+
+        FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("memberCnt").addChildEventListener(GroupMemberCntEventListener);
+
+         */
+
+
+
+        FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("memberCnt").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                int value = snapshot.getValue(Integer.class);
+
+
+                GroupMemberCnt = value;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
     private void Send_Chat(String message)
     {
         ChatMessage chatMessage;
@@ -626,6 +773,79 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
         senderUID = user.getUid();
         sendTime = Generate_Time();
 
+
+
+        FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("memberCnt").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                int value = snapshot.getValue(Integer.class);
+
+
+                GroupMemberCnt = value;
+
+
+                if(GroupMemberCnt != GroupTimeTableActivity.MemberIDList.size())
+                {
+                    Log.d("GT", "Invalid group member cnt");
+                    Log.d("GT", "GroupMemberCnt : " + GroupMemberCnt + ", MemberIDList Size : " + GroupTimeTableActivity.MemberIDList.size());
+
+
+                    ((GroupTimeTableActivity)GroupTimeTableActivity.context).Reload_GroupMemberList(DefineValue.Group_ID, GroupMemberCnt, message, senderUID, sendTime);
+                }
+                else
+                {
+                    ChatMessage chatMessage;
+
+
+                    for(int i = 0; i < GroupTimeTableActivity.MemberIDList.size(); i++)
+                    {
+                        String memberID = GroupTimeTableActivity.MemberIDList.get(i);
+
+
+                        if(memberID.equals(senderUID) == true)
+                        {
+                            memberIndice.put(memberID, true);
+                        }
+                        else
+                        {
+                            memberIndice.put(memberID, false);
+                        }
+                    }
+
+
+                    chatMessage = new ChatMessage(message, senderUID, sendTime, memberIndice);
+                    //chatMemberIndice = new ChatMemberIndice(GroupTimeTableActivity.MemberIDList, senderUID);
+
+
+                    databaseReference.push().setValue(chatMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                            Log.d("GT", "Chat message send : Success");
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    public void function(String message, String senderUID, long sendTime)
+    {
+        ChatMessage chatMessage;
+
+        Map<String, Boolean> memberIndice;
+
+
+        memberIndice = new HashMap<String, Boolean>();
+
+
         for(int i = 0; i < GroupTimeTableActivity.MemberIDList.size(); i++)
         {
             String memberID = GroupTimeTableActivity.MemberIDList.get(i);
@@ -643,7 +863,6 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
 
         chatMessage = new ChatMessage(message, senderUID, sendTime, memberIndice);
-        //chatMemberIndice = new ChatMemberIndice(GroupTimeTableActivity.MemberIDList, senderUID);
 
 
         databaseReference.push().setValue(chatMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -654,6 +873,7 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
             }
         });
     }
+
 
     private long Generate_Time()
     {
