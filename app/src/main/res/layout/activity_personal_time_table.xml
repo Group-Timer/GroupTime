@@ -2,10 +2,11 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="vertical">
 
 <!--
     <LinearLayout
@@ -14,34 +15,6 @@
         android:orientation="horizontal" >
 -->
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="Time Table"
-            android:textSize="20sp"
-            android:textColor="#F08080"
-            android:gravity="center" />
-
-        <Button
-            android:id="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical"
-            android:text="Edit"
-            android:background="@drawable/small_button"/>
-
-        <Button
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="center_vertical"
-            android:text="Save"
-            android:background="@drawable/small_button"/>
 
 <!--
     </LinearLayout>
@@ -87,5 +60,58 @@
 
     </GridLayout>
 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="Time Table"
+                    android:textSize="20sp"
+                    android:textColor="#F08080"
+                    android:gravity="center" />
 
+                <Button
+                    android:id="@+id/edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="Edit"
+                    android:background="@drawable/small_button"/>
+
+                <Button
+                    android:id="@+id/save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="Save"
+                    android:background="@drawable/small_button"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            >
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/mypage_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_layout"
+                    app:labelVisibilityMode="labeled"
+                    app:menu="@menu/menu" />
+        </LinearLayout>
 </LinearLayout>
