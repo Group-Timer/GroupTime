@@ -8,10 +8,10 @@ import android.widget.EditText;
 public class ToDoListItem {
 
     String toDoList ;
-    boolean check;
+    Boolean check;
 
-    private EditText toDoListEditText;
-    private CheckBox toDoListCheckBox;
+    public EditText toDoListEditText;
+    public CheckBox toDoListCheckBox;
 
     ToDoListItem(Context context, String text , Boolean check){
         this.toDoListEditText = new EditText(context);
@@ -19,20 +19,32 @@ public class ToDoListItem {
 
         this.toDoList = text;
         this.check = check;
+
+        this.toDoListEditText.setText(this.toDoList);
+        this.toDoListCheckBox.setChecked(this.check);
     }
 
 
+    public String TodoList(){
+        return this.toDoList;
+    }
+
+    public Boolean Check(){
+        return this.check;
+    }
 
     public EditText GetToDoListEditText(){
         return toDoListEditText;
     }
 
-    public void setToDoList(EditText toDoListEditText){
+    public String setToDoList(){
         toDoList = toDoListEditText.getText().toString();
+        return toDoList;
     }
 
-    public void setToDoListCheckBox(CheckBox toDoListCheckBox){
+    public Boolean setToDoListCheckBox(CheckBox toDoListCheckBox){
         check = toDoListCheckBox.isChecked();
+        return check;
     }
 
     public void setToDoListString(String toDoListString){
@@ -53,13 +65,13 @@ public class ToDoListItem {
     }
 
     public String GetToDoListString(){
-        setToDoList(RecyclerAdapter.ViewHolder.toDoListEditText);
+        setToDoList();
         return this.toDoList;
     }
 
-    public boolean GetToDoListCheckBoxBoolean(){
-        setToDoListCheckBox(RecyclerAdapter.ViewHolder.toDoListCheckBox);
-        return this.check;
-    }
+//    public boolean GetToDoListCheckBoxBoolean(){
+//        setToDoListCheckBox(RecyclerAdapter.ViewHolder.toDoListCheckBox);
+//        return this.check;
+//    }
 
 }
