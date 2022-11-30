@@ -32,7 +32,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.todo_item, parent, false);
 
-
         return new ViewHolder(itemView);
     }
 
@@ -41,6 +40,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         Note item = items.get(position);
         holder.setItem(item);
         holder.setLayout();
+
+        holder.holderID = item._id;
+
+        holder.checkBox.setChecked(GroupToDoListActivity.checkArrayList.get(holder.holderID));
     }
 
     @Override
@@ -55,6 +58,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         LinearLayout layoutTodo;
         CheckBox checkBox;
         Button deleteButton;
+
+        int holderID;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -86,8 +91,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
                             GroupToDoListActivity.toDoListArrayList.remove(i);
 
+                            GroupToDoListActivity.checkArrayList.remove(i);
+
                             FirebaseDatabase.getInstance()
                                     .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoList").setValue(GroupToDoListActivity.toDoListArrayList);
+
+                            FirebaseDatabase.getInstance()
+                                    .getReference().child("Groups").child(DefineValue.Group_ID).child("CheckBox").setValue(GroupToDoListActivity.checkArrayList);
 
                             FirebaseDatabase.getInstance()
                                     .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt").setValue(GroupToDoListActivity.toDoListArrayList.size());
@@ -104,15 +114,15 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
 
-                    
+                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+                    System.out.println(holderID);
 
                     Boolean check = checkBox.isChecked();
 
-                    GroupToDoListActivity.checkArrayList.add(check);
+                    GroupToDoListActivity.checkArrayList.set(holderID,check);
 
                     FirebaseDatabase.getInstance()
                             .getReference().child("Groups").child(DefineValue.Group_ID).child("CheckBox").setValue(GroupToDoListActivity.checkArrayList);
-
 
 
                 }

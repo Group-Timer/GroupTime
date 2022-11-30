@@ -43,6 +43,7 @@ public class GroupToDoListActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, mainFragment).commit();
 
         Button saveButton = findViewById(R.id.saveButton);
+
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -53,33 +54,39 @@ public class GroupToDoListActivity extends AppCompatActivity {
 
             }
         });
-        openDatabase();
+
     }
 
 
     private void saveToDo(){
 
-<<<<<<< HEAD
-        toDoListSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                for(int i = toDoListPlusButtonBefore ; i < toDoListItemArrayList.size() ; i++){
-
-=======
         inputToDo = findViewById(R.id.inputToDo);
 
         //EditText에 적힌 글을 가져오기
         String todo = inputToDo.getText().toString();
->>>>>>> Hyunwoonew
 
+        for(int i = 0 ; i < toDoListArrayList.size() ; i++ ){
 
+            if( todo.equals( toDoListArrayList.get(i) ) ){
 
+                Toast.makeText(getApplicationContext(),"이미 존재하는 할 일 입니다.",Toast.LENGTH_SHORT).show();
+
+                inputToDo.setText("");
+
+                return;
+
+            }
+        }
 
         toDoListArrayList.add(todo);
 
+        checkArrayList.add(false);
+
         FirebaseDatabase.getInstance()
                 .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoList").setValue(toDoListArrayList);
+
+        FirebaseDatabase.getInstance()
+                .getReference().child("Groups").child(DefineValue.Group_ID).child("CheckBox").setValue(checkArrayList);
 
         FirebaseDatabase.getInstance()
                 .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt").setValue(toDoListArrayList.size());
@@ -88,33 +95,6 @@ public class GroupToDoListActivity extends AppCompatActivity {
         //저장과 동시에 EditText 안의 글 초기화
         inputToDo.setText("");
     }
-
-
-    public void openDatabase() {
-//        // open database
-//        if (noteDatabase != null) {
-//            noteDatabase.close();
-//            noteDatabase = null;
-//        }
-//
-//        noteDatabase = NoteDatabase.getInstance(this);
-//        boolean isOpen = noteDatabase.open();
-//        if (isOpen) {
-//            Log.d(TAG, "Note database is open.");
-//        } else {
-//            Log.d(TAG, "Note database is not open.");
-//        }
-    }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//
-//        if (noteDatabase != null) {
-//            noteDatabase.close();
-//            noteDatabase = null;
-//        }
-//    }
 
 
 }

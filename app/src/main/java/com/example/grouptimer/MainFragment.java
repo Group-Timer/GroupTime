@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.grouptimer.model.Group;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -33,6 +34,9 @@ public class MainFragment extends Fragment {
 
     public static int toDoListCnt;
     private int toDoListPlusButtonBefore;
+
+    ArrayList<Note> items;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,9 +82,12 @@ public class MainFragment extends Fragment {
 
         GroupToDoListActivity.toDoListArrayList.clear();
 
+        GroupToDoListActivity.checkArrayList.clear();
+
 
         //_id, TODO가 담겨질 배열 생성
-        ArrayList<Note> items = new ArrayList<>();
+        items = new ArrayList<>();
+
 
         FirebaseDatabase.getInstance().getReference()
                 .child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt")
@@ -107,20 +114,13 @@ public class MainFragment extends Fragment {
 
                                                 String toDoList = dataSnapshot.getValue(String.class);
 
-                                                items.add(new Note(outerIndex, toDoList));
+                                                Note note = new Note(outerIndex, toDoList);
+
+                                                items.add(note);
 
                                                 if(outerIndex == (toDoListCnt - 1))
                                                 {
-                                                    for(int k = 0; k < toDoListCnt; k++)
-                                                    {
-                                                        GroupToDoListActivity.toDoListArrayList.add(items.get(k).getTodo());
-                                                    }
-
-
-                                                    //어댑터에 연결 및 데이터셋 변경
-                                                    adapter.setItems(items);
-                                                    //adapter.notifyItemRangeChanged(0, toDoListCnt);
-                                                    adapter.notifyDataSetChanged();
+                                                    CheckBoxSet();
                                                 }
 
                                             }
@@ -145,5 +145,49 @@ public class MainFragment extends Fragment {
 
             return ;
         }
+
+
+        public void CheckBoxSet(){
+
+
+            for( int i = 0 ; i < toDoListCnt ; i++ ){
+
+                int outerIndex = i;
+
+                FirebaseDatabase.getInstance().getReference()
+                        .child("Groups").child(DefineValue.Group_ID).child("CheckBox").child(String.valueOf(outerIndex))
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                Boolean checkbox = dataSnapshot.getValue(Boolean.class);
+
+                                GroupToDoListActivity.checkArrayList.add(checkbox);
+
+
+                                if(outerIndex == (toDoListCnt - 1))
+                                {
+                                    for(int k = 0; k < toDoListCnt; k++)
+                                    {
+                                        GroupToDoListActivity.toDoListArrayList.add(items.get(k).getTodo());
+                                    }
+
+                                    //어댑터에 연결 및 데이터셋 변경
+                                    adapter.setItems(items);
+
+                                    adapter.notifyDataSetChanged();
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                }
+
+            }
 
     }
