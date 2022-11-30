@@ -18,6 +18,8 @@ public class GroupChatRecyclerViewItem
 
     public String Key;
 
+    public int InvalidValue;
+
 
     public GroupChatRecyclerViewItem()
     {
@@ -31,6 +33,7 @@ public class GroupChatRecyclerViewItem
         this.Message = message;
         this.SendTime = sendTime;
         this.SenderUID = senderUID;
+        this.InvalidValue = 0;
     }
 
 

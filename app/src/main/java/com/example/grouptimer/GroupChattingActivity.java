@@ -512,7 +512,7 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
                 Log.d("GT", "Chat child added");
 
-                if(snapshot == null)
+                if(snapshot.getValue() == null)
                 {
                     return;
                 }
@@ -578,7 +578,9 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
                     if(LastChatDate != date)
                     {
-                        GroupChatRecyclerViewItem dateItem = new GroupChatRecyclerViewItem(null, null, date, null);
+                        GroupChatRecyclerViewItem dateItem = new GroupChatRecyclerViewItem(null, null, date, "");
+
+                        dateItem.InvalidValue = -1;
 
                         LastChatDate = date;
 
@@ -676,21 +678,25 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
         {
             for(int j = i ; j >= 1; j--)
             {
-                if(ChatList.get(j).SendTime < ChatList.get(j - 1).SendTime)
+                //if((ChatList.get(j).SenderUID.isEmpty() == false) && (ChatList.get(j - 1).SenderUID.isEmpty() == false))
+                if((ChatList.get(j).InvalidValue == 0) && (ChatList.get(j - 1).InvalidValue == 0))
                 {
-                    Log.d("GT", "j : " + ChatList.get(j).SendTime);
-                    Log.d("GT", "j - 1: " + ChatList.get(j -1).SendTime);
+                    if(ChatList.get(j).SendTime < ChatList.get(j - 1).SendTime)
+                    {
+                        Log.d("GT", "j : " + ChatList.get(j).SendTime);
+                        Log.d("GT", "j - 1: " + ChatList.get(j -1).SendTime);
 
 
-                    //GroupChatRecyclerViewItem tempItem = ChatList.get(j);
+                        //GroupChatRecyclerViewItem tempItem = ChatList.get(j);
 
-                    Collections.swap(ChatList, j, j - 1);
-                    //ChatList.get(j) = ChatList.get(j-1);
-                    //ChatList.get(j-1) = tempItem;
-                }
-                else
-                {
-                    break;
+                        Collections.swap(ChatList, j, j - 1);
+                        //ChatList.get(j) = ChatList.get(j-1);
+                        //ChatList.get(j-1) = tempItem;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
         }

@@ -140,6 +140,14 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
                     {
                         Log.d("GT", "is null");
 
+
+                        if(progressDialog != null)
+                        {
+                            progressDialog.dismiss();
+                            progressDialog = null;
+                        }
+
+
                         return;
                     }
 
@@ -211,7 +219,6 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
         RootParams = new ContentFrameLayout.LayoutParams(ContentFrameLayout.LayoutParams.MATCH_PARENT, ContentFrameLayout.LayoutParams.MATCH_PARENT);
         RootParams.setMargins(0,20,20,20);
-
     }
 
     private void Menu_Bottom(){
