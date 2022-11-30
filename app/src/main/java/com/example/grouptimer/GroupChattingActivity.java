@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -17,6 +18,7 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -89,10 +91,26 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
     private int GroupMemberCnt;
 
 
+    public static int standardSize_X;
+    public static int standardSize_Y;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chatting);
+
+
+        Display display = this.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        //float density  = getResources().getDisplayMetrics().density;
+
+        standardSize_X = (int) (size.x);
+        standardSize_Y = (int) (size.y);
+        //standardSize_X = (int) (size.x / density);
+        //standardSize_Y = (int) (size.y / density);
 
 
         GroupChattingContext = this;
