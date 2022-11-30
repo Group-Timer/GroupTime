@@ -1,272 +1,111 @@
 package com.example.grouptimer;
 
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class GroupToDoListActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
-    private ProgressBar toDoListProgressBar;
+    Fragment mainFragment;
+    EditText inputToDo;
+    Context context;
 
-    private RecyclerView toDoListRecycleView;
+    public static ArrayList<String> toDoListArrayList ;
 
-    private TextView groupNameTextView;
+    public static ArrayList<Boolean> checkArrayList ;
 
-    private Button toDoListPlusButton;
-
-    private Button toDoListSaveButton;
-
-    private RecyclerAdapter RecyclerAdapter;
-
-    private ArrayList<ToDoListItem> toDoListItemArrayList;
-
-    private EditText toDoListEditText;
-
-    private ArrayList<String> toDoListArrayList;
-
-    private ArrayList<Boolean> toDoListCheckBoxArrayList;
-
-    //firebase 에 저장되어있는 총 toDoList 개수
-    private int toDoListCnt = 0;
-
-    //plus 버튼 누르기 전의 총 toDoListItemArrayList 의 크기
-    private int toDoListPlusButtonBefore;
-
-    //GroupName
-    private String groupName;
-
+//    public static NoteDatabase noteDatabase = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_to_do_list);
 
-        toDoListProgressBar = (ProgressBar) findViewById(R.id.toDoListProgressBar);
-        toDoListRecycleView = (RecyclerView) findViewById(R.id.toDoListRecycleView);
-        toDoListPlusButton = (Button) findViewById(R.id.toDoListPlusButton);
-        toDoListSaveButton = (Button) findViewById(R.id.toDoListSaveButton);
+        mainFragment = new MainFragment();
+        toDoListArrayList = new ArrayList<String>();
+        checkArrayList = new ArrayList<Boolean>();
 
-//        groupNameTextView = (TextView) findViewById(R.id.groupNameTextView);
+        //getSupportFragmentManager 을 이용하여 이전에 만들었던 **FrameLayout**에 `fragment_main.xml`이 추가
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, mainFragment).commit();
 
-
-// todolist 화면에서 맨위에 group이름 보여주기 하려는 부분
-//        FirebaseDatabase.getInstance().getReference()
-//                .child("Groups").child(DefineValue.Group_ID).child("groupName").child(String.valueOf(0))
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                        groupName = dataSnapshot.getValue(String.class);
-//
-//                        }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//
-//                });
-//
-//        groupNameTextView.setText(groupName);
-//        groupNameTextView.setTextSize(30);
-
-        toDoListArrayList = new ArrayList<>();
-        toDoListCheckBoxArrayList =new ArrayList<>();
-
-        /* initiate adapter */
-        RecyclerAdapter = new RecyclerAdapter();
-
-        /* initiate recyclerview */
-        toDoListItemArrayList = new ArrayList<>();
-
-
-        FirebaseDatabase.getInstance().getReference()
-                .child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        if(dataSnapshot == null)
-                        {
-                            toDoListProgressBar.setVisibility(View.GONE);
-                            toDoListRecycleView.setVisibility(View.VISIBLE);
-
-
-                            return;
-                        }
-
-                        if(dataSnapshot.getValue(Integer.class) == null)
-                        {
-                            toDoListProgressBar.setVisibility(View.GONE);
-                            toDoListRecycleView.setVisibility(View.VISIBLE);
-
-
-                            return;
-                        }
-
-
-                        if(dataSnapshot.getValue(Integer.class) != null){
-                            toDoListCnt = dataSnapshot.getValue(Integer.class);
-
-                            toDoListPlusButtonBefore = toDoListCnt;
-
-
-                            //firebase 에서 ToDoList 에 있는 값을 가져와서 toDoListArrayList 에 저장
-                            for( int i = 0 ; i < toDoListCnt ; i++){
-
-                                int outerIndex = i ;
-                                FirebaseDatabase.getInstance().getReference()
-                                        .child("Groups").child(DefineValue.Group_ID).child("ToDoList").child(String.valueOf(i))
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                                String toDoList = dataSnapshot.getValue(String.class);
-
-                                                toDoListArrayList.add(toDoList);
-
-
-                                                //firebase 에서 CheckBox 에 있는 값을 가져와서 toDoListCheckBoxArrayList 에 저장
-                                                FirebaseDatabase.getInstance().getReference()
-                                                        .child("Groups").child(DefineValue.Group_ID).child("CheckBox").child(String.valueOf(outerIndex))
-                                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                            @Override
-                                                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                                                Boolean checkbox = dataSnapshot.getValue(Boolean.class);
-
-                                                                toDoListCheckBoxArrayList.add(checkbox);
-
-
-                                                                if(outerIndex == (toDoListCnt - 1))
-                                                                {
-
-                                                                    for(int j = 0 ; j < toDoListCnt ;j ++){
-
-                                                                        String toDoList = toDoListArrayList.get(j);
-                                                                        Boolean checkBox = toDoListCheckBoxArrayList.get(j);
-                                                                        toDoListItemArrayList.add(new ToDoListItem(GroupToDoListActivity.this, toDoList , checkBox));
-
-                                                                    }
-
-
-                                                                    toDoListRecycleView.setLayoutManager(new LinearLayoutManager(GroupToDoListActivity.this));
-                                                                    RecyclerAdapter.setToDoListItemArrayList(toDoListItemArrayList);
-                                                                    toDoListRecycleView.setAdapter(RecyclerAdapter);
-
-
-                                                                    toDoListProgressBar.setVisibility(View.GONE);
-                                                                    toDoListRecycleView.setVisibility(View.VISIBLE);
-                                                                }
-
-                                                            }
-
-                                                            @Override
-                                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                                            }
-                                                        });
-
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-
-                                        });
-
-                            }
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-
-
-
-
-        toDoListPlusButton.setOnClickListener(new View.OnClickListener() {
+        Button saveButton = findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
 
-                toDoListRecycleView.setLayoutManager(new LinearLayoutManager(GroupToDoListActivity.this));
+                saveToDo();
 
-                toDoListItemArrayList.add(new ToDoListItem(GroupToDoListActivity.this, null , false));
-
-                RecyclerAdapter.setToDoListItemArrayList(toDoListItemArrayList);
-
-                toDoListRecycleView.setAdapter(RecyclerAdapter);
-
+                Toast.makeText(getApplicationContext(),"추가되었습니다.",Toast.LENGTH_SHORT).show();
 
             }
         });
-
-
-
-        toDoListSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                for(int i = toDoListPlusButtonBefore ; i < toDoListItemArrayList.size() ; i++){
-
-                    String toDoList = toDoListItemArrayList.get(i).GetToDoListString();
-
-                    System.out.println("********************************");
-                    System.out.println(i);
-                    System.out.println(toDoList);
-
-                    boolean checkbox = toDoListItemArrayList.get(i).GetToDoListCheckBoxBoolean();
-
-                    toDoListArrayList.add(toDoList);
-
-                    toDoListCheckBoxArrayList.add(checkbox);
-
-                }
-
-                FirebaseDatabase.getInstance()
-                        .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoList").setValue(toDoListArrayList);
-
-                FirebaseDatabase.getInstance()
-                        .getReference().child("Groups").child(DefineValue.Group_ID).child("CheckBox").setValue(toDoListCheckBoxArrayList);
-
-                FirebaseDatabase.getInstance()
-                        .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt").setValue(toDoListItemArrayList.size());
-
-
-
-
-
-            }
-        });
-
-
-
+        openDatabase();
     }
+
+
+    private void saveToDo(){
+
+        inputToDo = findViewById(R.id.inputToDo);
+
+        //EditText에 적힌 글을 가져오기
+        String todo = inputToDo.getText().toString();
+
+
+
+
+        toDoListArrayList.add(todo);
+
+        FirebaseDatabase.getInstance()
+                .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoList").setValue(toDoListArrayList);
+
+        FirebaseDatabase.getInstance()
+                .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt").setValue(toDoListArrayList.size());
+
+
+        //저장과 동시에 EditText 안의 글 초기화
+        inputToDo.setText("");
+    }
+
+
+    public void openDatabase() {
+//        // open database
+//        if (noteDatabase != null) {
+//            noteDatabase.close();
+//            noteDatabase = null;
+//        }
+//
+//        noteDatabase = NoteDatabase.getInstance(this);
+//        boolean isOpen = noteDatabase.open();
+//        if (isOpen) {
+//            Log.d(TAG, "Note database is open.");
+//        } else {
+//            Log.d(TAG, "Note database is not open.");
+//        }
+    }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//
+//        if (noteDatabase != null) {
+//            noteDatabase.close();
+//            noteDatabase = null;
+//        }
+//    }
+
+
 }

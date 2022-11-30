@@ -77,10 +77,11 @@
             android:layout_alignBaseline="@id/pwChangeText"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/pwChangeText"
+            android:backgroundTint="#FBAEAE"
             android:hint="Input your PassWord"
             android:textAlignment="center"
-            android:textSize="25dp"
-            android:backgroundTint = "#FBAEAE"></EditText>
+            android:inputType="textPassword"
+            android:textSize="25dp"></EditText>
 
         <EditText
             android:id="@+id/inputNewPw"
@@ -89,10 +90,11 @@
             android:layout_below="@id/inputPw"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/pwChangeText"
+            android:backgroundTint="#FBAEAE"
             android:hint="New PassWord"
+            android:inputType="textPassword"
             android:textAlignment="center"
-            android:textSize="25dp"
-            android:backgroundTint = "#FBAEAE"></EditText>
+            android:textSize="25dp"></EditText>
 
         <EditText
             android:id="@+id/checkPw"
@@ -103,6 +105,7 @@
             android:layout_toRightOf="@id/pwChangeText"
             android:hint="Confirm PassWord"
             android:textAlignment="center"
+            android:inputType="textPassword"
             android:textSize="25dp"
             android:backgroundTint = "#FBAEAE"></EditText>
 

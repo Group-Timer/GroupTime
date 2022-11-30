@@ -1,76 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="20dp"
-    tools:context=".GroupToDoListActivity"
-    >
+    tools:context=".GroupToDoListActivity" >
 
-
-    <TextView
-        android:id="@+id/groupNameTextView"
-        android:layout_width="250dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="To-Do List"
-        android:textSize="35dp"
-        android:textAlignment="center"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/small_button"
-        >
+        android:orientation="horizontal">
 
-    </TextView>
+        <EditText
+            android:id="@+id/inputToDo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="할 일을 입력하세요."
+            android:backgroundTint="#FBAEAE"
+            android:inputType="textMultiLine" />
 
-    <Button
-        android:id="@+id/toDoListSaveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_gravity="right"
-        android:text="SAVE"
-        android:textSize="20dp"
-        android:layout_weight="1.5"
-        android:background="@drawable/small_button">
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="SAVE"
+            android:background="@drawable/big_button"/>
+    </LinearLayout>
 
-    </Button>
-
-
-    <ProgressBar
-        android:id="@+id/toDoListProgressBar"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="15"
-        android:layout_marginTop="10dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="100dp"
-        android:paddingLeft="90dp"
-        android:paddingRight="90dp"
-        android:indeterminateTint="#FBAEAE"
-        android:visibility="visible" />
+        android:layout_height="685dp">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/toDoListRecycleView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="15"
-        android:scrollbars="vertical"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/toDoListPlusButton"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="right"
-        android:text="+"
-        android:textSize="40dp"
-        android:textColor="@color/white"
-        android:layout_weight="2.5"
-        android:background="@drawable/plus_button">
-
-    </Button>
+    </FrameLayout>
 
 </LinearLayout>
