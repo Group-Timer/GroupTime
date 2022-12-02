@@ -4,6 +4,8 @@ package com.example.grouptimer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,25 +35,13 @@ import java.util.Map;
 public class EmptyActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    Button makeGroup;
-    Button personal;
-    Button mypage;
-    Button changepw;
+    Button button1;
 
-    Button groupToDoList;
-    Button groupTimeTable;
+    public static FragmentManager manager;
 
-    Button listAdd;
+    PersonalTimeTableActivity personalTimeTableActivity;
 
-
-    public static int groupNumber = 0;
-    int firebaseIndex;
-    boolean loopCheck = false;
-
-
-    Map<String, Object> taskMap = new HashMap<String, Object>();
-
-    ArrayList<String> GroupList = new ArrayList<String>();
+    GroupToDoListActivity groupToDoList;
 
 
     @Override
@@ -60,176 +50,23 @@ public class EmptyActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_empty);
 
 
-        makeGroup = (Button) findViewById(R.id.makeGroup);
-        personal = (Button) findViewById(R.id.personal);
+        button1 = (Button) findViewById(R.id.button1);
 
-        mypage = findViewById(R.id.mypage);
-        changepw = findViewById(R.id.changePassword);
-        groupToDoList = (Button) findViewById(R.id.groupToDoList);
+        button1.setOnClickListener(this);
 
+        manager = getSupportFragmentManager();
 
-        makeGroup.setOnClickListener(this);
-        personal.setOnClickListener(this);
-
-        mypage.setOnClickListener(this);
-        changepw.setOnClickListener(this);
-        groupToDoList.setOnClickListener(this);
-
-        groupTimeTable = (Button) findViewById(R.id.groupTimeTable);
-        listAdd = (Button) findViewById(R.id.add);
-
-        makeGroup.setOnClickListener(this);
-        personal.setOnClickListener(this);
-        groupTimeTable.setOnClickListener(this);
-        listAdd.setOnClickListener(this);
-
-
-
-
-
-
+        personalTimeTableActivity = new PersonalTimeTableActivity();
     }
 
-
     @Override
-    public void onClick(View view) {
-        if (view == makeGroup) {
-            startActivity(new Intent(this, MakeGroupActivity.class));
-        } else if (view == personal) {
-            startActivity(new Intent(this, PersonalTimeTableActivity.class));
-        } else if (view == mypage) {
-            startActivity(new Intent(this, MyPageActivity.class));
-        } else if (view == changepw) {
-            startActivity(new Intent(this, ChangePWActivity.class));
-        } else if (view == groupToDoList) {
-            startActivity(new Intent(this, GroupToDoListActivity.class));
-        }
-        else if(view == groupTimeTable)
+    public void onClick(View view)
+    {
+        if(view == button1)
         {
-            startActivity(new Intent(this, GroupTimeTableActivity.class));
-        }
-
-        if(view == listAdd)
-        {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
-
-
-            mDatabase.child("Users").child(user.getUid()).child("groupNumber").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    //int value = dataSnapshot.getValue(Integer.class);
-                    //GroupListManager manager = dataSnapshot.getValue(GroupListManager.class);
-                    String value = dataSnapshot.getValue(String.class);
-
-                    //Log.d("GT", "dataSnapshot : " + manager.groupNumber );
-                    Log.d("GT", "dataSnapshot : " + value );
-
-                    //groupNumber = Integer.parseInt(manager.groupNumber);
-                    groupNumber = Integer.parseInt(value);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-
-
-
-
-            Log.d("GT", "Database groupNumber : " + groupNumber);
-
-
-            if(groupNumber > 0)
-            {
-                GroupList.clear();
-
-
-                for(firebaseIndex = 0; firebaseIndex < groupNumber; firebaseIndex++)
-                {
-                    String listID = Integer.toString(firebaseIndex);
-
-                    mDatabase.child("Users").child(user.getUid()).child("GroupList").child(listID).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            //GroupListManager groupListManager = dataSnapshot.getValue(GroupListManager.class);
-
-                            String value = dataSnapshot.getValue(String.class);
-
-
-                            if(value == null)
-                            {
-                                return;
-                            }
-
-
-                            GroupList.add(value);
-
-
-                            Log.d("GT", "Database Get : " + value);
-
-
-                            if(firebaseIndex == (groupNumber - 1))
-                            {
-                                GroupList.add("Group" + firebaseIndex);
-
-                                for(int k = 0; k < GroupList.size(); k++)
-                                {
-                                    Log.d("GT", "List(" + k + ") : " + GroupList.get(k));
-                                }
-
-
-                                taskMap.put("GroupList", GroupList);
-
-                                mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
-
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-
-
-
-                }
-
-
-                taskMap.clear();
-                taskMap.put("groupNumber", Integer.toString(groupNumber + 1));
-
-                mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
-            }
-            else
-            {
-                Log.d("GT", "groupNumber is 0");
-
-                ArrayList<String> GroupList = new ArrayList<String>();
-
-                GroupList.add("First Group");
-
-                for(int k = 0; k < GroupList.size(); k++)
-                {
-                    Log.d("GT", "List(" + k + ") : " + GroupList.get(k));
-                }
-
-                taskMap.put("GroupList", GroupList);
-
-                mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
-
-
-                taskMap.clear();
-                taskMap.put("groupNumber", "1");
-
-                mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
-            }
+            FragmentTransaction tf = manager.beginTransaction();
+            tf.replace(R.id.fragmentContainer, personalTimeTableActivity);
+            tf.commit();
         }
     }
 }

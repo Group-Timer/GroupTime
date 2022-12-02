@@ -1186,8 +1186,8 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
         groupShareDialog.show();
     }
-    
-    
+
+
     private void Set_ScheduleTime()
     {
         //Show_DatePicker();

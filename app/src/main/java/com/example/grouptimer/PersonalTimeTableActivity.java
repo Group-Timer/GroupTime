@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ContentFrameLayout;
+import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PersonalTimeTableActivity extends AppCompatActivity implements View.OnClickListener {
+public class PersonalTimeTableActivity extends Fragment implements View.OnClickListener {
 
 
     LinearLayout                        RootLayout;
@@ -86,17 +87,23 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_personal_time_table);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        return inflater.inflate(R.layout.activity_personal_time_table, container, false);
+
+        //return null;
+    }
 
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
 
 
-        progressDialog = new ProgressDialog(PersonalTimeTableActivity.this, R.style.ProgressDialogTheme);
+        progressDialog = new ProgressDialog(getContext(), R.style.ProgressDialogTheme);
 
-        runOnUiThread(new Runnable()
+        getActivity().runOnUiThread(new Runnable()
         {
             @Override
             public void run()
@@ -197,7 +204,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         Generate_TimeTableLayout();
 
 
-        setContentView(RootLayout, RootParams);
+        getActivity().setContentView(RootLayout, RootParams);
     }
 
 
@@ -214,7 +221,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     // ContentFrameLayout Params 적용
     private void Generate_RootLayout()
     {
-        RootLayout = new LinearLayout(this);
+        RootLayout = new LinearLayout(getContext());
         RootLayout.setOrientation(LinearLayout.VERTICAL);
 
         RootParams = new ContentFrameLayout.LayoutParams(ContentFrameLayout.LayoutParams.MATCH_PARENT, ContentFrameLayout.LayoutParams.MATCH_PARENT);
@@ -222,7 +229,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     }
 
     private void Menu_Bottom(){
-        LinearLayout BottomLayout = new LinearLayout(this);
+        LinearLayout BottomLayout = new LinearLayout(getContext());
         BottomLayout.setGravity(Gravity.BOTTOM);
         LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         bottomParams.bottomMargin = 5;
@@ -230,7 +237,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         bottomParams.setMarginEnd(2);
         BottomLayout.setOrientation(LinearLayout.VERTICAL);
 
-        BottomNavigationView bottomNavigationView = new BottomNavigationView(this);
+        BottomNavigationView bottomNavigationView = new BottomNavigationView(getContext());
 
 
     }
@@ -240,13 +247,13 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     // Time Table의 상단 부분
     private void Generate_TopLayout()
     {
-        LinearLayout topLayout = new LinearLayout(this);
+        LinearLayout topLayout = new LinearLayout(getContext());
         topLayout.setOrientation(LinearLayout.HORIZONTAL);
 
         LinearLayout.LayoutParams topLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         topLayoutParams.topMargin = 40;
 
-        TextView textView = new TextView(this);
+        TextView textView = new TextView(getContext());
         textView.setText("Time Table");
         textView.setTextSize(30);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
@@ -259,7 +266,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         textParams.setMarginEnd(10);
 
 
-        editButton = new Button(this);
+        editButton = new Button(getContext());
         editButton.setId(EditButtonID);
         editButton.setText("Edit");
         editButton.setBackgroundResource(R.drawable.small_button_outline);
@@ -270,7 +277,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         editParams.setMarginEnd(20);
 
 
-        saveButton = new Button(this);
+        saveButton = new Button(getContext());
         saveButton.setId(SaveButtonID);
         saveButton.setText("Save");
         saveButton.setBackgroundResource(R.drawable.small_button);
@@ -292,7 +299,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
     // 요일 레이아웃 생성
     private void Generate_DayLayout()
     {
-        LinearLayout dayLinearLayout = new LinearLayout(this);
+        LinearLayout dayLinearLayout = new LinearLayout(getContext());
         dayLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
         dayLinearLayout.setWeightSum(8);
 
@@ -301,7 +308,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
         for(int i = 0; i < DefineValue.TimeTable_GridLayout_Cnt; i++)
         {
-            TextView dayText = new TextView(this);
+            TextView dayText = new TextView(getContext());
 
             dayText.setText(Day[i]);
             dayText.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -322,7 +329,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         int buttonID;
 
 
-        LinearLayout linearLayout = new LinearLayout(this);
+        LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setWeightSum(8);
 
@@ -330,7 +337,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         linearParams.setMarginEnd(20);
 
 
-        HourGridLayout = new GridLayout(this);
+        HourGridLayout = new GridLayout(getContext());
         HourGridLayout.setOrientation(GridLayout.VERTICAL);
         HourGridLayout.setRowCount(12);
 
@@ -340,7 +347,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
 
         for(int i = 0; i < DefineValue.Times_Of_Day; i++)
         {
-            TextView hourText = new TextView(this);
+            TextView hourText = new TextView(getContext());
 
             hourText.setText(Hour[i]);
             hourText.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -358,7 +365,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
         for( int i = 0; i < DefineValue.Day_Cnt; i++)
         {
             //GridLayout gridLayout = new GridLayout(this);
-            TimeTableGridLayout[i] = new GridLayout(this);
+            TimeTableGridLayout[i] = new GridLayout(getContext());
 
             TimeTableGridLayout[i].setOrientation(GridLayout.VERTICAL);
             TimeTableGridLayout[i].setRowCount(12);
@@ -373,7 +380,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
             for(int k = 0; k < DefineValue.Times_Of_Day; k++)
             {
                 //Button button = new Button(this);
-                TimeTableButton[i][k] = new Button(this);
+                TimeTableButton[i][k] = new Button(getContext());
                 TimeTableButton[i][k].setOnClickListener(new TimeTableOnClickListener());
                 TimeTableButton[i][k].setBackground(CustomButtonDrawable);
                 //TimeTableButton[i][k].setBackgroundColor(Color.GRAY);
@@ -635,7 +642,7 @@ public class PersonalTimeTableActivity extends AppCompatActivity implements View
             Log.d("GT", "Save Button Click");
 
 
-            saveProgressDialog = new ProgressDialog(PersonalTimeTableActivity.this, R.style.ProgressDialogTheme);
+            saveProgressDialog = new ProgressDialog(getActivity(), R.style.ProgressDialogTheme);
 
             saveProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             saveProgressDialog.setCanceledOnTouchOutside(false);

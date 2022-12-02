@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -95,6 +96,9 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
     public static int standardSize_Y;
 
 
+    InputMethodManager inputManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +118,9 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
 
         GroupChattingContext = this;
+
+
+        inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 
         ChatRecyclerView = (RecyclerView) findViewById(R.id.chattingRecyclerView);
@@ -420,6 +427,20 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
                 public void run()
                 {
                     ChatRecyclerView.setLayoutManager(linearLayoutManager);
+
+                    ChatRecyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                        @Override
+                        public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY)
+                        {
+                            if( (scrollY + 10) < oldScrollY )
+                            {
+                                if(inputManager.isActive() == true)
+                                {
+                                    inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                }
+                            }
+                        }
+                    });
 
 
                     GroupChattingAdapter = new GroupChattingRecyclerViewAdapter(ChatList);
