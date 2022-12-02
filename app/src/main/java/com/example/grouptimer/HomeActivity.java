@@ -80,9 +80,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
+    FragmentTransaction ft;
 
     PersonalTimeTableActivity personalTimeTableActivity;
+    MypageFragment mypageFragment;
 
 
     @SuppressLint("WrongViewCast")
@@ -96,8 +97,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
         fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-
+        mypageFragment = new MypageFragment();
+        personalTimeTableActivity = new PersonalTimeTableActivity();
 
         insertCodeEdit = (EditText) findViewById(R.id.insertCodeEdit);
         insertCodeButton = (Button) findViewById(R.id.insertCodeButton);
@@ -126,17 +127,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.bottom_todo:
                         Log.d("personal","personal");
 
-                        personalTimeTableActivity = new PersonalTimeTableActivity();
+                        ft = fragmentManager.beginTransaction();
 
-                        fragmentTransaction.replace(R.id.fragmentContainer, personalTimeTableActivity);
-                        fragmentTransaction.commit();
+                        ft.replace(R.id.fragmentContainer, personalTimeTableActivity);
+                        ft.commit();
 
                         break;
                     case R.id.bottom_mypage:
                         Log.d("my","my");
-                        startActivity(new Intent(HomeActivity.this,MyPageActivity.class));
 
-                        finish();
+                        ft = fragmentManager.beginTransaction();
+
+                        ft.replace(R.id.fragmentContainer, mypageFragment);
+                        ft.commit();
 
                         break;
                 }
