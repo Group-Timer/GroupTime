@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,7 +74,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     boolean AlreadyEntered;
 
+    boolean RemoveGroup;
+
     public static ProgressDialog progressDialog = null;
+
+
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+
+    PersonalTimeTableActivity personalTimeTableActivity;
 
 
     @SuppressLint("WrongViewCast")
@@ -82,6 +93,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
         context = this;
+
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
 
         insertCodeEdit = (EditText) findViewById(R.id.insertCodeEdit);
@@ -102,16 +117,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 switch (item.getItemId()){
                     case R.id.bottom_home:
                         Log.d("home","home");
+
                         startActivity(new Intent(HomeActivity.this,HomeActivity.class));
 
                         finish();
 
                         break;
                     case R.id.bottom_todo:
-                        Log.d("todo","todo");
-                        startActivity(new Intent(HomeActivity.this, PersonalTimeTableActivity.class));
+                        Log.d("personal","personal");
 
-                        finish();
+                        personalTimeTableActivity = new PersonalTimeTableActivity();
+
+                        fragmentTransaction.replace(R.id.fragmentContainer, personalTimeTableActivity);
+                        fragmentTransaction.commit();
 
                         break;
                     case R.id.bottom_mypage:
@@ -353,6 +371,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         tempNameList.addAll(GroupNameList);
 
 
+        RemoveGroup = false;
+
+
         mDatabase.child("Users").child(user.getUid()).child("groupNumber").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -487,24 +508,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                         Log.d("GT", "Success Enter Group");
 
 
-                                        if(progressDialog != null)
-                                        {
-                                            progressDialog.dismiss();
-
-                                            progressDialog = null;
-                                        }
+                                        //recyclerViewAdapter.notifyItemInserted(GroupList.size() - 1);
 
 
-                                        Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
-                                    }
-
-
-                                    if(showRecyclerView == true)
-                                    {
-                                        Log.d("GT", "RecyclerView generating");
-
-
-                                        for(int i = 0; i < GroupList.size(); i++)
+                                        int originSize = GroupList.size();
+                                        for(int i = 0; i < originSize; i++)
                                         {
                                             int groupIndex = i;
 
@@ -512,13 +520,115 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                    String value = dataSnapshot.getValue(String.class);
+                                                    if(dataSnapshot.getValue() == null)
+                                                    {
+                                                        GroupList.remove(groupIndex);
+
+                                                        RemoveGroup = true;
+                                                    }
+                                                    else
+                                                    {
+                                                        String value = dataSnapshot.getValue(String.class);
 
 
-                                                    GroupNameList.add(value);
+                                                        GroupNameList.add(value);
+                                                    }
+
+
+                                                    if(groupIndex == (originSize - 1))
+                                                    {
+                                                        if(RemoveGroup == true)
+                                                        {
+                                                            taskMap.put("GroupList", GroupList);
+
+                                                            mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                                                            taskMap.clear();
+                                                            taskMap.put("groupNumber", GroupList.size());
+
+                                                            mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                                                            recyclerViewAdapter = new GroupRecyclerViewAdapter(GroupList, GroupNameList);
+                                                            recyclerView.setAdapter(recyclerViewAdapter);
+                                                        }
+
+
+                                                        recyclerViewAdapter = new GroupRecyclerViewAdapter(GroupList, GroupNameList);
+                                                        recyclerView.setAdapter(recyclerViewAdapter);
+
+
+                                                        if(progressDialog != null)
+                                                        {
+                                                            progressDialog.dismiss();
+
+                                                            progressDialog = null;
+                                                        }
+
+
+                                                        Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                }
+                                            });
+                                        }
+                                    }
+
+
+                                    if(showRecyclerView == true && listUpdate == false)
+                                    {
+                                        Log.d("GT", "RecyclerView generating");
+
+
+                                        int originSize = GroupList.size();
+                                        for(int i = 0; i < originSize; i++)
+                                        {
+                                            int groupIndex = i;
+
+                                            mDatabase.child("Groups").child(GroupList.get(groupIndex)).child("groupName").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                    if(dataSnapshot.getValue() == null)
+                                                    {
+                                                        GroupList.remove(groupIndex);
+
+                                                        RemoveGroup = true;
+                                                    }
+                                                    else
+                                                    {
+                                                        String value = dataSnapshot.getValue(String.class);
+
+
+                                                        GroupNameList.add(value);
+                                                    }
+
 
                                                     if(groupIndex == (groupNumber - 1))
                                                     {
+                                                        if(RemoveGroup == true)
+                                                        {
+                                                            taskMap.put("GroupList", GroupList);
+
+                                                            mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                                                            taskMap.clear();
+                                                            taskMap.put("groupNumber", GroupList.size());
+
+                                                            mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                                                            recyclerViewAdapter = new GroupRecyclerViewAdapter(GroupList, GroupNameList);
+                                                            recyclerView.setAdapter(recyclerViewAdapter);
+                                                        }
+
+
                                                         recyclerViewAdapter = new GroupRecyclerViewAdapter(GroupList, GroupNameList);
                                                         recyclerView.setAdapter(recyclerViewAdapter);
 
@@ -558,6 +668,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d("GT", "groupNumber is 0");
 
                     GroupList.clear();
+                    GroupNameList.clear();
 
 
                     if(listUpdate == true)
@@ -586,9 +697,67 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         Update_Group_Database(groupID);
 
 
-                        Log.d("GT", "Success Enter Group");
+                        int originSize = GroupList.size();
+                        for(int i = 0; i < originSize; i++)
+                        {
+                            int groupIndex = i;
 
-                        Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
+                            mDatabase.child("Groups").child(GroupList.get(groupIndex)).child("groupName").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                                    if(dataSnapshot.getValue() == null)
+                                    {
+                                        GroupList.remove(groupIndex);
+
+                                        RemoveGroup = true;
+                                    }
+                                    else
+                                    {
+                                        String value = dataSnapshot.getValue(String.class);
+
+
+                                        GroupNameList.add(value);
+                                    }
+
+
+                                    if(groupIndex == (originSize - 1))
+                                    {
+                                        if(RemoveGroup == true)
+                                        {
+                                            taskMap.put("GroupList", GroupList);
+
+                                            mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                                            taskMap.clear();
+                                            taskMap.put("groupNumber", GroupList.size());
+
+                                            mDatabase.child("Users").child(user.getUid()).updateChildren(taskMap);
+
+
+                                            recyclerViewAdapter = new GroupRecyclerViewAdapter(GroupList, GroupNameList);
+                                            recyclerView.setAdapter(recyclerViewAdapter);
+                                        }
+
+
+                                        Log.d("GT", "Success Enter Group");
+
+                                        Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
+
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        emptyText.setVisibility(View.GONE);
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                }
+
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });
+                        }
                     }
                     else
                     {
@@ -720,6 +889,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         else if(view == insertCodeButton)
         {
             String insertCode;
+
+
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
 
             runOnUiThread(new Runnable()

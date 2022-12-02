@@ -31,6 +31,9 @@ public class GroupChattingRecyclerViewHolder extends RecyclerView.ViewHolder
         ChatTime = item.findViewById(R.id.chatTime);
         ChatText = item.findViewById(R.id.chatText);
         ChatSenderName = item.findViewById(R.id.chatSenderName);
+
+
+        ChatText.setMaxWidth((int)(GroupChattingActivity.standardSize_X / 2));
     }
 
 

@@ -9,50 +9,16 @@
 
 
     <Button
-        android:id="@+id/makeGroup"
+        android:id="@+id/button1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Make Group Activity" />
+        android:text="Group TimeTable Fragment" />
 
 
-    <Button
-        android:id="@+id/personal"
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Personal TimeTable Activity" />
-
-    <Button
-        android:id="@+id/mypage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text = "myPage"/>
-
-    <Button
-        android:id="@+id/changePassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text = "change Password"/>
-
-    <Button
-        android:id="@+id/groupToDoList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Group To Do List Activity" />
-
-    <Button
-        android:id="@+id/groupTimeTable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Group Time Table" />
-
-
-    <Button
-        android:id="@+id/add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="GroupList Add" />
-
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

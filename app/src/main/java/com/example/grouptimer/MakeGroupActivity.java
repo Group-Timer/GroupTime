@@ -230,12 +230,21 @@ public class MakeGroupActivity extends AppCompatActivity{
                                             }
 
 
-                                            dialog = new ProgressDialog(MakeGroupActivity.this);
+                                            if(progressDialog != null)
+                                            {
+                                                progressDialog.dismiss();
 
-                                            dialog.setCanceledOnTouchOutside(false);
-                                            dialog.setCancelable(false);
-                                            dialog.setMessage("그룹 생성 성공");
+                                                progressDialog = null;
+                                            }
 
+
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(MakeGroupActivity.this);
+
+                                            builder.setCancelable(false);
+                                            builder.setMessage("\n그룹 생성 성공\n");
+
+
+                                            dialog = builder.create();
                                             dialog.show();
 
 

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -17,7 +18,9 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -89,13 +92,35 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
     private int GroupMemberCnt;
 
 
+    public static int standardSize_X;
+    public static int standardSize_Y;
+
+
+    InputMethodManager inputManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chatting);
 
 
+        Display display = this.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        //float density  = getResources().getDisplayMetrics().density;
+
+        standardSize_X = (int) (size.x);
+        standardSize_Y = (int) (size.y);
+        //standardSize_X = (int) (size.x / density);
+        //standardSize_Y = (int) (size.y / density);
+
+
         GroupChattingContext = this;
+
+
+        inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 
         ChatRecyclerView = (RecyclerView) findViewById(R.id.chattingRecyclerView);
@@ -403,6 +428,20 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
                 {
                     ChatRecyclerView.setLayoutManager(linearLayoutManager);
 
+                    ChatRecyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                        @Override
+                        public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY)
+                        {
+                            if( (scrollY + 10) < oldScrollY )
+                            {
+                                if(inputManager.isActive() == true)
+                                {
+                                    inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                }
+                            }
+                        }
+                    });
+
 
                     GroupChattingAdapter = new GroupChattingRecyclerViewAdapter(ChatList);
                     ChatRecyclerView.setAdapter(GroupChattingAdapter);
@@ -494,7 +533,7 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
                 Log.d("GT", "Chat child added");
 
-                if(snapshot == null)
+                if(snapshot.getValue() == null)
                 {
                     return;
                 }
@@ -560,7 +599,9 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
                     if(LastChatDate != date)
                     {
-                        GroupChatRecyclerViewItem dateItem = new GroupChatRecyclerViewItem(null, null, date, null);
+                        GroupChatRecyclerViewItem dateItem = new GroupChatRecyclerViewItem(null, null, date, "");
+
+                        dateItem.InvalidValue = -1;
 
                         LastChatDate = date;
 
@@ -658,21 +699,25 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
         {
             for(int j = i ; j >= 1; j--)
             {
-                if(ChatList.get(j).SendTime < ChatList.get(j - 1).SendTime)
+                //if((ChatList.get(j).SenderUID.isEmpty() == false) && (ChatList.get(j - 1).SenderUID.isEmpty() == false))
+                if((ChatList.get(j).InvalidValue == 0) && (ChatList.get(j - 1).InvalidValue == 0))
                 {
-                    Log.d("GT", "j : " + ChatList.get(j).SendTime);
-                    Log.d("GT", "j - 1: " + ChatList.get(j -1).SendTime);
+                    if(ChatList.get(j).SendTime < ChatList.get(j - 1).SendTime)
+                    {
+                        Log.d("GT", "j : " + ChatList.get(j).SendTime);
+                        Log.d("GT", "j - 1: " + ChatList.get(j -1).SendTime);
 
 
-                    //GroupChatRecyclerViewItem tempItem = ChatList.get(j);
+                        //GroupChatRecyclerViewItem tempItem = ChatList.get(j);
 
-                    Collections.swap(ChatList, j, j - 1);
-                    //ChatList.get(j) = ChatList.get(j-1);
-                    //ChatList.get(j-1) = tempItem;
-                }
-                else
-                {
-                    break;
+                        Collections.swap(ChatList, j, j - 1);
+                        //ChatList.get(j) = ChatList.get(j-1);
+                        //ChatList.get(j-1) = tempItem;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
         }
