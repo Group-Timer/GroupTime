@@ -92,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        Log.d("check", "I'm here");
         context = this;
 
 
@@ -115,9 +115,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d("check", "in function");
                 switch (item.getItemId()){
                     case R.id.bottom_home:
-                        Log.d("home","home");
+                        Log.d("error","home");
 
                         startActivity(new Intent(HomeActivity.this,HomeActivity.class));
 
@@ -125,20 +126,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                         break;
                     case R.id.bottom_todo:
-                        Log.d("personal","personal");
+                        Log.d("error","personal");
 
                         ft = fragmentManager.beginTransaction();
 
-                        ft.replace(R.id.fragmentContainer, personalTimeTableActivity);
+                        ft.replace(R.id.home_frag, personalTimeTableActivity);
                         ft.commit();
 
                         break;
                     case R.id.bottom_mypage:
-                        Log.d("my","my");
+                        Log.d("error","my");
 
                         ft = fragmentManager.beginTransaction();
 
-                        ft.replace(R.id.fragmentContainer, mypageFragment);
+                        ft.replace(R.id.home_frag, mypageFragment);
                         ft.commit();
 
                         break;

@@ -8,7 +8,7 @@
     <item
         android:id="@+id/bottom_todo"
         android:enabled="true"
-        android:title="TO DO"
+        android:title="TIME TABLE"
         />
 
     <item

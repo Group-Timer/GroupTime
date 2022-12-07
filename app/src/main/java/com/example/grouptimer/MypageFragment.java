@@ -102,7 +102,7 @@ public class MypageFragment extends Fragment  {
                     if(!(user.geteMail()==null)) {
                         if (user.geteMail().equals(userInfo.getEmail())) {
                             nickName.setText(user.getUserName());
-                            phoneNumber.setText(Integer.toString(num));
+                            phoneNumber.setText("0"+Integer.toString(num));
                         }
                     }
                 }
