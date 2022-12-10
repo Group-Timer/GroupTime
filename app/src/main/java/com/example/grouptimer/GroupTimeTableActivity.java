@@ -7,6 +7,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ContentFrameLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -26,11 +28,13 @@ import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -39,6 +43,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -111,6 +117,10 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     private final int           ShareButtonID           = 2;
     private final int           ScheduleTimeButtonID    = 3;
     private final int           ChattingButtonID        = 4;
+    private final int           FrameLayoutID           = 5;
+
+
+    private final int           TimeButtonHeightSize    = 120;
 
 
     static int GroupMemberCnt;
@@ -157,6 +167,18 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     ProgressDialog progressDialog = null;
 
 
+    FrameLayout FrameLayout;
+    LinearLayout.LayoutParams FrameParams;
+    BottomNavigationView navigationView;
+
+    FragmentManager fragmentManager;
+    FragmentTransaction ft;
+
+    GroupToDoListActivity groupToDoListActivity;
+
+    View RootView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,6 +199,9 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         EndDateValue = 0;
         EndTimeValue = 0;
 
+        groupToDoListActivity = new GroupToDoListActivity();
+
+        fragmentManager = getSupportFragmentManager();
 
         requestLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>()
         {
@@ -207,6 +232,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                 }
             }
         });
+
     }
 
 
@@ -298,13 +324,95 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     private void Show_Screen()
     {
         Generate_RootLayout();
+
+        Generate_Fragment_FrameLayout();
+
         Generate_TopLayout();
         Generate_DayLayout();
         Generate_TimeTableLayout();
-        Generate_BottomLayout();
 
 
-        setContentView(RootLayout, RootParams);
+        setContentView(RootView);
+
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d("check", "in function");
+                switch (item.getItemId()){
+                    case R.id.bottom_Group:
+                        Log.d("error","home");
+
+                        startActivity(new Intent(GroupTimeTableActivity.this,GroupTimeTableActivity.class));
+
+                        finish();
+
+                        break;
+                    case R.id.bottom_Chat:
+                        Log.d("error","personal");
+
+                        startActivity(new Intent(GroupTimeTableActivity.this, GroupChattingActivity.class));
+
+                        break;
+                    case R.id.bottom_TodoList:
+                        Log.d("error","my");
+
+                        ft = fragmentManager.beginTransaction();
+
+                        ft.replace(FrameLayoutID, groupToDoListActivity);
+                        ft.commit();
+
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+        //Generate_BottomLayout();
+
+
+
+        //LinearLayout linearLayout;
+
+        //linearLayout = (LinearLayout) findViewById(R.id.groupLinear);
+
+        //linearLayout.addView(RootLayout, RootParams);
+
+
+        //setContentView(RootLayout, RootParams);
+    }
+
+
+    private void Generate_Fragment_FrameLayout()
+    {
+        LinearLayout linearLayout;
+
+        RootView = inflater.inflate(R.layout.activity_group_time_table, null, false);
+
+        linearLayout = (LinearLayout) RootView.findViewById(R.id.groupLinear);
+
+
+        FrameLayout = new FrameLayout(this);
+        FrameLayout.setId(FrameLayoutID);
+
+        FrameParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+        FrameParams.weight = 1;
+
+
+        navigationView = new BottomNavigationView(this);
+        navigationView.setBackgroundResource(R.drawable.button_layout);
+        navigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
+        navigationView.inflateMenu(R.menu.menu_group);
+
+        BottomNavigationView.LayoutParams navigationParams = new BottomNavigationView.LayoutParams(BottomNavigationView.LayoutParams.MATCH_PARENT, BottomNavigationView.LayoutParams.WRAP_CONTENT);
+
+
+        FrameLayout.addView(RootLayout, RootParams);
+
+        linearLayout.addView(FrameLayout, FrameParams);
+
+        linearLayout.addView(navigationView, navigationParams);
     }
 
 
@@ -476,7 +584,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
         LinearLayout.LayoutParams hourGridParams    = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
         hourGridParams.weight                       = 1;
-        hourGridParams.setMargins(0, 100, 0, 0);
+        hourGridParams.setMargins(0, 90, 0, 0);
 
         for(int i = 0; i < DefineValue.Times_Of_Day; i++)
         {
@@ -485,7 +593,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
             hourText.setText(Hour[i]);
             hourText.setGravity(Gravity.CENTER_HORIZONTAL);
 
-            LinearLayout.LayoutParams hourParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 130);
+            LinearLayout.LayoutParams hourParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TimeButtonHeightSize);
 
             HourGridLayout.addView(hourText, hourParams);
         }
@@ -519,7 +627,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                 //TimeTableButton[i][k].setBackgroundColor(Color.GRAY);
                 TimeTableButton[i][k].setId(buttonID);
 
-                LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 130);
+                LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TimeButtonHeightSize);
 
                 TimeTableGridLayout[i].addView(TimeTableButton[i][k], buttonParams);
 

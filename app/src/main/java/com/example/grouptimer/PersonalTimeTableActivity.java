@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -74,6 +76,8 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
     private final int           EditButtonID            = 1;
     private final int           SaveButtonID            = 2;
 
+    private final int           TimeButtonHeightSize    = 120;
+
 
     int DayOfWeek;
     int LoadCnt;
@@ -89,9 +93,20 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.activity_personal_time_table, container, false);
+        Show_Screen();
 
-        //return null;
+        View view = inflater.inflate(R.layout.activity_personal_time_table, container, false);
+
+
+
+        LinearLayout linearLayout;
+
+        linearLayout = (LinearLayout) view.findViewById(R.id.linear);
+
+        linearLayout.addView(RootLayout, RootParams);
+
+
+        return view;
     }
 
 
@@ -118,7 +133,7 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
         });
 
 
-        Show_Screen();
+        //Show_Screen();
 
         Init_Button_Checker();
 
@@ -199,12 +214,17 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
     private void Show_Screen()
     {
         Generate_RootLayout();
+
+
+        //Menu_Bottom();
+
+
         Generate_TopLayout();
         Generate_DayLayout();
         Generate_TimeTableLayout();
 
 
-        getActivity().setContentView(RootLayout, RootParams);
+        //getActivity().setContentView(RootLayout, RootParams);
     }
 
 
@@ -224,22 +244,35 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
         RootLayout = new LinearLayout(getContext());
         RootLayout.setOrientation(LinearLayout.VERTICAL);
 
-        RootParams = new ContentFrameLayout.LayoutParams(ContentFrameLayout.LayoutParams.MATCH_PARENT, ContentFrameLayout.LayoutParams.MATCH_PARENT);
+        RootParams = new ContentFrameLayout.LayoutParams(ContentFrameLayout.LayoutParams.MATCH_PARENT, ContentFrameLayout.LayoutParams.WRAP_CONTENT);
         RootParams.setMargins(0,20,20,20);
     }
 
     private void Menu_Bottom(){
         LinearLayout BottomLayout = new LinearLayout(getContext());
         BottomLayout.setGravity(Gravity.BOTTOM);
+
         LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-        bottomParams.bottomMargin = 5;
-        bottomParams.setMarginStart(2);
-        bottomParams.setMarginEnd(2);
-        BottomLayout.setOrientation(LinearLayout.VERTICAL);
+        //bottomParams.bottomMargin = 5;
+        //bottomParams.setMarginStart(2);
+        //bottomParams.setMarginEnd(2);
+
+        //BottomLayout.setOrientation(LinearLayout.VERTICAL);
 
         BottomNavigationView bottomNavigationView = new BottomNavigationView(getContext());
+        bottomNavigationView.setBackgroundResource(R.drawable.button_layout);
+        bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
+        bottomNavigationView.inflateMenu(R.menu.menu);
+//        bottomNavigationView.setId(R.id.mypage_bottom);
 
 
+        LinearLayout.LayoutParams navigationParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //navigationParams.gravity                      = Gravity.CENTER_VERTICAL;
+        //navigationParams.setMarginEnd(20);
+
+        BottomLayout.addView(bottomNavigationView, navigationParams);
+
+        RootLayout.addView(BottomLayout, bottomParams);
     }
 
 
@@ -343,7 +376,7 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
 
         LinearLayout.LayoutParams hourGridParams    = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
         hourGridParams.weight                       = 1;
-        hourGridParams.setMargins(0,100,0,0);
+        hourGridParams.setMargins(0,90,0,0);
 
         for(int i = 0; i < DefineValue.Times_Of_Day; i++)
         {
@@ -352,7 +385,7 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
             hourText.setText(Hour[i]);
             hourText.setGravity(Gravity.CENTER_HORIZONTAL);
 
-            LinearLayout.LayoutParams hourParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 130);
+            LinearLayout.LayoutParams hourParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TimeButtonHeightSize);
 
             HourGridLayout.addView(hourText, hourParams);
         }
@@ -386,7 +419,7 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
                 //TimeTableButton[i][k].setBackgroundColor(Color.GRAY);
                 TimeTableButton[i][k].setId(buttonID);
 
-                LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 130);
+                LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TimeButtonHeightSize);
 
                 TimeTableGridLayout[i].addView(TimeTableButton[i][k], buttonParams);
 

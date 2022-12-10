@@ -1,22 +1,20 @@
-/*
 package com.example.grouptimer;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.grouptimer.model.User;
@@ -33,11 +31,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.InputStream;
-
-public class MyPageActivity extends AppCompatActivity {
+public class MypageFragment extends Fragment  {
 
     private TextView userEmail;
     private TextView nickName;
@@ -55,19 +50,22 @@ public class MyPageActivity extends AppCompatActivity {
     private FirebaseStorage storage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_page);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
+        return inflater.inflate(R.layout.activity_my_page, container,false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle saveInstanceState){
 
         storage = FirebaseStorage.getInstance();
-        userEmail = findViewById(R.id.UserID);
-        nickName = findViewById(R.id.nickname);
-        phoneNumber = findViewById(R.id.phoneNumber);
-        photo = findViewById(R.id.profileIMG);
+        userEmail = view.findViewById(R.id.UserID);
+        nickName = view.findViewById(R.id.nickname);
+        phoneNumber = view.findViewById(R.id.phoneNumber);
+        photo = view.findViewById(R.id.profileIMG);
 
-        changeImage = findViewById(R.id.changeImage);
-        changeProfile = findViewById(R.id.changeProfile);
-        changePW = findViewById(R.id.changePW);
+        changeImage = view.findViewById(R.id.changeImage);
+        changeProfile = view.findViewById(R.id.changeProfile);
+        changePW = view.findViewById(R.id.changePW);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser userInfo = FirebaseAuth.getInstance().getCurrentUser();
@@ -83,7 +81,7 @@ public class MyPageActivity extends AppCompatActivity {
         storageReference.child(uid+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Glide.with(MyPageActivity.this).load(uri).into(photo);
+                Glide.with(MypageFragment.this).load(uri).into(photo);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -104,7 +102,7 @@ public class MyPageActivity extends AppCompatActivity {
                     if(!(user.geteMail()==null)) {
                         if (user.geteMail().equals(userInfo.getEmail())) {
                             nickName.setText(user.getUserName());
-                            phoneNumber.setText(Integer.toString(num));
+                            phoneNumber.setText("0"+Integer.toString(num));
                         }
                     }
                 }
@@ -119,7 +117,7 @@ public class MyPageActivity extends AppCompatActivity {
         changeProfile.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(MyPageActivity.this, ChangeNameActivity.class);
+                Intent intent = new Intent(getActivity(), ChangeNameActivity.class);
                 startActivity(intent);
             }
         });
@@ -127,7 +125,7 @@ public class MyPageActivity extends AppCompatActivity {
         changePW.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(MyPageActivity.this, ChangePWActivity.class);
+                Intent intent = new Intent(getActivity(), ChangePWActivity.class);
                 startActivity(intent);
             }
         });
@@ -140,65 +138,7 @@ public class MyPageActivity extends AppCompatActivity {
                 startActivityForResult(intent, GALLERY_CODE);
             }
         });
-
-        bottom = findViewById(R.id.mypage_bottom);
-
-        bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.bottom_home:
-                        Log.d("home","home");
-                        startActivity(new Intent(MyPageActivity.this,HomeActivity.class));
-
-                        finish();
-
-                        break;
-                    case R.id.bottom_todo:
-                        Log.d("todo","todo");
-                        startActivity(new Intent(MyPageActivity.this, PersonalTimeTableActivity.class));
-
-                        finish();
-
-                        break;
-                    case R.id.bottom_mypage:
-                        Log.d("my","my");
-                        startActivity(new Intent(MyPageActivity.this,MyPageActivity.class));
-
-                        finish();
-
-                        break;
-                }
-                return true;
-            }
-        });
-
     }
-
-    protected void onActivityResult(int requestCode, final int resultCode, final Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode==GALLERY_CODE){
-            Uri file = data.getData();
-            StorageReference storageRef = storage.getReference();
-            StorageReference riversRef = storageRef.child(uid+".png");
-            UploadTask uploadTask = riversRef.putFile(file);
-file
-            try{
-                InputStream in = getContentResolver().openInputStream(data.getData());
-                Bitmap img = BitmapFactory.decodeStream(in);
-                in.close();
-                photo.setImageBitmap(img);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(MyPageActivity.this, "사진이 정상적으로 업로드 되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-}*/
+    @Override
+    public void onResume() {super.onResume();}
+}

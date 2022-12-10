@@ -5,39 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="20dp"
-    tools:context=".GroupToDoListActivity" >
+    tools:context=".GroupToDoListActivity"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/inputToDo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="할 일을 입력하세요."
-            android:backgroundTint="#FBAEAE"
-            android:inputType="textMultiLine" />
-
-        <Button
-            android:id="@+id/saveButton"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="SAVE"
-            android:background="@drawable/big_button"/>
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/inputToDo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="할 일을 입력하세요."
+                android:backgroundTint="#FBAEAE"
+                android:inputType="textMultiLine" />
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="SAVE"
+                android:background="@drawable/big_button"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="685dp">
+
+        </FrameLayout>
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="685dp">
-
-    </FrameLayout>
 
 </LinearLayout>
