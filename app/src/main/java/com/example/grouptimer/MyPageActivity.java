@@ -1,3 +1,4 @@
+/*
 package com.example.grouptimer;
 
 import androidx.annotation.NonNull;
@@ -182,7 +183,7 @@ public class MyPageActivity extends AppCompatActivity {
             StorageReference storageRef = storage.getReference();
             StorageReference riversRef = storageRef.child(uid+".png");
             UploadTask uploadTask = riversRef.putFile(file);
-
+file
             try{
                 InputStream in = getContentResolver().openInputStream(data.getData());
                 Bitmap img = BitmapFactory.decodeStream(in);
@@ -200,4 +201,4 @@ public class MyPageActivity extends AppCompatActivity {
             });
         }
     }
-}
+}*/

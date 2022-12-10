@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_Group"
+        android:enabled="true"
+        android:title="GROUP" />
+
+    <item
+        android:id="@+id/bottom_Chat"
+        android:enabled="true"
+        android:title="CHATING"
+        />
+
+    <item
+        android:id="@+id/bottom_TodoList"
+        android:enabled="true"
+        android:title="TODO LIST"
+        />
+
+</menu>

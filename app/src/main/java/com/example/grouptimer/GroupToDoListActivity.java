@@ -138,7 +138,6 @@ public class GroupToDoListActivity extends Fragment {
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
 //        View view = inflater.inflate(R.layout.fragment_main, container, false);
