@@ -353,8 +353,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
                         startActivity(new Intent(GroupTimeTableActivity.this, GroupChattingActivity.class));
 
-                        finish();
-
                         break;
                     case R.id.bottom_TodoList:
                         Log.d("error","my");
