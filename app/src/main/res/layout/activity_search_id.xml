@@ -22,6 +22,9 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
             android:text="Phone"
+            android:background="@drawable/text_background"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
             android:textSize="18dp"></TextView>
 
         <EditText
@@ -32,6 +35,7 @@
             android:layout_toRightOf="@id/EmailText"
             android:layout_alignBaseline="@id/EmailText"
             android:hint="010-xxxx-xxxx"
+            android:backgroundTint="#FBAEAE"
             android:textAlignment="center"
             android:inputType="phone"
             android:textSize="25dp"></EditText>
@@ -48,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
+        android:background="@drawable/change_button_background"
         android:text = "Serach"
         ></Button>
 
