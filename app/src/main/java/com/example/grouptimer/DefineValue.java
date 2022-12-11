@@ -7,6 +7,8 @@ public class DefineValue
     public static String        Group_ID;
     public static String        Group_Name;
 
+    public static String        User_Name;
+
 
     public final static int     Time_Convert_Key            = 0x1;                      // 0000 0000 0000 0001
 
