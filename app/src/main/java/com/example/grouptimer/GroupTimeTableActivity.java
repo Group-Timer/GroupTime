@@ -178,6 +178,23 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         context = this;
 
 
+        progressDialog = new ProgressDialog(GroupTimeTableActivity.this, R.style.ProgressDialogTheme);
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("로딩중 ...");
+                progressDialog.setCancelable(false);
+
+                progressDialog.show();
+            }
+        });
+
+
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
 
         inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -230,23 +247,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     public void onResume()
     {
         super.onResume();
-
-
-        progressDialog = new ProgressDialog(GroupTimeTableActivity.this, R.style.ProgressDialogTheme);
-
-        runOnUiThread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setMessage("로딩중 ...");
-                progressDialog.setCancelable(false);
-
-                progressDialog.show();
-            }
-        });
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -619,6 +619,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
 
         MemberIDList.clear();
+        MemberNameList.clear();
 
         GroupMemberCnt = 0;
 
@@ -763,6 +764,11 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                                                                 {
                                                                     for(int k = 0; k < MemberNameList.size(); k++)
                                                                     {
+                                                                        Log.d("Name Log", MemberNameList.get(k));
+                                                                        Log.d("Name Log", MemberNameList.size() + ", " + MemberIDList.size());
+                                                                        Log.d("Name Log", "\n");
+
+
                                                                         MemberInfo.put(MemberIDList.get(k), MemberNameList.get(k));
                                                                     }
                                                                 }
@@ -2068,9 +2074,13 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
                     MemberIDList.add(value);
 
-                    if(Integer.parseInt(position) == (reloadMemberCnt - 1))
+
+                    if(sendTime != 0)
                     {
-                        ((GroupChattingActivity)GroupChattingActivity.GroupChattingContext).function(message, senderUID, sendTime);
+                        if(Integer.parseInt(position) == (reloadMemberCnt - 1))
+                        {
+                            ((GroupChattingActivity)GroupChattingActivity.GroupChattingContext).function(message, senderUID, sendTime);
+                        }
                     }
                 }
 

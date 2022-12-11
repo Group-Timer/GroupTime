@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -141,17 +146,33 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
 
         viewHolder.ChatText.setText(message);
         viewHolder.ChatTime.setText(time);
-        viewHolder.ChatSenderName.setText(senderName);
 
 
-        if(indiceCnt > 0)
-        {
-            viewHolder.ChatConfirm.setText(Integer.toString(indiceCnt));
-        }
-        else
-        {
-            viewHolder.ChatConfirm.setText("");
-        }
+        FirebaseDatabase.getInstance().getReference().child("Users").child(senderUID).child("userName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String value = dataSnapshot.getValue(String.class);
+
+
+                viewHolder.ChatSenderName.setText(value);
+
+
+                if(indiceCnt > 0)
+                {
+                    viewHolder.ChatConfirm.setText(Integer.toString(indiceCnt));
+                }
+                else
+                {
+                    viewHolder.ChatConfirm.setText("");
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
 

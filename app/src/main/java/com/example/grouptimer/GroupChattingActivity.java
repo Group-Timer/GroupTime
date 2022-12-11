@@ -540,6 +540,9 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
                 }
 
 
+                Log.d("GT", "Sender Check : " + item.SenderUID);
+
+
                 ChatList.add(item);
 
                 ListSize = ChatList.size();
