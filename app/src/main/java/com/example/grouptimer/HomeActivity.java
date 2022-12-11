@@ -80,9 +80,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
+    FragmentTransaction ft;
 
     PersonalTimeTableActivity personalTimeTableActivity;
+    MypageFragment mypageFragment;
 
 
     @SuppressLint("WrongViewCast")
@@ -91,13 +92,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        Log.d("check", "I'm here");
         context = this;
 
 
         fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-
+        mypageFragment = new MypageFragment();
+        personalTimeTableActivity = new PersonalTimeTableActivity();
 
         insertCodeEdit = (EditText) findViewById(R.id.insertCodeEdit);
         insertCodeButton = (Button) findViewById(R.id.insertCodeButton);
@@ -114,9 +115,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d("check", "in function");
                 switch (item.getItemId()){
                     case R.id.bottom_home:
-                        Log.d("home","home");
+                        Log.d("error","home");
 
                         startActivity(new Intent(HomeActivity.this,HomeActivity.class));
 
@@ -124,19 +126,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                         break;
                     case R.id.bottom_todo:
-                        Log.d("personal","personal");
+                        Log.d("error","personal");
 
-                        personalTimeTableActivity = new PersonalTimeTableActivity();
+                        ft = fragmentManager.beginTransaction();
 
-                        fragmentTransaction.replace(R.id.fragmentContainer, personalTimeTableActivity);
-                        fragmentTransaction.commit();
+                        ft.replace(R.id.home_frag, personalTimeTableActivity);
+                        ft.commit();
 
                         break;
                     case R.id.bottom_mypage:
-                        Log.d("my","my");
-                        startActivity(new Intent(HomeActivity.this,MyPageActivity.class));
+                        Log.d("error","my");
 
-                        finish();
+                        ft = fragmentManager.beginTransaction();
+
+                        ft.replace(R.id.home_frag, mypageFragment);
+                        ft.commit();
 
                         break;
                 }

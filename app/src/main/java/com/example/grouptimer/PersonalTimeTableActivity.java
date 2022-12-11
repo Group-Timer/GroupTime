@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -203,6 +204,8 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
         Generate_DayLayout();
         Generate_TimeTableLayout();
 
+        Menu_Bottom();
+
 
         getActivity().setContentView(RootLayout, RootParams);
     }
@@ -231,15 +234,27 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
     private void Menu_Bottom(){
         LinearLayout BottomLayout = new LinearLayout(getContext());
         BottomLayout.setGravity(Gravity.BOTTOM);
+
         LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-        bottomParams.bottomMargin = 5;
-        bottomParams.setMarginStart(2);
-        bottomParams.setMarginEnd(2);
-        BottomLayout.setOrientation(LinearLayout.VERTICAL);
+        //bottomParams.bottomMargin = 5;
+        //bottomParams.setMarginStart(2);
+        //bottomParams.setMarginEnd(2);
+
+        //BottomLayout.setOrientation(LinearLayout.VERTICAL);
 
         BottomNavigationView bottomNavigationView = new BottomNavigationView(getContext());
+        bottomNavigationView.setBackgroundResource(R.drawable.button_layout);
+        bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
+        bottomNavigationView.inflateMenu(R.menu.menu);
 
 
+        LinearLayout.LayoutParams navigationParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //navigationParams.gravity                      = Gravity.CENTER_VERTICAL;
+        //navigationParams.setMarginEnd(20);
+
+        BottomLayout.addView(bottomNavigationView, navigationParams);
+
+        RootLayout.addView(BottomLayout, bottomParams);
     }
 
 

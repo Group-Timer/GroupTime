@@ -39,13 +39,15 @@
         <activity
             android:name=".GroupToDoListActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize|adjustPan" />
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".GroupTimeTableActivity"
             android:exported="false" />
         <activity
             android:name=".PersonalTimeTableActivity"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".HomeActivity"
             android:exported="false" />

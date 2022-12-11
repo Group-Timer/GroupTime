@@ -26,12 +26,16 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.16485595703124994" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/activity_make_group.xml" value="0.17291666666666666" />
-        <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_personal_time_table.xml" value="0.13269927536231885" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.4179840783580096" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/group_recyclerview_item.xml" value="0.16197916666666667" />
+<<<<<<< HEAD
         <entry key="app/src/main/res/layout/group_todolist_viewpager2_item.xml" value="0.11574074074074074" />
+=======
+        <entry key="app/src/main/res/layout/home_fragment.xml" value="0.1765625" />
+>>>>>>> 50d99de534fc679b42bb5b0b49517fbae702e272
         <entry key="app/src/main/res/layout/to_do_list_layout.xml" value="0.28706512451171873" />
         <entry key="app/src/main/res/layout/todo_item.xml" value="0.25255584716796875" />
         <entry key="app/src/main/res/layout/todo_itemn.xml" value="0.24320652173913043" />
