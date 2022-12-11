@@ -27,13 +27,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".EmptyActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".MakeGroupActivity"
             android:exported="false" />
         <activity
@@ -50,9 +43,6 @@
             tools:ignore="Instantiatable" />
         <activity
             android:name=".HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MyPageActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"

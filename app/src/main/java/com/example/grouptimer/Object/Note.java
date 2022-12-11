@@ -1,8 +1,8 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Object;
 
 public class Note {
-    int _id;
-    String todo;
+    public int _id;
+    public String todo;
 
     public Note(int _id, String todo){
         this._id = _id;

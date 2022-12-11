@@ -1,4 +1,4 @@
-package com.example.grouptimer.model;
+package com.example.grouptimer.Object;
 
 
 public class User {

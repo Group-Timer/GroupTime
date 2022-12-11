@@ -1,4 +1,4 @@
-package com.example.grouptimer.model;
+package com.example.grouptimer.Object;
 
 public class Group {
     public int groupNumber; // group 참여자 수
