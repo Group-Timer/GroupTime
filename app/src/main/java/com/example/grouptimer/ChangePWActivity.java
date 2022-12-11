@@ -1,6 +1,7 @@
 package com.example.grouptimer;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -19,6 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ChangePWActivity extends AppCompatActivity {
 
+    private Button findButton;
+    private EditText findPw;
+
     private Button changeButton;
     private EditText originPw;
     private EditText newPw;
@@ -31,10 +35,40 @@ public class ChangePWActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pw);
 
+        findButton = findViewById(R.id.findButton);
+        findPw = findViewById(R.id.inputEmail);
+
          changeButton = findViewById(R.id.ChangeButton);
          originPw = findViewById(R.id.inputPw);
          newPw = findViewById(R.id.inputNewPw);
          confirmPw = findViewById(R.id.checkPw);
+
+         findButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 FirebaseAuth auth = FirebaseAuth.getInstance();
+                 String emailAddress;
+
+                 emailAddress = findPw.getText().toString();
+
+                 AlertDialog.Builder builder = new AlertDialog.Builder(ChangePWActivity.this);
+                 builder.setTitle("비밀번호 재설정")
+                         .setMessage("재설정 메일이 전송되었습니다.");
+
+                 auth.sendPasswordResetEmail(emailAddress)
+                         .addOnCompleteListener(new OnCompleteListener<Void>() {
+                             @Override
+                             public void onComplete(@NonNull Task<Void> task) {
+                                 if (task.isSuccessful()) {
+                                     Log.d("SEND", "Email sent.");
+                                     builder.create().show();
+                                 }
+                             }
+                         });
+             }
+         });
+
+
 
          changeButton.setOnClickListener(new View.OnClickListener(){
              @Override
