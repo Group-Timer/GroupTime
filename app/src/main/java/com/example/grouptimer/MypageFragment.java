@@ -1,6 +1,8 @@
 package com.example.grouptimer;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,6 +31,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.InputStream;
 
 public class MypageFragment extends Fragment  {
 
@@ -52,7 +58,7 @@ public class MypageFragment extends Fragment  {
     @Override
     public void onViewCreated(View view, Bundle saveInstanceState){
 
-        storage = FirebaseStorage.getInstance();
+        //storage = FirebaseStorage.getInstance();
         userEmail = view.findViewById(R.id.UserID);
         nickName = view.findViewById(R.id.nickname);
         phoneNumber = view.findViewById(R.id.phoneNumber);
@@ -70,7 +76,7 @@ public class MypageFragment extends Fragment  {
         uid = user.getUid();
         userEmail.setText(userInfo.getEmail());
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storage = FirebaseStorage.getInstance();
         StorageReference storageReference = storage.getReference();
 
         storageReference.child(uid+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -133,6 +139,29 @@ public class MypageFragment extends Fragment  {
             }
         });
     }
-    @Override
-    public void onResume() {super.onResume();}
+
+
+    public void onActivityResult(int requestCode, final int resultCode, final Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode==GALLERY_CODE){
+            Uri file = data.getData();
+            StorageReference storageRef = storage.getReference();
+            StorageReference riversRef = storageRef.child(uid+".png");
+            UploadTask uploadTask = riversRef.putFile(file);
+            try{
+                InputStream in = getActivity().getContentResolver().openInputStream(data.getData());
+                Bitmap img = BitmapFactory.decodeStream(in);
+                in.close();
+                photo.setImageBitmap(img);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getActivity(), "사진이 정상적으로 업로드 되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 }
