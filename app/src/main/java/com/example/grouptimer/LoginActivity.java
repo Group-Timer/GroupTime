@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         progressDialog.setCanceledOnTouchOutside(false);
                         progressDialog.setCancelable(false);
-                        progressDialog.setMessage("Sign in ...");
+                        progressDialog.setMessage("로그인중 ...");
 
                         progressDialog.show();
                     }

@@ -83,25 +83,6 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Show_Screen();
-
-        View view = inflater.inflate(R.layout.activity_personal_time_table, container, false);
-
-
-        LinearLayout linearLayout;
-
-        linearLayout = (LinearLayout) view.findViewById(R.id.linear);
-
-        linearLayout.addView(RootLayout, RootParams);
-
-
-        return view;
-    }
-
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
 
 
@@ -122,6 +103,25 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
         });
 
 
+        Show_Screen();
+
+        View view = inflater.inflate(R.layout.activity_personal_time_table, container, false);
+
+
+        LinearLayout linearLayout;
+
+        linearLayout = (LinearLayout) view.findViewById(R.id.linear);
+
+        linearLayout.addView(RootLayout, RootParams);
+
+
+        return view;
+    }
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         Init_Button_Checker();
 
 
@@ -615,6 +615,13 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
         else if(view.getId() == SaveButtonID)
         {
             Log.d("GT", "Save Button Click");
+
+
+            TimeTableEditable = false;
+
+
+            editButton.setText("Edit");
+            editButton.setBackgroundResource(R.drawable.small_button_outline);
 
 
             saveProgressDialog = new ProgressDialog(getActivity(), R.style.ProgressDialogTheme);

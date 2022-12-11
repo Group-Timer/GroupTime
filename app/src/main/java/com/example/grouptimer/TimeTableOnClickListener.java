@@ -66,49 +66,49 @@ public class TimeTableOnClickListener implements View.OnClickListener
             {
                 case DefineValue.Mon:
                 {
-                    view.setBackgroundColor(Color.parseColor("#9b5de5"));
+                    view.setBackgroundColor(Color.parseColor("#FFD6A5"));
 
                     break;
                 }
 
                 case DefineValue.Tue:
                 {
-                    view.setBackgroundColor(Color.parseColor("#f15bb5"));
+                    view.setBackgroundColor(Color.parseColor("#FDFFB6"));
 
                     break;
                 }
 
                 case DefineValue.Wed:
                 {
-                    view.setBackgroundColor(Color.parseColor("#f95738"));
+                    view.setBackgroundColor(Color.parseColor("#CAFFBF"));
 
                     break;
                 }
 
                 case DefineValue.Thu:
                 {
-                    view.setBackgroundColor(Color.parseColor("#fee440"));
+                    view.setBackgroundColor(Color.parseColor("#9BF6FF"));
 
                     break;
                 }
 
                 case DefineValue.Fri:
                 {
-                    view.setBackgroundColor(Color.parseColor("#00bbf9"));
+                    view.setBackgroundColor(Color.parseColor("#BDB2FF"));
 
                     break;
                 }
 
                 case DefineValue.Sat:
                 {
-                    view.setBackgroundColor(Color.parseColor("#90e0ef"));
+                    view.setBackgroundColor(Color.parseColor("#FFC6FF"));
 
                     break;
                 }
 
                 case DefineValue.Sun:
                 {
-                    view.setBackgroundColor(Color.parseColor("#00f5d4"));
+                    view.setBackgroundColor(Color.parseColor("#FFADAD"));
 
                     break;
                 }
