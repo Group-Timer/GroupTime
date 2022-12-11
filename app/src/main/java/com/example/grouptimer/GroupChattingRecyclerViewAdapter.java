@@ -30,7 +30,7 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
     @Override
     public GroupChattingRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = null;
+        View view;
         GroupChattingRecyclerViewHolder viewHolder = null;
 
 
@@ -74,7 +74,6 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
         String senderUID;
         String senderName;
 
-        //int date;
 
         Map<String, Boolean> memberIndice;
 
@@ -107,21 +106,9 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
         }
 
 
-        //date = Integer.parseInt(sendTime.substring(0, 8));
         hour = sendTime.substring(8, 10);
         minute = sendTime.substring(10, 12);
 
-
-        /*
-        if(Integer.parseInt(minute) < 10)
-        {
-            time = hour + ":" + "0" + minute;
-        }
-        else
-        {
-            time = hour + ":" + minute;
-        }
-         */
 
         time = hour + ":" + minute;
 
@@ -155,9 +142,6 @@ public class GroupChattingRecyclerViewAdapter extends RecyclerView.Adapter<Group
         viewHolder.ChatText.setText(message);
         viewHolder.ChatTime.setText(time);
         viewHolder.ChatSenderName.setText(senderName);
-
-
-        //Log.d("GT", "Last Send Date : " + date + ", " + message);
 
 
         if(indiceCnt > 0)

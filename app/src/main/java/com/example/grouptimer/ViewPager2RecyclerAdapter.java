@@ -13,8 +13,6 @@ public class ViewPager2RecyclerAdapter extends RecyclerView.Adapter<ViewPager2Re
     private ArrayList<String> AdapterTodoListText;
     private ArrayList<Boolean> AdapterTodoListCheckBox;
 
-    private ViewGroup parent;
-
 
     public ViewPager2RecyclerAdapter(ArrayList<String> todoListText, ArrayList<Boolean> todoListCheckBox)
     {

@@ -1,34 +1,25 @@
 package com.example.grouptimer;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.annotation.DrawableRes;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ContentFrameLayout;
 import androidx.fragment.app.Fragment;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.Handler;
-import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -49,11 +40,10 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
 
     LinearLayout                        RootLayout;
     ContentFrameLayout.LayoutParams     RootParams;
-    ViewGroup.LayoutParams params;
+
 
     private Button editButton;
     private Button saveButton;
-
 
 
     String[]                    Hour                    = {"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"};
@@ -98,7 +88,6 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
         View view = inflater.inflate(R.layout.activity_personal_time_table, container, false);
 
 
-
         LinearLayout linearLayout;
 
         linearLayout = (LinearLayout) view.findViewById(R.id.linear);
@@ -125,15 +114,13 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
             {
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setMessage("Loading ...");
+                progressDialog.setMessage("로딩중 ...");
                 progressDialog.setCancelable(false);
 
                 progressDialog.show();
             }
         });
 
-
-        //Show_Screen();
 
         Init_Button_Checker();
 
@@ -216,15 +203,9 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
         Generate_RootLayout();
 
 
-        //Menu_Bottom();
-
-
         Generate_TopLayout();
         Generate_DayLayout();
         Generate_TimeTableLayout();
-
-
-        //getActivity().setContentView(RootLayout, RootParams);
     }
 
 
@@ -246,33 +227,6 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
 
         RootParams = new ContentFrameLayout.LayoutParams(ContentFrameLayout.LayoutParams.MATCH_PARENT, ContentFrameLayout.LayoutParams.WRAP_CONTENT);
         RootParams.setMargins(0,20,20,20);
-    }
-
-    private void Menu_Bottom(){
-        LinearLayout BottomLayout = new LinearLayout(getContext());
-        BottomLayout.setGravity(Gravity.BOTTOM);
-
-        LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-        //bottomParams.bottomMargin = 5;
-        //bottomParams.setMarginStart(2);
-        //bottomParams.setMarginEnd(2);
-
-        //BottomLayout.setOrientation(LinearLayout.VERTICAL);
-
-        BottomNavigationView bottomNavigationView = new BottomNavigationView(getContext());
-        bottomNavigationView.setBackgroundResource(R.drawable.button_layout);
-        bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
-        bottomNavigationView.inflateMenu(R.menu.menu);
-//        bottomNavigationView.setId(R.id.mypage_bottom);
-
-
-        LinearLayout.LayoutParams navigationParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        //navigationParams.gravity                      = Gravity.CENTER_VERTICAL;
-        //navigationParams.setMarginEnd(20);
-
-        BottomLayout.addView(bottomNavigationView, navigationParams);
-
-        RootLayout.addView(BottomLayout, bottomParams);
     }
 
 
@@ -405,18 +359,14 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
 
             LinearLayout.LayoutParams gridParams    = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
             gridParams.weight                       = 1;
-            //gridParams.setMarginStart(5);
-            //gridParams.setMarginEnd(5);
 
 
             // Time Table Button 생성
             for(int k = 0; k < DefineValue.Times_Of_Day; k++)
             {
-                //Button button = new Button(this);
                 TimeTableButton[i][k] = new Button(getContext());
                 TimeTableButton[i][k].setOnClickListener(new TimeTableOnClickListener());
                 TimeTableButton[i][k].setBackground(CustomButtonDrawable);
-                //TimeTableButton[i][k].setBackgroundColor(Color.GRAY);
                 TimeTableButton[i][k].setId(buttonID);
 
                 LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TimeButtonHeightSize);
@@ -462,8 +412,7 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
 
     private void Convert_Time_IntegerToBit(int[] timeTable)
     {
-        //     TimeTable을 int형에서 bit 단위로 변환하는 과정
-
+        // TimeTable을 int형에서 bit 단위로 변환하는 과정
         TimeTableBit = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
         for(int day = 0; day < DefineValue.Day_Cnt; day++)
         {
@@ -530,10 +479,8 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
 
 
         if (user != null) {
-            // User is signed in
             Log.d("GT", user.getUid());
         } else {
-            // No user is signed in
             Log.d("GT", "Non user");
         }
 
@@ -547,9 +494,6 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
         taskMap.put("TimeTable", timeTableList);
 
         mDatabase.child("PersonalTimeTable").child(user.getUid()).updateChildren(taskMap);
-
-
-        //Convert_Time_IntegerToBit(timeTable);
 
 
         if(saveProgressDialog != null)
@@ -590,49 +534,49 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
                     {
                         case DefineValue.Mon:
                         {
-                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#9b5de5"));
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#FFD6A5"));
 
                             break;
                         }
 
                         case DefineValue.Tue:
                         {
-                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#f15bb5"));
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#FDFFB6"));
 
                             break;
                         }
 
                         case DefineValue.Wed:
                         {
-                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#f95738"));
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#CAFFBF"));
 
                             break;
                         }
 
                         case DefineValue.Thu:
                         {
-                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#fee440"));
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#9BF6FF"));
 
                             break;
                         }
 
                         case DefineValue.Fri:
                         {
-                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#00bbf9"));
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#BDB2FF"));
 
                             break;
                         }
 
                         case DefineValue.Sat:
                         {
-                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#90e0ef"));
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#FFC6FF"));
 
                             break;
                         }
 
                         case DefineValue.Sun:
                         {
-                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#00f5d4"));
+                            TimeTableButton[day][times].setBackgroundColor(Color.parseColor("#FFADAD"));
 
                             break;
                         }
@@ -655,7 +599,6 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
             {
                 TimeTableEditable = false;
 
-                //Toast.makeText(this, "Diseditable", Toast.LENGTH_SHORT).show();
 
                 editButton.setText("Edit");
                 editButton.setBackgroundResource(R.drawable.small_button_outline);
@@ -664,7 +607,6 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
             {
                 TimeTableEditable = true;
 
-                //Toast.makeText(this, "Editable", Toast.LENGTH_SHORT).show();
 
                 editButton.setText("Editing");
                 editButton.setBackgroundResource(R.drawable.small_button);
@@ -680,7 +622,7 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
             saveProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             saveProgressDialog.setCanceledOnTouchOutside(false);
             saveProgressDialog.setCancelable(false);
-            saveProgressDialog.setMessage("Save ...");
+            saveProgressDialog.setMessage("저장중 ...");
 
             saveProgressDialog.show();
 
@@ -706,63 +648,4 @@ public class PersonalTimeTableActivity extends Fragment implements View.OnClickL
             }, 500);
         }
     }
-
-
-    /*
-    public static class Custom_SvaeButton extends androidx.appcompat.widget.AppCompatButton implements View.OnClickListener
-    {
-        private OnClickListener clickListener;
-
-
-        public Custom_SvaeButton(Context context)
-        {
-            super(context);
-        }
-
-
-        @Override
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-
-            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
-            {
-                saveButton.setBackgroundResource(R.drawable.small_button_outline);
-            }
-            else if(motionEvent.getAction() == MotionEvent.ACTION_UP)
-            {
-                saveButton.setBackgroundResource(R.drawable.small_button);
-
-                //Click_SaveButton();
-            }
-            else if(motionEvent.getAction() == MotionEvent.ACTION_CANCEL)
-            {
-                saveButton.setBackgroundResource(R.drawable.small_button);
-            }
-
-
-            return true;
-        }
-
-        @Override
-        public void onClick(View view)
-        {
-            Log.d("GT", "Custom_SaveButton click");
-
-            clickListener.onClick(view);
-            //Click_SaveButton();
-        }
-
-
-        public interface OnClickListener
-        {
-            void onClick(View view);
-        }
-
-
-        public void setOnClickListener(OnClickListener listner)
-        {
-            clickListener = listner;
-        }
-    }
-
-     */
 }

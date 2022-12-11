@@ -1,41 +1,38 @@
 package com.example.grouptimer;
 
 
-        import androidx.annotation.NonNull;
-        import androidx.annotation.NonNull;
-        import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-        import android.app.AlertDialog;
-        import android.app.ProgressDialog;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.os.Handler;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.ListView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.example.grouptimer.model.Group;
-        import com.example.grouptimer.model.User;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.auth.AuthResult;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.ValueEventListener;
+import com.example.grouptimer.model.Group;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-        import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.List;
-        import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MakeGroupActivity extends AppCompatActivity{
 
@@ -47,8 +44,6 @@ public class MakeGroupActivity extends AppCompatActivity{
     private List<String> purposeList; //selectListView 에 들어갈 값을 넣어두는 List
     private Button makeGroupButton;
 
-//    private int checkGroupId; // group 확인용 groupId
-//    private int randomNumber; // random number
 
     private boolean ClickChecker = false; // selectButton 누를때 selectListView visibility 확인하는 변수
 
@@ -128,23 +123,6 @@ public class MakeGroupActivity extends AppCompatActivity{
                 }
 
 
-//                FirebaseDatabase.getInstance()
-//                        .getReference().child("GroupNumber").addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        checkGroupId = (int) dataSnapshot.getValue();
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//                        //Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
-//                    }
-//                });
-
-
-
                 runOnUiThread(new Runnable()
                 {
                     @Override
@@ -155,7 +133,7 @@ public class MakeGroupActivity extends AppCompatActivity{
                         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         progressDialog.setCanceledOnTouchOutside(false);
                         progressDialog.setCancelable(false);
-                        progressDialog.setMessage("Group making ...");
+                        progressDialog.setMessage("그룹 생성중 ...");
 
                         progressDialog.show();
                     }
@@ -175,13 +153,9 @@ public class MakeGroupActivity extends AppCompatActivity{
                                 group.groupPurpose = selectTextView.getText().toString();
 
 
-                                //group.groupMakerUid = task.getResult().getUser().getUid();
-
-
                                 DatabaseReference  reference = FirebaseDatabase.getInstance().getReference().child("Groups").push();
 
 
-                                //FirebaseDatabase.getInstance().getReference().child("Groups").push().setValue(group);
                                 reference.setValue(group);
 
 
@@ -189,7 +163,6 @@ public class MakeGroupActivity extends AppCompatActivity{
 
                                 memberList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                                //FirebaseDatabase.getInstance().getReference().child("Groups").push().child("groupMember").setValue(memberList);
                                 reference.child("groupMember").setValue(memberList);
                                 reference.child("memberCnt").setValue(1);
 
@@ -352,11 +325,7 @@ public class MakeGroupActivity extends AppCompatActivity{
                                 });
                             }
                         });
-
-
             }
         });
-
     }
-
 }

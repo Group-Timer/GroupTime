@@ -2,7 +2,6 @@ package com.example.grouptimer;
 
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.grouptimer.model.Group;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,16 +22,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
-//    private static final String TAG = "MainFragment";
 
     RecyclerView recyclerView;
     NoteAdapter adapter;
-    Context context;
 
     SwipeRefreshLayout swipeRefreshLayout;
 
     public static int toDoListCnt;
-    private int toDoListPlusButtonBefore;
 
     ArrayList<Note> items;
 
@@ -99,8 +94,6 @@ public class MainFragment extends Fragment {
                         if (dataSnapshot.getValue(Integer.class) != null) {
                             toDoListCnt = dataSnapshot.getValue(Integer.class);
 
-                            toDoListPlusButtonBefore = toDoListCnt;
-
 
                             //firebase 에서 ToDoList 에 있는 값을 가져와서 toDoListArrayList 에 저장
                             for (int i = 0; i < toDoListCnt; i++) {
@@ -141,9 +134,7 @@ public class MainFragment extends Fragment {
                 });
 
 
-
-
-            return ;
+            return;
         }
 
 
@@ -176,7 +167,6 @@ public class MainFragment extends Fragment {
                                     adapter.setItems(items);
 
                                     adapter.notifyDataSetChanged();
-
                                 }
                             }
 
@@ -185,9 +175,6 @@ public class MainFragment extends Fragment {
 
                             }
                         });
-
                 }
-
             }
-
     }

@@ -2,7 +2,6 @@ package com.example.grouptimer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +20,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         register = (Button) findViewById(R.id.register);
         login = (Button) findViewById(R.id.login);
-
 
 
         register.setOnClickListener(this);

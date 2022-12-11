@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -40,10 +38,8 @@ public class MypageFragment extends Fragment  {
     private Button changeImage;
     private Button changeProfile;
     private Button changePW;
-    private String photoName;
     private FirebaseAuth mAuth;
     private String uid;
-    private BottomNavigationView bottom;
 
     private final int GALLERY_CODE = 10;
     ImageView photo;
@@ -90,8 +86,7 @@ public class MypageFragment extends Fragment  {
             }
         });
 
-        Query query =
-                FirebaseDatabase.getInstance().getReference("Users");
+        Query query = FirebaseDatabase.getInstance().getReference("Users");
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

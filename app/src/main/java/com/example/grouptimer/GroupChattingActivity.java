@@ -56,8 +56,6 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
 
-    private ChildEventListener GroupMemberCntEventListener;
-
 
     private LinearLayoutManager linearLayoutManager;
     private GroupChattingRecyclerViewAdapter GroupChattingAdapter;
@@ -76,7 +74,6 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
     ConnectivityManager connectivityManager = null;
     ConnectivityManager.NetworkCallback networkCallback = null;
-    //Network currentNetwork = null;
     NetworkInfo networkInfo = null;
 
     boolean NetworkConnection = false;
@@ -109,7 +106,6 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
         Point size = new Point();
         display.getSize(size);
 
-        //float density  = getResources().getDisplayMetrics().density;
 
         standardSize_X = (int) (size.x);
         standardSize_Y = (int) (size.y);
@@ -383,9 +379,6 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
             FirstNetworkCheck = true;
 
 
-            //Check_GroupMemberCnt();
-
-
             user = FirebaseAuth.getInstance().getCurrentUser();
             databaseReference = FirebaseDatabase.getInstance().getReference().child("Chat").child("Messages").child(DefineValue.Group_ID);
 
@@ -451,71 +444,7 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
                 }
             });
         }
-
-
-        //Load_Chat();
-        //Update_Chat();
     }
-
-
-/*
-    private void Load_Chat()
-    {
-        valueEventListener = new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                if(dataSnapshot == null)
-                {
-                    return;
-                }
-
-
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren())
-                {
-                    if(dataSnapshot.getValue() == null)
-                    {
-                        Log.d("GT", "Null chat message");
-                    }
-                    else
-                    {
-                        GroupChatRecyclerViewItem item = childSnapshot.getValue(GroupChatRecyclerViewItem.class);
-
-                        Log.d("GT", item.Message);
-                        Log.d("GT", Integer.toString(item.SendTime));
-                        Log.d("GT", item.SenderUID);
-
-
-                        if(item.SenderUID.equals(UserUID) == true)
-                        {
-                            item.ViewType = DefineValue.Chat_Right;
-                        }
-                        else
-                        {
-                            item.ViewType = DefineValue.Chat_Left;
-                        }
-
-
-                        ChatList.add(item);
-                        GroupChattingAdapter.notifyItemInserted(ChatList.size());
-                    }
-                }
-
-
-                Update_Chat();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
-            }
-        };
-
-        databaseReference.addListenerForSingleValueEvent(valueEventListener);
-    }
-
- */
 
 
     private void Update_Chat()
@@ -616,7 +545,6 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
                 Sort_Chat_Message();
 
-                //GroupChattingAdapter.notifyItemInserted(ListSize);
                 GroupChattingAdapter.notifyItemRangeChanged(0, ListSize);
 
                 ChatRecyclerView.scrollToPosition(ListSize - 1);
@@ -624,22 +552,6 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
                 if(progressDialog != null && ChatList.isEmpty() == false)
                 {
-                    // 채팅 기록 최초 로딩 시 메세지 리스트 시간 순서로 정렬
-                    //Sort_Chat_Message();
-
-                    //ListSize = ChatList.size();
-
-                    //GroupChattingAdapter.notifyItemRangeChanged(0, ListSize);
-
-                    //ChatRecyclerView.setLayoutManager(linearLayoutManager);
-
-
-                    //GroupChattingAdapter = new GroupChattingRecyclerViewAdapter(ChatList);
-                    //ChatRecyclerView.setAdapter(GroupChattingAdapter);
-
-                    //ChatRecyclerView.scrollToPosition(ListSize - 1);
-
-
                     progressDialog.dismiss();
                     progressDialog = null;
                 }
@@ -699,7 +611,6 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
         {
             for(int j = i ; j >= 1; j--)
             {
-                //if((ChatList.get(j).SenderUID.isEmpty() == false) && (ChatList.get(j - 1).SenderUID.isEmpty() == false))
                 if((ChatList.get(j).InvalidValue == 0) && (ChatList.get(j - 1).InvalidValue == 0))
                 {
                     if(ChatList.get(j).SendTime < ChatList.get(j - 1).SendTime)
@@ -708,11 +619,7 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
                         Log.d("GT", "j - 1: " + ChatList.get(j -1).SendTime);
 
 
-                        //GroupChatRecyclerViewItem tempItem = ChatList.get(j);
-
                         Collections.swap(ChatList, j, j - 1);
-                        //ChatList.get(j) = ChatList.get(j-1);
-                        //ChatList.get(j-1) = tempItem;
                     }
                     else
                     {
@@ -733,79 +640,8 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    private void Check_GroupMemberCnt()
-    {
-        Log.d("GT", "Check GroupMemberCnt");
-
-
-        /*
-        GroupMemberCntEventListener = new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                int value = snapshot.getValue(Integer.class);
-
-
-                GroupMemberCnt = value;
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                int value = snapshot.getValue(Integer.class);
-
-
-                GroupMemberCnt = value;
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-
-
-        FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("memberCnt").addChildEventListener(GroupMemberCntEventListener);
-
-         */
-
-
-
-        FirebaseDatabase.getInstance().getReference().child("Groups").child(DefineValue.Group_ID).child("memberCnt").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                int value = snapshot.getValue(Integer.class);
-
-
-                GroupMemberCnt = value;
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-
     private void Send_Chat(String message)
     {
-        ChatMessage chatMessage;
-
-        //ChatMemberIndice chatMemberIndice;
-
         String senderUID;
 
         long sendTime;
@@ -860,7 +696,6 @@ public class GroupChattingActivity extends AppCompatActivity implements View.OnC
 
 
                     chatMessage = new ChatMessage(message, senderUID, sendTime, memberIndice);
-                    //chatMemberIndice = new ChatMemberIndice(GroupTimeTableActivity.MemberIDList, senderUID);
 
 
                     databaseReference.push().setValue(chatMessage).addOnSuccessListener(new OnSuccessListener<Void>() {

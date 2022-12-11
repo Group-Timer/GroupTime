@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -24,7 +23,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,12 +35,10 @@ import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,8 +48,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -151,9 +145,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     ActivityResultLauncher<Intent> requestLauncher;
 
 
-    //public final Cursor query(Uri url, String[] projection, String selection, String[] selectionArgs, String sortOrder)
-
-
     DatePickerDialog datePickerDialog = null;
     TimePickerDialog timePickerDialog = null;
 
@@ -214,7 +205,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                 }
 
                 if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
-                    Intent data = result.getData();
 
                     String[] projection = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER};
                     Cursor cursor = getContentResolver().query(result.getData().getData(), projection, null, null, null);
@@ -251,7 +241,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
             {
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setMessage("Loading ...");
+                progressDialog.setMessage("로딩중 ...");
                 progressDialog.setCancelable(false);
 
                 progressDialog.show();
@@ -367,20 +357,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                 return true;
             }
         });
-
-
-        //Generate_BottomLayout();
-
-
-
-        //LinearLayout linearLayout;
-
-        //linearLayout = (LinearLayout) findViewById(R.id.groupLinear);
-
-        //linearLayout.addView(RootLayout, RootParams);
-
-
-        //setContentView(RootLayout, RootParams);
     }
 
 
@@ -473,7 +449,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         LinearLayout.LayoutParams shareParams   = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
         shareParams.weight                      = 1.5f;
         shareParams.setMargins(0, 5, 0, 5);
-        //shareParams.setMargins(30, 15, 20, 15);
 
 
         if(GroupMaker == false)
@@ -526,7 +501,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
 
         LinearLayout.LayoutParams chattingParams    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        //scheduleParams.setMargins(300, 15, 300, 15);
 
 
         bottomLayout.addView(toDoListButton, toDoListParams);
@@ -605,7 +579,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         buttonID = 0;
         for( int i = 0; i < DefineValue.Day_Cnt; i++)
         {
-            //GridLayout gridLayout = new GridLayout(this);
             TimeTableGridLayout[i] = new GridLayout(this);
 
             TimeTableGridLayout[i].setOrientation(GridLayout.VERTICAL);
@@ -613,18 +586,14 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
             LinearLayout.LayoutParams gridParams    = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
             gridParams.weight                       = 1;
-            //gridParams.setMarginStart(5);
-            //gridParams.setMarginEnd(5);
 
 
             // Time Table Button 생성
             for(int k = 0; k < DefineValue.Times_Of_Day; k++)
             {
-                //Button button = new Button(this);
                 TimeTableButton[i][k] = new Button(this);
                 TimeTableButton[i][k].setOnClickListener(new GroupTimeTableOnClickListener());
                 TimeTableButton[i][k].setBackground(CustomButtonDrawable);
-                //TimeTableButton[i][k].setBackgroundColor(Color.GRAY);
                 TimeTableButton[i][k].setId(buttonID);
 
                 LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TimeButtonHeightSize);
@@ -671,7 +640,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                 Log.d("GT", "memberCnt dataSnapshot : " + value );
 
 
-                //groupNumber = Integer.parseInt(manager.groupNumber);
                 GroupMemberCnt = value;
 
 
@@ -715,7 +683,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                             MemberIDList.add(value);
 
 
-                            //if(MemberCnt == (GroupMemberCnt - 1))
                             if(MemberIDList.size() == GroupMemberCnt)
                             {
                                 MemberTimeTable = new int[GroupMemberCnt][DefineValue.Day_Cnt];
@@ -858,9 +825,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
             overlapPeople = GroupTimeTable[day][times];
 
 
-            ///////
-            // 비정상적인 종료 발생함 !!!!!!
-            ///////
             overlapLevel = DefineValue.OverlapLevel[overlapPeople][GroupMemberCnt];
 
             switch(overlapLevel)
@@ -911,14 +875,12 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
     private void Convert_Time_IntegerToBit(int[] timeTable, int memberIndex)
     {
-        //     TimeTable을 int형에서 bit 단위로 변환하는 과정
+        // TimeTable을 int형에서 bit 단위로 변환하는 과정
 
-        //int[][] getTimeTable = new int[DefineValue.Day_Cnt][DefineValue.Times_Of_Day];
         for(int day = 0; day < DefineValue.Day_Cnt; day++)
         {
             int loadTime = timeTable[day];
 
-            //Log.d("GT", "Time : " + loadTime);
 
             for( int i = DefineValue.Max_Bit_Size - 1; i >= 0; i-- )
             {
@@ -1197,9 +1159,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                         }
 
 
-
-
-
                         groupMap.put(randomCode, DefineValue.Group_ID);
 
 
@@ -1268,7 +1227,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         customDialogView = inflater.inflate(R.layout.custom_dialog_insertcode_share_layout, null);
 
         builder.setView(customDialogView);
-        //builder.setMessage(GroupInsertCode);
         builder.setPositiveButton("공유", dialogClickListener);
         builder.setNegativeButton("확인", dialogClickListener);
 
@@ -1298,8 +1256,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
     private void Set_ScheduleTime()
     {
-        //Show_DatePicker();
-
         Show_CustomPickerDialog();
     }
 
@@ -2052,7 +2008,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
 
         timePickerDialog.setCustomTitle(customView);
-        //timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         timePickerDialog.setCanceledOnTouchOutside(false);
         timePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -2137,8 +2092,6 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         }
         else if(view.getId() == ShareButtonID)
         {
-            //Share_Group();
-
             if(GroupInsertCode == null)
             {
                 Toast.makeText(this, "그룹 입장 코드가 없습니다.", Toast.LENGTH_SHORT);

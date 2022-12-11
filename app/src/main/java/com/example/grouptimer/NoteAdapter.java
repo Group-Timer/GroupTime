@@ -1,7 +1,6 @@
 package com.example.grouptimer;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     //todolist아이템이 들어갈 배열
     ArrayList<Note> items = new ArrayList<>();
-
 
 
     //todo_item.xml을 인플레이션
@@ -80,8 +78,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                     Toast.makeText(v.getContext(),"삭제되었습니다.",Toast.LENGTH_SHORT).show();
                 }
 
-
-                Context context;
 
                 private void deleteToDo(String TODO){
 

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -166,15 +165,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         insertCodeButton.setOnClickListener(this);
         makeGroup.setOnClickListener(this);
-
-
-
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
-        //Load_GroupList(false, true, null, user, mDatabase);
     }
 
 
@@ -226,7 +216,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
 
-                    Toast.makeText(getApplicationContext(), "Empty InsertCode Database", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "존재하지 않는 코드입니다.", Toast.LENGTH_SHORT).show();
 
 
                     return;
@@ -277,7 +267,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                     }
 
 
-                                    Toast.makeText(getApplicationContext(), "Fail Enter Group", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "그룹 입장 실패", Toast.LENGTH_SHORT).show();
 
                                 }
                             }
@@ -349,7 +339,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
 
-                    Toast.makeText(getApplicationContext(), "Group member is maximum", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "그룹 정원이 초과되었습니다.", Toast.LENGTH_SHORT).show();
 
 
                     return;
@@ -441,7 +431,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                                         recyclerView.setVisibility(View.VISIBLE);
                                         progressBar.setVisibility(View.GONE);
-                                        //recyclerView.setNestedScrollingEnabled(false);
                                         emptyText.setVisibility(View.GONE);
 
                                         Log.d("GT", "Reload Group List");
@@ -467,7 +456,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                     }
 
 
-                                    Toast.makeText(getApplicationContext(), "Already Enter Group", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "이미 입장한 그룹입니다.", Toast.LENGTH_SHORT).show();
 
 
                                     return;
@@ -510,9 +499,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
                                         Log.d("GT", "Success Enter Group");
-
-
-                                        //recyclerViewAdapter.notifyItemInserted(GroupList.size() - 1);
 
 
                                         int originSize = GroupList.size();
@@ -571,7 +557,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                                         }
 
 
-                                                        Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), "그룹 입장 성공", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
 
@@ -637,7 +623,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                                         recyclerView.setAdapter(recyclerViewAdapter);
 
                                                         recyclerView.setVisibility(View.VISIBLE);
-                                                        //recyclerView.setNestedScrollingEnabled(false);
                                                         progressBar.setVisibility(View.GONE);
                                                         emptyText.setVisibility(View.GONE);
 
@@ -748,7 +733,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                                         Log.d("GT", "Success Enter Group");
 
-                                        Toast.makeText(getApplicationContext(), "Success Enter Group", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "그룹 입장 성공", Toast.LENGTH_SHORT).show();
 
                                         recyclerView.setVisibility(View.VISIBLE);
                                         emptyText.setVisibility(View.GONE);
@@ -909,7 +894,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.setCancelable(false);
-                    progressDialog.setMessage("Group matching ...");
+                    progressDialog.setMessage("그룹 매칭중 ...");
 
                     progressDialog.show();
                 }

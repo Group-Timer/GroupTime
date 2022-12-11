@@ -1,12 +1,9 @@
 package com.example.grouptimer;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -132,7 +129,6 @@ public class GroupTimeTableOnClickListener implements View.OnClickListener
         View customDialogView = GroupTimeTableActivity.inflater.inflate(R.layout.custom_dialog_overlap_member_layout, null);
 
         builder.setView(customDialogView);
-        //builder.setMessage(dialogMessage);
         builder.setPositiveButton("확인", dialogClickListener);
 
         dialog = builder.create();

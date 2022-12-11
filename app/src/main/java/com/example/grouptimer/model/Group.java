@@ -6,12 +6,4 @@ public class Group {
     public String groupPurpose; // group 목적
 
     public String groupMakerUid; // group 만든 user uid
-
-    public String user1UidInGroup;
-    public String user2UidInGroup;
-    public String user3UidInGroup;
-    public String user4UidInGroup;
-    public String user5UidInGroup;
-
-
 }

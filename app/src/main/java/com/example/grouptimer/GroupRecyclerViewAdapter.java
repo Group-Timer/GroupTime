@@ -3,15 +3,11 @@ package com.example.grouptimer;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -44,19 +40,9 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
     private ViewGroup parent;
 
-    //private boolean ExpansionButtonClick;
-
-
-    private LinearLayoutManager linearLayoutManager;
-    private GridLayoutManager gridLayoutManager;
-    private GroupToDoListRecyclerViewAdapter recyclerViewAdapter;
 
     private ArrayList<String> toDoListTextList;
     private ArrayList<Boolean> toDoListCheckBoxList;
-
-
-    //ViewPager2 viewPager2;
-    //ViewPager2RecyclerAdapter pagerAdapter;
 
 
     int startDateValue;
@@ -123,11 +109,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         viewHolder.GroupName = name;
         viewHolder.GroupNameText.setText(name);
         viewHolder.GroupIDText = id;
-        //viewHolder.ToDoListRecyclerView.setVisibility(View.GONE);
-
-        //viewPager2 = parent.findViewById(R.id.viewPager);
-        //viewHolder.ToDoListViewPagers.setVisibility(View.GONE);
-        //viewPager2.setVisibility(View.GONE);
 
 
         viewHolder.GroupNameText.setOnClickListener(new View.OnClickListener() {
@@ -175,8 +156,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                         }
 
 
-                        //DefineValue.Group_ID = viewHolder.GroupNameText.getText().toString();
-                        //DefineValue.Group_ID = AdapterIDList.get(viewHolder.getAdapterPosition());
                         DefineValue.Group_ID = viewHolder.GroupIDText;
 
                         Log.d("GT", "Select Group ID : " + DefineValue.Group_ID);
@@ -220,7 +199,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
 
                     viewHolder.ExpansionButton.setText("+");
-                    //viewHolder.ToDoListRecyclerView.setVisibility(View.GONE);
 
                     viewHolder.ToDoListProgressBar.setBackground(null);
                     viewHolder.ToDoListViewPagers.setBackground(null);
@@ -298,17 +276,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
                                             endDateValue = 0;
 
-                                            /*
-                                            if(snapshot.getValue() == null || snapshot.getValue(Integer.class) == 0)
-                                            {
-                                                viewHolder.GroupScheduleTimeText.setVisibility(View.GONE);
-
-
-                                                return;
-                                            }
-
-                                             */
-
 
                                             endDateValue = snapshot.getValue(Integer.class);
 
@@ -322,16 +289,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
                                                     endTimeTavlue = 0;
 
-                                                    /*
-                                                    if(snapshot.getValue() == null || snapshot.getValue(Integer.class) == 0)
-                                                    {
-                                                        viewHolder.GroupScheduleTimeText.setVisibility(View.GONE);
-
-
-                                                        return;
-                                                    }
-
-                                                     */
 
                                                     endTimeTavlue = snapshot.getValue(Integer.class);
 
@@ -461,44 +418,18 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
 
                                                     if(listIndex == (toDoListCnt - 1))
                                                     {
-
-                                                        // RecyclerView
-                                                        /*
-                                                        gridLayoutManager = new GridLayoutManager(parent.getContext(), 3, GridLayoutManager.HORIZONTAL, false);
-                                                        if(gridLayoutManager == null)
-                                                        {
-                                                            Log.d("GT", "LayoutManager is null");
-                                                        }
-
-                                                        viewHolder.ToDoListRecyclerView.setLayoutManager(gridLayoutManager);
-
-                                                        recyclerViewAdapter = new GroupToDoListRecyclerViewAdapter(toDoListTextList, toDoListCheckBoxList);
-                                                        viewHolder.ToDoListRecyclerView.setAdapter(recyclerViewAdapter);
-
-                                                        //viewHolder.ExpansionButton.setText("-");
-                                                        viewHolder.ToDoListRecyclerView.setVisibility(View.VISIBLE);
-                                                        //viewHolder.ToDoListRecyclerView.setNestedScrollingEnabled(false);
-
-                                                         */
-
-
-
-                                                        // ViewPager2
                                                         ViewPager2RecyclerAdapter pagerAdapter = new ViewPager2RecyclerAdapter(toDoListTextList, toDoListCheckBoxList);
 
-                                                        //viewPager2.setAdapter(pagerAdapter);
-                                                        //viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
                                                         viewHolder.ToDoListViewPagers.setAdapter(pagerAdapter);
                                                         viewHolder.ToDoListViewPagers.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-                                                        //viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+
                                                         viewHolder.ToDoListViewPagers.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
                                                             @Override
                                                             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                                                                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
                                                                 if (positionOffsetPixels == 0) {
                                                                     viewHolder.ToDoListViewPagers.setCurrentItem(position);
-                                                                    //viewPager2.setCurrentItem(position);
                                                                 }
                                                             }
 
@@ -508,7 +439,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
                                                             }
                                                         });
 
-                                                        //viewPager2.setVisibility(View.VISIBLE);
+
                                                         if(position < AdapterNameList.size() - 1)
                                                         {
                                                             viewHolder.ToDoListViewPagers.setBackgroundResource(R.drawable.group_list_recycler_item);

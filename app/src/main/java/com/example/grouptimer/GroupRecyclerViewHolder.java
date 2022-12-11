@@ -1,7 +1,5 @@
 package com.example.grouptimer;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -18,7 +16,6 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 
     public Button ExpansionButton;
 
-    //public RecyclerView ToDoListRecyclerView;
 
     public TextView GroupScheduleTimeText;
 
@@ -39,7 +36,6 @@ public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 
         GroupNameText = item.findViewById(R.id.groupName);
         ExpansionButton = item.findViewById(R.id.expansion);
-        //ToDoListRecyclerView = item.findViewById(R.id.toDoListRecyclerView);
         GroupScheduleTimeText = item.findViewById(R.id.groupScheduleTime);
         ToDoListViewPagers = item.findViewById(R.id.viewPager);
         ToDoListProgressBar = item.findViewById(R.id.toDoListProgressBar);

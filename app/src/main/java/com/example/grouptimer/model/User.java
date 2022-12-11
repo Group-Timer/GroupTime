@@ -1,7 +1,5 @@
 package com.example.grouptimer.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class User {
     public String eMail;
