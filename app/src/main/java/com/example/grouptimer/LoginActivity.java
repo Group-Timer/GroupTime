@@ -156,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "일치하는 회원정보가 없습니다",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -199,7 +199,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 LoginButtonCheck = false;
                             }
 
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "일치하는 회원정보가 없습니다",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
