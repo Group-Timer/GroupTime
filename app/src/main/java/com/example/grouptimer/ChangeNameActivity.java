@@ -86,6 +86,10 @@ public class ChangeNameActivity extends AppCompatActivity {
                                     FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("userName").setValue(name);
                                     Toast.makeText(getApplicationContext(),"변경이 완료되었습니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
 
+
+                                    DefineValue.User_Name = name;
+
+
                                     finish();
                                 }
                             }
