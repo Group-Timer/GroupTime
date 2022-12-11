@@ -34,6 +34,7 @@
             android:layout_alignBaseline="@id/pwFindText"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/pwFindText"
+            android:backgroundTint="#FBAEAE"
             android:hint="Input your Email"
             android:textAlignment="center"
             android:textSize="25dp"></EditText>
@@ -46,6 +47,7 @@
             android:layout_below="@+id/inputEmail"
             android:layout_alignRight="@+id/inputEmail"
             android:layout_marginTop="10dp"
+            android:background="@drawable/change_button_background"
             android:text="pw찾기"></Button>
     </RelativeLayout>
 

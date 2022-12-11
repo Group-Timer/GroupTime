@@ -77,6 +77,8 @@ public class MakeGroupActivity extends AppCompatActivity{
         purposeList.add("친목");
         purposeList.add("동호회");
         purposeList.add("가족모임");
+        purposeList.add("동아리");
+        purposeList.add("회식");
 
         ArrayAdapter<String> adpater = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, purposeList);
         selectListView.setAdapter(adpater);
