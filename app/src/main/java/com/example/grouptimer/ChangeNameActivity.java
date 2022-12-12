@@ -45,26 +45,26 @@ public class ChangeNameActivity extends AppCompatActivity {
                 Log.d("name2", name);
                 FirebaseDatabase.getInstance().getReference("Users").orderByChild("userName").equalTo(name)
                         .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String value="";
-                        User user = snapshot.getValue(User.class);
-                        Log.d("user", "user: "+ user);
-                        Log.d("Uid","user"+uid);
-                        if(snapshot.exists()){
-                            Toast.makeText(getApplicationContext(),"이미 존재하는 닉네임입니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(),"사용가능한 닉네임입니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
-                        }
-                    }
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String value="";
+                                User user = snapshot.getValue(User.class);
+                                Log.d("user", "user: "+ user);
+                                Log.d("Uid","user"+uid);
+                                if(snapshot.exists()){
+                                    Toast.makeText(getApplicationContext(),"이미 존재하는 닉네임입니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"사용가능한 닉네임입니다.",Toast.LENGTH_SHORT).show();//토스메세지 출력
+                                }
+                            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // 디비를 가져오던중 에러 발생 시
-                        //Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
-                    }
-                });
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // 디비를 가져오던중 에러 발생 시
+                                //Log.e("MainActivity", String.valueOf(databaseError.toException())); // 에러문 출력
+                            }
+                        });
             }
         });
 

@@ -134,7 +134,7 @@ public class MypageFragment extends Fragment  {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Imsages.Media.CONTENT_TYPE);
+                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 startActivityForResult(intent, GALLERY_CODE);
             }
         });

@@ -175,6 +175,24 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
 
 
+        progressDialog = new ProgressDialog(GroupTimeTableActivity.this, R.style.ProgressDialogTheme);
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("로딩중 ...");
+                progressDialog.setCancelable(false);
+
+                progressDialog.show();
+            }
+        });
+
+
+
         context = this;
 
 
@@ -232,21 +250,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         super.onResume();
 
 
-        progressDialog = new ProgressDialog(GroupTimeTableActivity.this, R.style.ProgressDialogTheme);
 
-        runOnUiThread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setMessage("로딩중 ...");
-                progressDialog.setCancelable(false);
-
-                progressDialog.show();
-            }
-        });
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
