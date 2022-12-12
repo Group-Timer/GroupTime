@@ -56,6 +56,8 @@ public class ChangePWActivity extends AppCompatActivity {
                  builder.setTitle("비밀번호 재설정")
                          .setMessage("재설정 메일이 전송되었습니다.");
 
+
+
                  auth.sendPasswordResetEmail(emailAddress)
                          .addOnCompleteListener(new OnCompleteListener<Void>() {
                              @Override

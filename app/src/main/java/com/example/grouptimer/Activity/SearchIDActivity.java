@@ -69,7 +69,7 @@ public class SearchIDActivity extends AppCompatActivity {
 
                 dialog.setTitle("Email").setMessage(UserEmail).create().show();
             }
-            else{
+            if(UserEmail==""){
                 Toast.makeText(SearchIDActivity.this, "해당하는 이메일을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
             }
         }
