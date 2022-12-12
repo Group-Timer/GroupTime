@@ -66,6 +66,9 @@ public class ChangePWActivity extends AppCompatActivity {
                                      Log.d("SEND", "Email sent.");
                                      builder.create().show();
                                  }
+                                 else{
+                                     Toast.makeText(ChangePWActivity.this,"해당하는 이메일을 찾을 수 없습니다.",Toast.LENGTH_SHORT);
+                                 }
                              }
                          });
              }
