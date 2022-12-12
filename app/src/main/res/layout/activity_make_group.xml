@@ -64,7 +64,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:weightSum="5"
-    tools:context=".GroupToDoListActivity">
+    tools:context=".Fragment.GroupToDoListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

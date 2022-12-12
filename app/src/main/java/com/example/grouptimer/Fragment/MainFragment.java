@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Fragment;
 
 
 import android.os.Bundle;
@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.Adapter.NoteAdapter;
 import com.example.grouptimer.Object.Note;
+import com.example.grouptimer.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -75,9 +78,9 @@ public class MainFragment extends Fragment {
 
     public void loadNoteListData(){
 
-        GroupToDoListActivity.toDoListArrayList.clear();
+        GroupToDoListFragment.toDoListArrayList.clear();
 
-        GroupToDoListActivity.checkArrayList.clear();
+        GroupToDoListFragment.checkArrayList.clear();
 
 
         //_id, TODO가 담겨질 배열 생성
@@ -153,14 +156,14 @@ public class MainFragment extends Fragment {
 
                                 Boolean checkbox = dataSnapshot.getValue(Boolean.class);
 
-                                GroupToDoListActivity.checkArrayList.add(checkbox);
+                                GroupToDoListFragment.checkArrayList.add(checkbox);
 
 
                                 if(outerIndex == (toDoListCnt - 1))
                                 {
                                     for(int k = 0; k < toDoListCnt; k++)
                                     {
-                                        GroupToDoListActivity.toDoListArrayList.add(items.get(k).getTodo());
+                                        GroupToDoListFragment.toDoListArrayList.add(items.get(k).getTodo());
                                     }
 
                                     //어댑터에 연결 및 데이터셋 변경

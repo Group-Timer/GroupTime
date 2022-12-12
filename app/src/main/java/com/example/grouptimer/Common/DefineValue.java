@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Common;
 
 public class DefineValue
 {

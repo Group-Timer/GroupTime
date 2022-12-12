@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -22,6 +22,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.grouptimer.Fragment.MypageFragment;
+import com.example.grouptimer.Fragment.PersonalTimeTableFragment;
+import com.example.grouptimer.Adapter.GroupRecyclerViewAdapter;
+import com.example.grouptimer.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -81,7 +85,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     FragmentManager fragmentManager;
     FragmentTransaction ft;
 
-    PersonalTimeTableActivity personalTimeTableActivity;
+    PersonalTimeTableFragment personalTimeTableActivity;
     MypageFragment mypageFragment;
 
 
@@ -97,7 +101,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         fragmentManager = getSupportFragmentManager();
         mypageFragment = new MypageFragment();
-        personalTimeTableActivity = new PersonalTimeTableActivity();
+        personalTimeTableActivity = new PersonalTimeTableFragment();
 
         insertCodeEdit = (EditText) findViewById(R.id.insertCodeEdit);
         insertCodeButton = (Button) findViewById(R.id.insertCodeButton);

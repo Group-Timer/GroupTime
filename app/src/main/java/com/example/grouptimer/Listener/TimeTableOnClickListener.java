@@ -1,8 +1,11 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Listener;
 
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.Fragment.PersonalTimeTableFragment;
 
 
 public class TimeTableOnClickListener implements View.OnClickListener
@@ -17,7 +20,7 @@ public class TimeTableOnClickListener implements View.OnClickListener
         int times;
 
 
-        if(PersonalTimeTableActivity.TimeTableEditable == false)
+        if(PersonalTimeTableFragment.TimeTableEditable == false)
         {
             return;
         }
@@ -57,7 +60,7 @@ public class TimeTableOnClickListener implements View.OnClickListener
         Log.d("GT", "Day :  " + day + "\tTimes : " + times);
 
 
-        if(PersonalTimeTableActivity.ButtonClickChecker[viewID] == false)
+        if(PersonalTimeTableFragment.ButtonClickChecker[viewID] == false)
         {
             Log.d("GT", "Button " + viewID + " first Click");
 
@@ -115,18 +118,18 @@ public class TimeTableOnClickListener implements View.OnClickListener
             }
 
 
-            PersonalTimeTableActivity.UserTimeTable[day][times]     = 1;
-            PersonalTimeTableActivity.ButtonClickChecker[viewID]    = true;
+            PersonalTimeTableFragment.UserTimeTable[day][times]     = 1;
+            PersonalTimeTableFragment.ButtonClickChecker[viewID]    = true;
         }
         else
         {
             Log.d("GT", "Button " + viewID + " second Click");
 
-            view.setBackground(PersonalTimeTableActivity.CustomButtonDrawable);
+            view.setBackground(PersonalTimeTableFragment.CustomButtonDrawable);
 
 
-            PersonalTimeTableActivity.UserTimeTable[day][times]     = 0;
-            PersonalTimeTableActivity.ButtonClickChecker[viewID]    = false;
+            PersonalTimeTableFragment.UserTimeTable[day][times]     = 0;
+            PersonalTimeTableFragment.ButtonClickChecker[viewID]    = false;
         }
     }
 }

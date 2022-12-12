@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Activity;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -39,6 +39,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.Fragment.GroupToDoListFragment;
+import com.example.grouptimer.Listener.GroupTimeTableOnClickListener;
+import com.example.grouptimer.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -117,16 +121,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     private final int           TimeButtonHeightSize    = 120;
 
 
-    static int GroupMemberCnt;
+    public static int GroupMemberCnt;
     int MemberCnt;
     int Member;
     int DayOfWeek;
     int LoadCnt;
 
-    static ArrayList<String> MemberIDList = new ArrayList<String>();
-    static ArrayList<String> MemberNameList = new ArrayList<String>();
+    public static ArrayList<String> MemberIDList = new ArrayList<String>();
+    public static ArrayList<String> MemberNameList = new ArrayList<String>();
 
-    static Map<String, String> MemberInfo = new HashMap<String, String>();
+    public static Map<String, String> MemberInfo = new HashMap<String, String>();
 
     int[][] MemberTimeTable;
 
@@ -152,7 +156,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     private String timeText = null;
     private String ScheduleTimeText = null;
 
-    static LayoutInflater inflater;
+    public static LayoutInflater inflater;
 
 
     ProgressDialog progressDialog = null;
@@ -165,7 +169,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     FragmentManager fragmentManager;
     FragmentTransaction ft;
 
-    GroupToDoListActivity groupToDoListActivity;
+    GroupToDoListFragment groupToDoListActivity;
 
     View RootView;
 
@@ -207,7 +211,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         EndDateValue = 0;
         EndTimeValue = 0;
 
-        groupToDoListActivity = new GroupToDoListActivity();
+        groupToDoListActivity = new GroupToDoListFragment();
 
         fragmentManager = getSupportFragmentManager();
 
@@ -2098,7 +2102,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     {
         if(view.getId() == ToDoListButtonID)
         {
-            startActivity(new Intent(this, GroupToDoListActivity.class));
+            startActivity(new Intent(this, GroupToDoListFragment.class));
         }
         else if(view.getId() == ShareButtonID)
         {

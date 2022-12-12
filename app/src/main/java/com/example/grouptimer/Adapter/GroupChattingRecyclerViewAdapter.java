@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Adapter;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.grouptimer.Activity.GroupTimeTableActivity;
+import com.example.grouptimer.Adapter.Holder.GroupChattingRecyclerViewHolder;
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.Object.GroupChatRecyclerViewItem;
+import com.example.grouptimer.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;

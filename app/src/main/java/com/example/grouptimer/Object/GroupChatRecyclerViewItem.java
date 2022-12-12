@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Object;
 
 import java.util.HashMap;
 import java.util.Map;

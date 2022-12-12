@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -12,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.grouptimer.Activity.GroupTimeTableActivity;
+import com.example.grouptimer.Activity.HomeActivity;
+import com.example.grouptimer.Adapter.Holder.GroupRecyclerViewHolder;
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
