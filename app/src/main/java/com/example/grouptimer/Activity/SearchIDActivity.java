@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Activity;
 
 
 import androidx.annotation.NonNull;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.grouptimer.Object.User;
+import com.example.grouptimer.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,7 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.grouptimer.Activity.ChangeNameActivity;
+import com.example.grouptimer.Activity.ChangePWActivity;
+import com.example.grouptimer.Common.DefineValue;
 import com.example.grouptimer.Object.User;
+import com.example.grouptimer.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

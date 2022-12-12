@@ -20,48 +20,48 @@
         android:windowSoftInputMode="adjustNothing"
         tools:targetApi="31">
         <activity
-            android:name=".GroupChattingActivity"
+            android:name=".Activity.GroupChattingActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MakeGroupActivity"
+            android:name=".Activity.MakeGroupActivity"
             android:exported="false" />
         <activity
-            android:name=".GroupToDoListActivity"
+            android:name=".Fragment.GroupToDoListFragment"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|adjustPan"
             tools:ignore="Instantiatable" />
         <activity
-            android:name=".GroupTimeTableActivity"
+            android:name=".Activity.GroupTimeTableActivity"
             android:exported="false" />
         <activity
-            android:name=".PersonalTimeTableActivity"
+            android:name=".Fragment.PersonalTimeTableFragment"
             android:exported="false"
             tools:ignore="Instantiatable" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".Activity.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Activity.RegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".ChangeNameActivity"
+            android:name=".Activity.ChangeNameActivity"
             android:exported="false" />
         <activity
-            android:name=".ChangePWActivity"
+            android:name=".Activity.ChangePWActivity"
             android:exported="true" />
         <activity
-            android:name=".SearchIDActivity"
+            android:name=".Activity.SearchIDActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

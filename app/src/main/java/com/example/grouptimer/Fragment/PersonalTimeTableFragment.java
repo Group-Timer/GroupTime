@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Fragment;
 
 import androidx.annotation.NonNull;
 
@@ -21,8 +21,9 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.R;
+import com.example.grouptimer.Listener.TimeTableOnClickListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PersonalTimeTableActivity extends Fragment implements View.OnClickListener {
+public class PersonalTimeTableFragment extends Fragment implements View.OnClickListener {
 
 
     LinearLayout                        RootLayout;

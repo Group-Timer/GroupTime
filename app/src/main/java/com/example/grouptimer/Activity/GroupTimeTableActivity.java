@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Activity;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -39,6 +39,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.Fragment.GroupToDoListFragment;
+import com.example.grouptimer.Listener.GroupTimeTableOnClickListener;
+import com.example.grouptimer.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -117,16 +121,16 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     private final int           TimeButtonHeightSize    = 120;
 
 
-    static int GroupMemberCnt;
+    public static int GroupMemberCnt;
     int MemberCnt;
     int Member;
     int DayOfWeek;
     int LoadCnt;
 
-    static ArrayList<String> MemberIDList = new ArrayList<String>();
-    static ArrayList<String> MemberNameList = new ArrayList<String>();
+    public static ArrayList<String> MemberIDList = new ArrayList<String>();
+    public static ArrayList<String> MemberNameList = new ArrayList<String>();
 
-    static Map<String, String> MemberInfo = new HashMap<String, String>();
+    public static Map<String, String> MemberInfo = new HashMap<String, String>();
 
     int[][] MemberTimeTable;
 
@@ -152,7 +156,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     private String timeText = null;
     private String ScheduleTimeText = null;
 
-    static LayoutInflater inflater;
+    public static LayoutInflater inflater;
 
 
     ProgressDialog progressDialog = null;
@@ -165,7 +169,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     FragmentManager fragmentManager;
     FragmentTransaction ft;
 
-    GroupToDoListActivity groupToDoListActivity;
+    GroupToDoListFragment groupToDoListActivity;
 
     View RootView;
 
@@ -196,6 +200,23 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         context = this;
 
 
+        progressDialog = new ProgressDialog(GroupTimeTableActivity.this, R.style.ProgressDialogTheme);
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("로딩중 ...");
+                progressDialog.setCancelable(false);
+
+                progressDialog.show();
+            }
+        });
+
+
         CustomButtonDrawable = getResources().getDrawable(R.drawable.custom_button);
 
         inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -208,7 +229,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         EndDateValue = 0;
         EndTimeValue = 0;
 
-        groupToDoListActivity = new GroupToDoListActivity();
+        groupToDoListActivity = new GroupToDoListFragment();
 
         fragmentManager = getSupportFragmentManager();
 
@@ -250,9 +271,12 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
         super.onResume();
 
 
+<<<<<<< HEAD:app/src/main/java/com/example/grouptimer/GroupTimeTableActivity.java
 
 
 
+=======
+>>>>>>> ba6d93358fff4c17c204485d80860d626b4b73aa:app/src/main/java/com/example/grouptimer/Activity/GroupTimeTableActivity.java
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -623,6 +647,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
 
         MemberIDList.clear();
+        MemberNameList.clear();
 
         GroupMemberCnt = 0;
 
@@ -767,6 +792,11 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
                                                                 {
                                                                     for(int k = 0; k < MemberNameList.size(); k++)
                                                                     {
+                                                                        Log.d("Name Log", MemberNameList.get(k));
+                                                                        Log.d("Name Log", MemberNameList.size() + ", " + MemberIDList.size());
+                                                                        Log.d("Name Log", "\n");
+
+
                                                                         MemberInfo.put(MemberIDList.get(k), MemberNameList.get(k));
                                                                     }
                                                                 }
@@ -2072,9 +2102,13 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
 
                     MemberIDList.add(value);
 
-                    if(Integer.parseInt(position) == (reloadMemberCnt - 1))
+
+                    if(sendTime != 0)
                     {
-                        ((GroupChattingActivity)GroupChattingActivity.GroupChattingContext).function(message, senderUID, sendTime);
+                        if(Integer.parseInt(position) == (reloadMemberCnt - 1))
+                        {
+                            ((GroupChattingActivity)GroupChattingActivity.GroupChattingContext).function(message, senderUID, sendTime);
+                        }
                     }
                 }
 
@@ -2092,7 +2126,7 @@ public class GroupTimeTableActivity extends AppCompatActivity implements View.On
     {
         if(view.getId() == ToDoListButtonID)
         {
-            startActivity(new Intent(this, GroupToDoListActivity.class));
+            startActivity(new Intent(this, GroupToDoListFragment.class));
         }
         else if(view.getId() == ShareButtonID)
         {

@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Adapter.Holder;
 
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.grouptimer.R;
 
 public class GroupRecyclerViewHolder extends RecyclerView.ViewHolder
 {

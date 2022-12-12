@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Listener;
 
 
 import android.app.AlertDialog;
@@ -6,6 +6,10 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.grouptimer.Activity.GroupTimeTableActivity;
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.R;
 
 import java.util.ArrayList;
 

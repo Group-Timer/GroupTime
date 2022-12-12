@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Adapter.Holder;
 
 import android.view.View;
 import android.widget.LinearLayout;
@@ -6,6 +6,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.grouptimer.Activity.GroupChattingActivity;
+import com.example.grouptimer.R;
 
 public class GroupChattingRecyclerViewHolder extends RecyclerView.ViewHolder
 {

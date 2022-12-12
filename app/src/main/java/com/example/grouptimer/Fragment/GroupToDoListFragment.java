@@ -1,7 +1,6 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,13 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.R;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class GroupToDoListActivity extends Fragment {
+public class GroupToDoListFragment extends Fragment {
 
     Fragment mainFragment;
     EditText inputToDo;

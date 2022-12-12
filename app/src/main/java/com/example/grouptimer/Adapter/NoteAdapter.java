@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.grouptimer.Common.DefineValue;
+import com.example.grouptimer.Fragment.GroupToDoListFragment;
 import com.example.grouptimer.Object.Note;
+import com.example.grouptimer.R;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -41,7 +44,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
         holder.holderID = item._id;
 
-        holder.checkBox.setChecked(GroupToDoListActivity.checkArrayList.get(holder.holderID));
+        holder.checkBox.setChecked(GroupToDoListFragment.checkArrayList.get(holder.holderID));
     }
 
     @Override
@@ -81,22 +84,22 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
                 private void deleteToDo(String TODO){
 
-                    for( int i = 0 ; i < GroupToDoListActivity.toDoListArrayList.size() ; i++ ){
+                    for(int i = 0; i < GroupToDoListFragment.toDoListArrayList.size() ; i++ ){
 
-                        if( GroupToDoListActivity.toDoListArrayList.get(i).equals(TODO) ){
+                        if( GroupToDoListFragment.toDoListArrayList.get(i).equals(TODO) ){
 
-                            GroupToDoListActivity.toDoListArrayList.remove(i);
+                            GroupToDoListFragment.toDoListArrayList.remove(i);
 
-                            GroupToDoListActivity.checkArrayList.remove(i);
-
-                            FirebaseDatabase.getInstance()
-                                    .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoList").setValue(GroupToDoListActivity.toDoListArrayList);
+                            GroupToDoListFragment.checkArrayList.remove(i);
 
                             FirebaseDatabase.getInstance()
-                                    .getReference().child("Groups").child(DefineValue.Group_ID).child("CheckBox").setValue(GroupToDoListActivity.checkArrayList);
+                                    .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoList").setValue(GroupToDoListFragment.toDoListArrayList);
 
                             FirebaseDatabase.getInstance()
-                                    .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt").setValue(GroupToDoListActivity.toDoListArrayList.size());
+                                    .getReference().child("Groups").child(DefineValue.Group_ID).child("CheckBox").setValue(GroupToDoListFragment.checkArrayList);
+
+                            FirebaseDatabase.getInstance()
+                                    .getReference().child("Groups").child(DefineValue.Group_ID).child("ToDoListCnt").setValue(GroupToDoListFragment.toDoListArrayList.size());
 
                         }
 
@@ -115,10 +118,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
                     Boolean check = checkBox.isChecked();
 
-                    GroupToDoListActivity.checkArrayList.set(holderID,check);
+                    GroupToDoListFragment.checkArrayList.set(holderID,check);
 
                     FirebaseDatabase.getInstance()
-                            .getReference().child("Groups").child(DefineValue.Group_ID).child("CheckBox").setValue(GroupToDoListActivity.checkArrayList);
+                            .getReference().child("Groups").child(DefineValue.Group_ID).child("CheckBox").setValue(GroupToDoListFragment.checkArrayList);
 
 
                 }

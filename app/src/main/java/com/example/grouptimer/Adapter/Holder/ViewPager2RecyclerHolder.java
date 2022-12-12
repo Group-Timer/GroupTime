@@ -1,4 +1,4 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Adapter.Holder;
 
 import android.view.View;
 import android.widget.CheckBox;
@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.grouptimer.R;
 
 public class ViewPager2RecyclerHolder extends RecyclerView.ViewHolder
 {

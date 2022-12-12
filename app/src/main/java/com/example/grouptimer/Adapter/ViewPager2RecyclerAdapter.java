@@ -1,10 +1,13 @@
-package com.example.grouptimer;
+package com.example.grouptimer.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.grouptimer.Adapter.Holder.ViewPager2RecyclerHolder;
+import com.example.grouptimer.R;
 
 import java.util.ArrayList;
 
