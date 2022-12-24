@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.HomeActivity"
+    tools:ignore="missingPrefix"
+    android:orientation="vertical"
+    android:id="@+id/home_main">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:id="@+id/home_frag"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/codeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+
+            <EditText
+                android:id="@+id/insertCodeEdit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:hint="Group Insert Code"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="5"
+                android:background="@drawable/custom_edittext"
+                android:maxLength="6"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/insertCodeButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="25dp"
+                android:text="Enter\nGroup"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:background="@drawable/big_button" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/homeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/groupLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="85dp"
+
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="50dp"
+                    android:indeterminateTint="#FBAEAE"
+                    android:paddingLeft="120dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="120dp"
+                    android:paddingBottom="100dp"
+                    android:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="@drawable/group_list_recyclerview"
+                    android:visibility="gone" />
+
+
+                <TextView
+                    android:id="@+id/emptyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="- Your group list is empty -"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="50dp" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_gravity="bottom"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/makeGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/group_list_recyclerview"
+                    android:drawableTop="@drawable/ic_add_black_24dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Make group" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_layout"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu" />
+
+</LinearLayout>

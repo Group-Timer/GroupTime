@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "842318967336",
+    "firebase_url": "https://grouptimer-80614-default-rtdb.firebaseio.com",
+    "project_id": "grouptimer-80614",
+    "storage_bucket": "grouptimer-80614.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842318967336:android:5f3e53ee10e5721fcc7b1d",
+        "android_client_info": {
+          "package_name": "com.example.grouptimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842318967336-qunhierrrk07c4mgi63p4h40kbj3tl05.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.grouptimer",
+            "certificate_hash": "d2c075b84bd11ab00650c3b1cc002a0ea886206c"
+          }
+        },
+        {
+          "client_id": "842318967336-84ra2s9u659hr7eofnctgbja7bb3bgrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhI45TGZyrqg20bLH8GTdd-WnbzETQATs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842318967336-84ra2s9u659hr7eofnctgbja7bb3bgrj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

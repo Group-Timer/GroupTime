@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </Space>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GroupName">
+    </TextView>
+
+    <EditText
+        android:id="@+id/groupNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="GroupName"
+        android:textSize="25dp"
+        android:backgroundTint = "#FBAEAE"
+        android:inputType="text" >
+    </EditText>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    </Space>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How Many">
+    </TextView>
+
+    <EditText
+        android:id="@+id/howManyEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="최대 5"
+        android:textSize="25dp"
+        android:backgroundTint = "#FBAEAE">
+    </EditText>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        ></Space>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purpose">
+    </TextView>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="5"
+    tools:context=".Fragment.GroupToDoListFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/selectTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Purpose"
+            android:textSize="25dp"/>
+
+        <Space
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </Space>
+
+        <Button
+            android:id="@+id/selectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text=">"
+            android:textSize="25dp"
+            android:background="@drawable/small_button">
+
+        </Button>
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/selectListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:visibility="invisible">
+
+    </ListView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+    </Space>
+
+    <Button
+        android:id="@+id/makeGroupButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal|bottom"
+        android:text="MAKE GROUP"
+        android:background="@drawable/big_button">
+
+    </Button>
+
+    </LinearLayout>
+
+
+</LinearLayout>

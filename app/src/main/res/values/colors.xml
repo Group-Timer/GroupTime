@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+
+    <color name="dialog_high_pink">#F08080</color>
+    <color name="dialog_low_pink">#FBAEAE</color>
+    <color name="dialog_white">#FFFFFF</color>
+    <color name="dialog_gray">#FFE1E1E1</color>
+    <color name="dialog_black">#FF000000</color>
+
+
+</resources>

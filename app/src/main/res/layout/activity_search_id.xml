@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+    </Space>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/EmailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:text="Phone"
+            android:background="@drawable/text_background"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:textSize="18dp"></TextView>
+
+        <EditText
+            android:id="@+id/phoneEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/EmailText"
+            android:layout_alignBaseline="@id/EmailText"
+            android:hint="010-xxxx-xxxx"
+            android:backgroundTint="#FBAEAE"
+            android:textAlignment="center"
+            android:inputType="phone"
+            android:textSize="25dp"></EditText>
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+    </Space>
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/change_button_background"
+        android:text = "Serach"
+        ></Button>
+
+</LinearLayout>

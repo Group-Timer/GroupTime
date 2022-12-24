@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_home"
+        android:enabled="true"
+        android:title="HOME" />
+
+    <item
+        android:id="@+id/bottom_todo"
+        android:enabled="true"
+        android:title="TIME TABLE"
+        />
+
+    <item
+        android:id="@+id/bottom_mypage"
+        android:enabled="true"
+        android:title="MY PAGE"
+        />
+
+</menu>

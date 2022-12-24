@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+    </Space>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="6dp"
+            android:text="닉네임"
+            android:paddingBottom= "5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="18dp"
+            android:background="@drawable/change_button_background"
+            ></TextView>
+
+        <EditText
+            android:id="@+id/nameEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/nameText"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/nameText"
+            android:hint="변경할 닉네임"
+            android:textAlignment="center"
+            android:backgroundTint = "#FBAEAE"
+            android:textSize="25dp"></EditText>
+
+
+        <Button
+            android:id="@+id/checkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameEdit"
+            android:layout_alignRight="@+id/nameEdit"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/change_button_background"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:text="중복확인"
+            android:textSize="15dp"></Button>
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+    </Space>
+
+    <Button
+        android:id="@+id/changeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text = "Change"
+        android:background="@drawable/change_button_background"
+        ></Button>
+
+</LinearLayout>

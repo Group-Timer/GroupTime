@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGIN"
+        android:textSize="40dp"
+        android:textColor="#F08080"
+        android:textStyle="bold"
+        android:layout_marginBottom="70dp">
+
+    </TextView>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <EditText
+            android:id="@+id/idEditText"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:hint="EMAIL"
+            android:backgroundTint = "#FBAEAE"
+            android:inputType="textEmailAddress"/>
+
+        <ImageView
+            android:src="@drawable/id_image"
+            android:layout_width="30dp"
+            android:layout_height="50dp">
+
+        </ImageView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:hint="PASSWORD"
+            android:inputType="textPassword"
+            android:backgroundTint = "#FBAEAE"/>
+
+        <ImageView
+            android:src="@drawable/password_image"
+            android:layout_width="30dp"
+            android:layout_height="50dp">
+
+        </ImageView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="40dp">
+
+
+        <Button
+            android:id="@+id/findIdButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:text="FIND ID"
+            android:textColor="#9E9E9E"
+            android:background="@drawable/find_id_button"
+            />
+"/>
+
+        <Button
+            android:id="@+id/findPasswordButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:text="FIND PASSWORD"
+            android:textColor="#9E9E9E"
+            android:background="@drawable/find_password_button"
+            />
+"/>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="LOGIN"
+        android:textAlignment="center"
+        android:background="@drawable/big_button"/>
+
+
+</LinearLayout>

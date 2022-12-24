@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+    </Space>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/pwFindText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:text="PW찾기"
+            android:textSize="18dp"
+            android:background="@drawable/text_background"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"></TextView>
+
+        <EditText
+            android:id="@+id/inputEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/pwFindText"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/pwFindText"
+            android:backgroundTint="#FBAEAE"
+            android:hint="Input your Email"
+            android:textAlignment="center"
+            android:textSize="25dp"></EditText>
+
+
+        <Button
+            android:id="@+id/findButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/inputEmail"
+            android:layout_alignRight="@+id/inputEmail"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/change_button_background"
+            android:text="pw찾기"></Button>
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+    </Space>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/pwChangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:text="PW변경"
+            android:textSize="18dp"
+            android:background="@drawable/text_background"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"></TextView>
+
+        <EditText
+            android:id="@+id/inputPw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/pwChangeText"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/pwChangeText"
+            android:backgroundTint="#FBAEAE"
+            android:hint="Input your PassWord"
+            android:textAlignment="center"
+            android:inputType="textPassword"
+            android:textSize="25dp"></EditText>
+
+        <EditText
+            android:id="@+id/inputNewPw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/inputPw"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/pwChangeText"
+            android:backgroundTint="#FBAEAE"
+            android:hint="New PassWord"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textSize="25dp"></EditText>
+
+        <EditText
+            android:id="@+id/checkPw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/inputNewPw"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/pwChangeText"
+            android:hint="Confirm PassWord"
+            android:textAlignment="center"
+            android:inputType="textPassword"
+            android:textSize="25dp"
+            android:backgroundTint = "#FBAEAE"></EditText>
+
+
+        <Button
+            android:id="@+id/ChangeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/checkPw"
+            android:layout_alignRight="@+id/checkPw"
+            android:layout_marginTop="10dp"
+            android:text="pw변경"
+            android:background="@drawable/change_button_background"></Button>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/big_button.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/bottom_bar.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/button_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/change_button_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/chat_text_left.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/chat_text_right.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/custom_button.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/group_list_recycler_item.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/group_list_recyclerview.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/line_23.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/plus_button.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/rectangle_4.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/small_button.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/text_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_change_name.xml" value="0.16691995947315097" />
+        <entry key="app/src/main/res/layout/activity_change_pw.xml" value="0.23171866280691966" />
+        <entry key="app/src/main/res/layout/activity_group_time_table.xml" value="0.158074951171875" />
+        <entry key="app/src/main/res/layout/activity_group_to_do_list.xml" value="0.18781738281250002" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2203125" />
+        <entry key="app/src/main/res/layout/activity_make_group.xml" value="0.17291666666666666" />
+        <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_personal_time_table.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.4179840783580096" />
+<<<<<<< HEAD
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.1" />
+=======
+        <entry key="app/src/main/res/layout/activity_search_id.xml" value="0.228125" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.24320652173913043" />
+>>>>>>> 4c0d426a9a0b5fb1a6adba503f46379ec25e7471
+        <entry key="app/src/main/res/layout/group_recyclerview_item.xml" value="0.16197916666666667" />
+<<<<<<< HEAD
+        <entry key="app/src/main/res/layout/group_todolist_viewpager2_item.xml" value="0.11574074074074074" />
+=======
+        <entry key="app/src/main/res/layout/home_fragment.xml" value="0.1765625" />
+>>>>>>> 50d99de534fc679b42bb5b0b49517fbae702e272
+        <entry key="app/src/main/res/layout/to_do_list_layout.xml" value="0.28706512451171873" />
+        <entry key="app/src/main/res/layout/todo_item.xml" value="0.25255584716796875" />
+        <entry key="app/src/main/res/layout/todo_itemn.xml" value="0.24320652173913043" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.171875" />
+        <entry key="app/src/main/res/menu/menu_group.xml" value="0.22708333333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android API 32 Platform" project-jdk-type="Android SDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

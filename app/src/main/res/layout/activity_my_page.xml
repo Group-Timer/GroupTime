@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:clickable="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="0">
+        </Space>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profileIMG"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp"
+                android:src = "@drawable/normal"/>
+
+            <Button
+                android:id="@+id/changeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profileIMG"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="프로필 이미지 변경"
+                android:background="@drawable/change_button_background"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:layout_weight="2">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <View
+                    android:id="@+id/rectangle_1"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignBottom="@id/UserID"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rectangle_4" />
+
+                <TextView
+                    android:id="@+id/UserID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/rectangle_1"
+                    android:text="User Email"
+                    android:textAlignment="center"
+                    android:textSize="25dp"></TextView>
+
+                <View
+                    android:id="@+id/line_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@id/UserID"
+                    android:background="@drawable/line_23"
+                    android:backgroundTint="#FBAEAE" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <View
+                    android:id="@+id/rectangle_2"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="@drawable/rectangle_4"
+                    android:layout_alignBottom="@id/nickname"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/rectangle_2"
+                    android:text="UserName"
+                    android:textAlignment="center"
+                    android:textSize="25dp"></TextView>
+
+                <View
+                    android:id="@+id/line_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@id/nickname"
+                    android:background="@drawable/line_23"
+                    android:backgroundTint="#FBAEAE" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <View
+                    android:id="@+id/rectangle_3"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="@drawable/rectangle_4"
+                    android:layout_alignBottom="@id/phoneNumber"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/phoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/rectangle_3"
+                    android:text="PhoneNumber"
+                    android:textAlignment="center"
+                    android:textSize="25dp">
+                </TextView>
+
+                <View
+                    android:id="@+id/line_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@id/phoneNumber"
+                    android:background="@drawable/line_23"
+                    android:backgroundTint="#FBAEAE" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/changeProfile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:textAlignment="center"
+                android:text="프로필 변경"
+                android:background="@drawable/change_button_background"/>
+
+            <Button
+                android:id="@+id/changePW"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:textAlignment="center"
+                android:text="비밀번호 변경"
+                android:background="@drawable/change_button_background"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

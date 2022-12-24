@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">#000000</item>
+        <!-- 날짜 선택 피커. -->
+        <item name="android:datePickerDialogTheme">@style/PickerDialogTheme</item>
+        <!-- 시간 선택 피커. -->
+        <item name="android:timePickerDialogTheme">@style/PickerDialogTheme</item>
+    </style>
+
+
+    <style name="PickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <!-- 상단 색 변경 -->
+        <item name="colorAccent">@color/dialog_high_pink</item>
+        <!-- dialog의 배경 변경 -->
+        <item name="background">@color/dialog_white</item>
+        <!-- 선택한 날짜를 표시할 색상 -->
+        <item name="colorControlActivated">@color/dialog_low_pink</item>
+        <item name="colorControlHighlight">@color/dialog_high_pink</item>
+        <!-- 취소/확인버튼 색상 -->
+        <item name="android:textColor">@color/dialog_black</item>
+    </style>
+
+
+    <style name="TimePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <!--
+        <item name="android:windowBackground">#F08080</item>
+        <item name="colorAccent">#F08080</item>
+        -->
+        <item name="android:numbersBackgroundColor">@color/dialog_gray</item>
+        <item name="android:background">@color/dialog_white</item>
+        <item name="android:numbersSelectorColor">@color/dialog_low_pink</item>
+        <item name="android:numbersTextColor">@color/dialog_black</item>
+        <item name="android:headerBackground">@color/dialog_high_pink</item>
+    </style>
+
+
+    <style name="ProgressDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:indeterminateTint">@color/dialog_low_pink</item>
+    </style>
+
+
+</resources>
